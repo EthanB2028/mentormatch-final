@@ -8,11 +8,13 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.19.9",
+    "@supabase/supabase-js": "^2.97.0",
     "@types/better-sqlite3": "^7.6.13",
     "bcryptjs": "^2.4.3",
     "better-sqlite3": "^12.6.2",
     "hono": "^4.9.8",
     "jsonwebtoken": "^9.0.2",
+    "postgres": "^3.4.8",
     "simple-peer": "^9.11.1",
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",

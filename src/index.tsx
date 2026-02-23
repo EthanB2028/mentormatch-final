@@ -3,7 +3,7 @@ import { cors } from 'hono/cors'
 import { bearerAuth } from 'hono/bearer-auth'
 import { getCookie } from 'hono/cookie'
 import { renderer } from './renderer'
-import { getLocalDB } from './lib/local-db'
+import { getSupabaseDB } from './lib/supabase-db'
 import { LandingPage } from './pages/landing'
 import { LoginPage } from './pages/login'
 import { RegisterPage } from './pages/register'
@@ -52,9 +52,9 @@ app.use('/ws/*', cors({
   allowHeaders: ['Upgrade', 'Connection', 'Sec-WebSocket-Key', 'Sec-WebSocket-Version'],
 }))
 
-// Eagerly initialise the local DB once at module load time (dev only).
+// Eagerly initialise the Supabase DB once at module load time.
 // This ensures c.env.DB is never undefined when route handlers run.
-const _localDB = getLocalDB()
+const _localDB = getSupabaseDB()
 
 app.use(async (c, next) => {
   if (!c.env.DB) {

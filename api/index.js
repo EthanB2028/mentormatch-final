@@ -52,172 +52,69 @@ var renderer = jsxRenderer(({ children }) => {
   ] });
 });
 
-// src/lib/local-db.ts
-import Database from "better-sqlite3";
-import path from "path";
-var db = null;
-function getDb() {
-  if (db) return db;
-  const dbPath = path.resolve(process.cwd(), "local.db");
-  db = new Database(dbPath);
-  db.pragma("journal_mode = WAL");
-  db.pragma("foreign_keys = ON");
-  const schema = `
-    CREATE TABLE IF NOT EXISTS _migrations (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT UNIQUE,
-      executed_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS users (
-      id TEXT PRIMARY KEY,
-      email TEXT UNIQUE NOT NULL,
-      password_hash TEXT NOT NULL,
-      name TEXT NOT NULL,
-      role TEXT CHECK(role IN ('student', 'mentor')) NOT NULL,
-      bio TEXT,
-      -- Student fields
-      age INTEGER,
-      school TEXT,
-      grade_level TEXT,
-      linkedin_url TEXT,
-      career_field TEXT,
-      dream_role TEXT,
-      career_interest_why TEXT,
-      help_needed TEXT,
-      meeting_frequency TEXT,
-      willing_to_prepare INTEGER DEFAULT 1,
-      advice_style TEXT,
-      personality_type TEXT,
-      -- Mentor fields
-      company TEXT,
-      position TEXT,
-      industry TEXT,
-      experience_years INTEGER,
-      short_bio TEXT,
-      mentor_topics TEXT,
-      industries_worked TEXT,
-      max_mentees INTEGER,
-      preferred_meeting_freq TEXT,
-      virtual_or_inperson TEXT,
-      why_mentor TEXT,
-      had_mentors TEXT,
-      -- Shared
-      website_url TEXT,
-      avatar_url TEXT,
-      verification_status TEXT DEFAULT 'pending',
-      is_active INTEGER DEFAULT 1,
-      is_online INTEGER DEFAULT 0,
-      last_seen DATETIME DEFAULT CURRENT_TIMESTAMP,
-      timezone TEXT DEFAULT 'UTC',
-      languages TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      total_conversations INTEGER DEFAULT 0,
-      average_rating REAL DEFAULT 0.0,
-      total_rating_count INTEGER DEFAULT 0
-    );
-
-    CREATE TABLE IF NOT EXISTS conversations (
-      id TEXT PRIMARY KEY,
-      student_id TEXT NOT NULL,
-      ceo_id TEXT NOT NULL,
-      started_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      ended_at DATETIME,
-      duration_seconds INTEGER,
-      status TEXT DEFAULT 'active',
-      rating_student INTEGER,
-      rating_ceo INTEGER,
-      feedback_student TEXT,
-      feedback_ceo TEXT,
-      room_id TEXT UNIQUE,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS user_sessions (
-      id TEXT PRIMARY KEY,
-      user_id TEXT NOT NULL,
-      token_hash TEXT NOT NULL UNIQUE,
-      expires_at DATETIME NOT NULL,
-      ip_address TEXT,
-      user_agent TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      last_used_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-
-      CREATE TABLE IF NOT EXISTS messages (
-        id TEXT PRIMARY KEY,
-        sender_id TEXT NOT NULL,
-        recipient_id TEXT NOT NULL,
-        content TEXT NOT NULL,
-        attachment_url TEXT,
-        attachment_name TEXT,
-        is_read INTEGER DEFAULT 0,
-        reported INTEGER DEFAULT 0,
-        report_reason TEXT,
-        report_reviewed INTEGER DEFAULT 0,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-      );
-
-      CREATE TABLE IF NOT EXISTS message_reports (
-        id TEXT PRIMARY KEY,
-        reporter_id TEXT NOT NULL,
-        reported_user_id TEXT NOT NULL,
-        message_id TEXT,
-        reason TEXT NOT NULL,
-        description TEXT,
-        status TEXT DEFAULT 'pending',
-        admin_notes TEXT,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-      );
-
-      CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
-      CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
-      CREATE INDEX IF NOT EXISTS idx_user_sessions_token_hash ON user_sessions(token_hash);
-      CREATE INDEX IF NOT EXISTS idx_user_sessions_user_id ON user_sessions(user_id);
-      CREATE INDEX IF NOT EXISTS idx_user_sessions_expires_at ON user_sessions(expires_at);
-      CREATE INDEX IF NOT EXISTS idx_messages_sender ON messages(sender_id);
-      CREATE INDEX IF NOT EXISTS idx_messages_recipient ON messages(recipient_id);
-      CREATE INDEX IF NOT EXISTS idx_messages_conversation ON messages(sender_id, recipient_id);
-    `;
-  db.exec(schema);
-  return db;
+// src/lib/supabase-db.ts
+import postgres from "postgres";
+var connectionString = process.env.DATABASE_URL || "postgresql://postgres.pwmeesjbiezfewxgpbbp:lpOUPi8R4U5ZUDEYsMUnQ1196yuDaMO76MBJC0hdBLSEkW7xYg3ABs0I0VD1cYlq@aws-1-us-east-2.pooler.supabase.com:5432/postgres";
+var sql = null;
+function getSql() {
+  if (!sql) {
+    sql = postgres(connectionString, {
+      max: 10,
+      idle_timeout: 20,
+      connect_timeout: 10,
+      ssl: { rejectUnauthorized: false }
+    });
+  }
+  return sql;
 }
-var D1PreparedStatement = class _D1PreparedStatement {
-  sql;
+function convertPlaceholders(query) {
+  let i = 0;
+  return query.replace(/\?/g, () => `$${++i}`);
+}
+var SupabasePreparedStatement = class _SupabasePreparedStatement {
+  query;
   params;
-  constructor(sql, params = []) {
-    this.sql = sql;
+  constructor(query, params = []) {
+    this.query = query;
     this.params = params;
   }
   bind(...args) {
     const sanitized = args.map((v) => v === void 0 ? null : v);
-    return new _D1PreparedStatement(this.sql, sanitized);
+    return new _SupabasePreparedStatement(this.query, sanitized);
   }
-  first() {
-    const stmt = getDb().prepare(this.sql);
-    return Promise.resolve(stmt.get(...this.params) ?? null);
+  async first() {
+    const pgQuery = convertPlaceholders(this.query);
+    const db = getSql();
+    const rows = await db.unsafe(pgQuery, this.params);
+    return rows[0] ?? null;
   }
-  all() {
-    const stmt = getDb().prepare(this.sql);
-    return Promise.resolve({ results: stmt.all(...this.params) });
+  async all() {
+    const pgQuery = convertPlaceholders(this.query);
+    const db = getSql();
+    const rows = await db.unsafe(pgQuery, this.params);
+    return { results: rows };
   }
-  run() {
-    const stmt = getDb().prepare(this.sql);
-    stmt.run(...this.params);
-    return Promise.resolve();
-  }
-};
-var LocalD1Database = class {
-  prepare(sql) {
-    return new D1PreparedStatement(sql);
-  }
-  exec(sql) {
-    getDb().exec(sql);
+  async run() {
+    const pgQuery = convertPlaceholders(this.query);
+    const db = getSql();
+    await db.unsafe(pgQuery, this.params);
   }
 };
-function getLocalDB() {
-  return new LocalD1Database();
+var SupabaseD1Database = class {
+  prepare(query) {
+    return new SupabasePreparedStatement(query);
+  }
+  async exec(query) {
+    const db = getSql();
+    await db.unsafe(query);
+  }
+};
+var instance = null;
+function getSupabaseDB() {
+  if (!instance) {
+    instance = new SupabaseD1Database();
+  }
+  return instance;
 }
 
 // src/pages/landing.tsx
@@ -5197,8 +5094,8 @@ function moderateRegistration(data) {
   return { flagged: false, reason: "" };
 }
 var UserService = class {
-  constructor(db2) {
-    this.db = db2;
+  constructor(db) {
+    this.db = db;
   }
   async createUser(userData) {
     const mod = moderateRegistration(userData);
@@ -5391,8 +5288,8 @@ var UserService = class {
   }
 };
 var SessionService = class {
-  constructor(db2, jwtSecret) {
-    this.db = db2;
+  constructor(db, jwtSecret) {
+    this.db = db;
     this.jwtSecret = jwtSecret;
   }
   async createSession(userId, ipAddress, userAgent) {
@@ -5761,7 +5658,7 @@ app.use("/ws/*", cors({
   allowMethods: ["GET"],
   allowHeaders: ["Upgrade", "Connection", "Sec-WebSocket-Key", "Sec-WebSocket-Version"]
 }));
-var _localDB = getLocalDB();
+var _localDB = getSupabaseDB();
 app.use(async (c, next) => {
   if (!c.env.DB) {
     c.env.DB = _localDB;
