@@ -472,9 +472,9 @@ export class SessionService {
       return null
     }
 
-      const session = await this.db.prepare(`
-        SELECT * FROM user_sessions WHERE id = ? AND expires_at::timestamptz > CURRENT_TIMESTAMP
-      `).bind(payload.sessionId).first()
+    const session = await this.db.prepare(`
+      SELECT * FROM user_sessions WHERE id = ? AND expires_at > CURRENT_TIMESTAMP
+    `).bind(payload.sessionId).first()
 
     if (!session) {
       return null
