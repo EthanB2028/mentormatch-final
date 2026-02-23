@@ -1,0 +1,314 @@
+/* MentorMatch – Typography & UI Styles */
+
+/* ── Base font smoothing ── */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+/* ── Wordmark ── */
+.wordmark {
+  font-family: 'DM Serif Display', Georgia, serif;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* ── Custom Animations ── */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+@keyframes scribble {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(2deg) scale(1.05); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99,102,241,0.18); }
+  50%       { box-shadow: 0 0 0 10px rgba(99,102,241,0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.93); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ── Animation utility classes ── */
+.anim-fade-up {
+  opacity: 0;
+  animation: fade-up 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.anim-fade-in {
+  opacity: 0;
+  animation: fade-in 0.55s ease forwards;
+}
+.anim-scale-in {
+  opacity: 0;
+  animation: scale-in 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.anim-float {
+  animation: float 4s ease-in-out infinite;
+}
+.anim-float-slow {
+  animation: float 6s ease-in-out infinite;
+}
+.anim-pulse-soft {
+  animation: pulse-soft 2.5s ease-in-out infinite;
+}
+
+/* Staggered delays */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+.delay-700 { animation-delay: 0.7s; }
+.delay-800 { animation-delay: 0.8s; }
+
+/* ── Scroll-reveal via IntersectionObserver ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.55s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── Scribble Borders (legacy — now clean rounded) ── */
+.scribble-border {
+  border: 2px solid #e5e7eb;
+  border-radius: 16px;
+  background: white;
+}
+.scribble-border-large {
+  border: 2px solid #e5e7eb;
+  border-radius: 20px;
+  background: white;
+}
+.scribble-border-white {
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 16px;
+}
+
+/* ── Scribble Cards (now clean) ── */
+.scribble-card {
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.scribble-card-large {
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+/* ── Scribble Buttons (now clean) ── */
+.scribble-button {
+  border: 2px solid #1e1e2e;
+  border-radius: 14px;
+  background: white;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+}
+.scribble-button:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+.scribble-button:active {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transform: translateY(1px);
+}
+.scribble-button-white {
+  border: 2px solid white;
+  border-radius: 14px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.scribble-button-white:hover {
+  background: white;
+  color: black;
+}
+
+/* ── Role Cards ── */
+.role-card:hover .scribble-card-large {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+/* ── Donation Buttons ── */
+.donation-btn { transition: all 0.3s ease; }
+.donation-btn:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* ── Links — clean, no wavy underlines ── */
+a:hover { text-decoration: underline; }
+
+/* ── Scribble loading ── */
+.scribble-loading { animation: wiggle 1s ease-in-out infinite; }
+
+/* ── Video call chat scrollbar ── */
+#chatMessages {
+  scrollbar-width: thin;
+  scrollbar-color: #4a5568 #1a202c;
+}
+#chatMessages::-webkit-scrollbar { width: 6px; }
+#chatMessages::-webkit-scrollbar-track { background: #1a202c; }
+#chatMessages::-webkit-scrollbar-thumb { background: #4a5568; border-radius: 3px; }
+
+/* ── Custom Scrollbar ── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: #c7c7c7; border-radius: 10px; border: 2px solid #f1f1f1; }
+::-webkit-scrollbar-thumb:hover { background: #999; }
+
+/* ── Warm gradient drift (hero background) ── */
+@keyframes gradient-drift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.anim-gradient-drift {
+  background-size: 200% 200%;
+  animation: gradient-drift 12s ease infinite;
+}
+
+/* ── Shimmer on hover for feature cards ── */
+@keyframes shimmer-in {
+  from { opacity: 0; transform: translateX(-100%); }
+  to   { opacity: 1; transform: translateX(100%); }
+}
+.card-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.card-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
+  transform: translateX(-100%);
+  transition: none;
+  pointer-events: none;
+}
+.card-shimmer:hover::after {
+  animation: shimmer-in 0.55s ease forwards;
+}
+
+/* ── Soft glow pulse on primary CTA buttons ── */
+@keyframes cta-glow {
+  0%, 100% { box-shadow: 0 4px 18px rgba(99,102,241,0.25), 0 2px 8px rgba(99,102,241,0.1); }
+  50%       { box-shadow: 0 6px 28px rgba(99,102,241,0.45), 0 2px 12px rgba(99,102,241,0.2); }
+}
+.anim-cta-glow {
+  animation: cta-glow 3s ease-in-out infinite;
+}
+
+/* ── Warm amber CTA glow (mentor CTA) ── */
+@keyframes cta-glow-amber {
+  0%, 100% { box-shadow: 0 4px 18px rgba(245,158,11,0.25); }
+  50%       { box-shadow: 0 6px 28px rgba(245,158,11,0.5); }
+}
+.anim-cta-glow-amber {
+  animation: cta-glow-amber 3s ease-in-out infinite;
+}
+
+/* ── Subtle counter tick for stats ── */
+@keyframes stat-pop {
+  0%   { transform: scale(0.85); opacity: 0; }
+  70%  { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1);    opacity: 1; }
+}
+.anim-stat-pop {
+  opacity: 0;
+  animation: stat-pop 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+
+/* ── Reveal from left ── */
+@keyframes fade-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.anim-fade-left {
+  opacity: 0;
+  animation: fade-left 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+
+/* ── Reveal from right ── */
+@keyframes fade-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.anim-fade-right {
+  opacity: 0;
+  animation: fade-right 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+
+/* ── Scroll-reveal variants ── */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-22px);
+  transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(22px);
+  transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .scribble-border, .scribble-border-large { border-radius: 16px; }
+  .scribble-card, .scribble-card-large { border-radius: 14px; }
+  .scribble-button { border-radius: 12px; }
+}

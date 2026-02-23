@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "leadersync",
+  "compatibility_date": "2025-09-23",
+  "pages_build_output_dir": "./dist",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  
+  // D1 Database Configuration
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "leadersync-production", 
+      "database_id": "b94d8895-fcd0-4327-8151-4ebe6bf9f30e"
+    }
+  ]
+}
