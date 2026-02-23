@@ -427,7 +427,7 @@ function LoginPage() {
                   id: "email",
                   name: "email",
                   required: true,
-                  class: "w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid focus:rotate-1 transition-transform",
+                  class: "w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid transition-colors",
                   placeholder: "your@email.com"
                 }
               )
@@ -441,7 +441,7 @@ function LoginPage() {
                   id: "password",
                   name: "password",
                   required: true,
-                  class: "w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid focus:rotate-1 transition-transform",
+                  class: "w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid transition-colors",
                   placeholder: "Enter your password"
                 }
               )
@@ -571,8 +571,8 @@ function LoginPage() {
           document.getElementById('email').value = email
           document.getElementById('password').value = password
           
-          // Auto-submit
-          document.getElementById('loginForm').dispatchEvent(new Event('submit'))
+            // Auto-submit
+            document.getElementById('loginForm').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }))
         }
         `
     } })
@@ -5311,8 +5311,8 @@ var SessionService = class {
       return null;
     }
     const session = await this.db.prepare(`
-      SELECT * FROM user_sessions WHERE id = ? AND expires_at > CURRENT_TIMESTAMP
-    `).bind(payload.sessionId).first();
+        SELECT * FROM user_sessions WHERE id = ? AND expires_at::timestamptz > CURRENT_TIMESTAMP
+      `).bind(payload.sessionId).first();
     if (!session) {
       return null;
     }

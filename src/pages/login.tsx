@@ -41,8 +41,8 @@ export function LoginPage() {
                   id="email"
                   name="email"
                   required
-                  class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid focus:rotate-1 transition-transform"
-                  placeholder="your@email.com"
+                    class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid transition-colors"
+                    placeholder="your@email.com"
                 />
               </div>
 
@@ -56,8 +56,8 @@ export function LoginPage() {
                   id="password"
                   name="password"
                   required
-                  class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid focus:rotate-1 transition-transform"
-                  placeholder="Enter your password"
+                    class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid transition-colors"
+                    placeholder="Enter your password"
                 />
               </div>
 
@@ -205,8 +205,8 @@ export function LoginPage() {
           document.getElementById('email').value = email
           document.getElementById('password').value = password
           
-          // Auto-submit
-          document.getElementById('loginForm').dispatchEvent(new Event('submit'))
+            // Auto-submit
+            document.getElementById('loginForm').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }))
         }
         `
       }} />
