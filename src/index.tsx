@@ -680,7 +680,7 @@ app.post('/api/conversations/start', authMiddleware, async (c) => {
     const conversationId = crypto.randomUUID()
     
     const studentId = user.role === 'student' ? user.id : partnerId
-    const ceoId = user.role === 'mentor' ? user.id : partnerId
+    const ceoId = user.role === 'ceo' ? user.id : partnerId
     
     await c.env.DB.prepare(`
       INSERT INTO conversations (id, student_id, ceo_id, room_id, status)
