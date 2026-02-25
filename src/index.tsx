@@ -3,7 +3,7 @@ import { cors } from 'hono/cors'
 import { bearerAuth } from 'hono/bearer-auth'
 import { getCookie } from 'hono/cookie'
 import { renderer } from './renderer'
-import { getSupabaseDB } from './lib/supabase-db'
+import { getSupabaseDB, initializeDatabase } from './lib/supabase-db'
 import { LandingPage } from './pages/landing'
 import { LoginPage } from './pages/login'
 import { RegisterPage } from './pages/register'
@@ -21,7 +21,10 @@ import {
   LoginSchema,
   RegisterSchema,
   UpdateProfileSchema,
-  extractBearerToken
+  extractBearerToken,
+  verifyToken,
+  hashPassword,
+  generateId
 } from './lib/auth'
 import { matchingQueue } from './lib/signaling'
 import { rankMentors, type MentorProfile, type StudentProfile } from './lib/matching'
@@ -86,17 +89,24 @@ const authMiddleware = async (c: any, next: any) => {
 
 // Optional auth middleware for pages (redirects to login)
 const pageAuthMiddleware = async (c: any, next: any) => {
-  try {
-    const token = getCookie(c, 'auth-token') || extractBearerToken(c.req.header('Authorization'))
-    
-    if (!token) {
-      return c.redirect('/login')
-    }
+  const token = getCookie(c, 'auth-token') || extractBearerToken(c.req.header('Authorization'))
 
+  if (!token) {
+    return c.redirect('/login')
+  }
+
+  // Quick JWT check first — no DB needed. Handles missing/invalid/expired tokens.
+  const quickPayload = verifyToken(token, process.env.JWT_SECRET || '')
+  if (!quickPayload || !quickPayload.sessionId) {
+    return c.redirect('/login')
+  }
+
+  // Full session + user lookup via DB
+  try {
     const db = getSupabaseDB()
     const sessionService = new SessionService(db, process.env.JWT_SECRET)
     const user = await sessionService.validateSession(token)
-    
+
     if (!user) {
       return c.redirect('/login')
     }
@@ -104,9 +114,17 @@ const pageAuthMiddleware = async (c: any, next: any) => {
     c.set('user', user)
     await next()
   } catch (error) {
-    console.error('Authentication error in pageAuthMiddleware:', error)
-    // Clear any invalid cookies and redirect to login
-    return c.redirect('/login')
+    console.error('Session DB error in pageAuthMiddleware:', error)
+    // Return a proper error instead of a redirect loop
+    return c.html(`<!DOCTYPE html>
+<html><head><title>Session Error</title>
+<style>body{font-family:sans-serif;text-align:center;padding:4rem;color:#333}
+a{display:inline-block;margin-top:1rem;padding:.75rem 2rem;background:#4f46e5;color:#fff;text-decoration:none;border-radius:8px}</style>
+</head><body>
+<h2>Session Error</h2>
+<p>Unable to verify your session. This may be a temporary issue.</p>
+<a href="/login">Sign In Again</a>
+</body></html>`, 503)
   }
 }
 
@@ -319,14 +337,95 @@ app.get('/api/auth/debug', (c) => {
   const cookieHeader = c.req.header('Cookie')
   const authHeader = c.req.header('Authorization')
   const cookieToken = getCookie(c, 'auth-token')
-  
-  return c.json({ 
+
+  return c.json({
     cookieHeader,
     authHeader,
     cookieToken,
     hasDB: true,
       hasJWTSecret: !!process.env.JWT_SECRET
   })
+})
+
+// Demo login — creates demo accounts on first use so the demo buttons always work
+app.post('/api/auth/demo-login', async (c) => {
+  try {
+    const { role } = await c.req.json()
+    if (role !== 'student' && role !== 'mentor') {
+      return c.json({ error: 'role must be "student" or "mentor"' }, 400)
+    }
+
+    const email = role === 'student' ? 'student@demo.com' : 'mentor@demo.com'
+    const db = getSupabaseDB()
+    const userService = new UserService(db)
+
+    let userWithPw = await userService.findUserByEmail(email)
+
+    if (!userWithPw) {
+      // Seed the demo account (password123 is fine here — demo only)
+      const userId = generateId()
+      const passwordHash = await hashPassword('password123')
+
+      if (role === 'student') {
+        await db.prepare(`
+          INSERT INTO users (
+            id, email, password_hash, name, role,
+            age, school, grade_level, career_field, dream_role,
+            career_interest_why, help_needed, meeting_frequency,
+            willing_to_prepare, advice_style, personality_type,
+            verification_status, is_active
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `).bind(
+          userId, email, passwordHash, 'Demo Student', 'student',
+          17, 'Demo High School', '11th Grade', 'Technology', 'Software Engineer',
+          'I want to build apps and learn from real professionals',
+          'Career advice and technical guidance', 'bi-weekly',
+          1, 'direct', 'analytical',
+          'pending', 1
+        ).run()
+      } else {
+        await db.prepare(`
+          INSERT INTO users (
+            id, email, password_hash, name, role,
+            company, position, industry, experience_years,
+            short_bio, mentor_topics, industries_worked,
+            max_mentees, preferred_meeting_freq, virtual_or_inperson,
+            why_mentor, had_mentors, linkedin_url,
+            verification_status, is_active
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `).bind(
+          userId, email, passwordHash, 'Demo Mentor', 'mentor',
+          'Demo Corp', 'Senior Engineer', 'Technology', 8,
+          'Experienced engineer passionate about helping students',
+          'Software Engineering,Career Development,Interview Prep', 'Technology,Startups',
+          5, 'bi-weekly', 'virtual',
+          'I want to give back to the community', 'yes',
+          'https://linkedin.com/in/demo-mentor',
+          'approved', 1
+        ).run()
+      }
+
+      userWithPw = await userService.findUserByEmail(email)
+    }
+
+    if (!userWithPw) {
+      return c.json({ error: 'Failed to create demo account' }, 500)
+    }
+
+    const sessionService = new SessionService(db, process.env.JWT_SECRET)
+    const token = await sessionService.createSession(
+      userWithPw.id,
+      c.req.header('x-forwarded-for'),
+      c.req.header('User-Agent')
+    )
+
+    const { passwordHash: _pw, ...user } = userWithPw
+
+    return c.json({ success: true, user, token })
+  } catch (error: any) {
+    console.error('Demo login error:', error)
+    return c.json({ error: 'Demo login failed', message: error.message }, 500)
+  }
 })
 
 // ============= USER PROFILE API =============
@@ -895,6 +994,22 @@ app.post('/api/messages/report', authMiddleware, async (c) => {
     })
   } catch (error: any) {
     return c.json({ error: 'Failed to submit report', message: error.message }, 500)
+  }
+})
+
+// ============= DATABASE SETUP =============
+
+// POST /api/db-init — create all tables if they don't exist (safe to run multiple times)
+app.post('/api/db-init', async (c) => {
+  try {
+    const result = await initializeDatabase()
+    return c.json({
+      success: true,
+      message: 'Database initialized',
+      ...result,
+    })
+  } catch (error: any) {
+    return c.json({ success: false, error: error.message }, 500)
   }
 })
 

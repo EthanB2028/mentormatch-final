@@ -108,14 +108,14 @@ export function LoginPage() {
               <h3 class="font-sketch text-lg mb-3 text-center">🧪 Demo Accounts</h3>
               <div class="space-y-2 font-handwritten text-sm">
                 <p><strong>Student:</strong> student@demo.com / password123</p>
-                <p><strong>CEO:</strong> ceo@demo.com / password123</p>
+                <p><strong>Mentor:</strong> mentor@demo.com / password123</p>
               </div>
               <div class="flex space-x-2 mt-4">
                 <button onclick="loginAsDemo('student')" class="flex-1 scribble-button p-2 font-sketch text-sm bg-green-100 hover:bg-green-200">
                   Login as Student
                 </button>
-                <button onclick="loginAsDemo('ceo')" class="flex-1 scribble-button p-2 font-sketch text-sm bg-purple-100 hover:bg-purple-200">
-                  Login as CEO
+                <button onclick="loginAsDemo('mentor')" class="flex-1 scribble-button p-2 font-sketch text-sm bg-purple-100 hover:bg-purple-200">
+                  Login as Mentor
                 </button>
               </div>
             </div>
@@ -198,15 +198,28 @@ export function LoginPage() {
           }
         }
         
-        function loginAsDemo(role) {
-          const email = role === 'student' ? 'student@demo.com' : 'ceo@demo.com'
-          const password = 'password123'
-          
-          document.getElementById('email').value = email
-          document.getElementById('password').value = password
-          
-            // Auto-submit
-            document.getElementById('loginForm').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }))
+        async function loginAsDemo(role) {
+          setLoading(true)
+          try {
+            const response = await fetch('/api/auth/demo-login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ role })
+            })
+            const data = await response.json()
+            if (response.ok && data.success) {
+              localStorage.setItem('auth-token', data.token)
+              document.cookie = 'auth-token=' + data.token + '; path=/; max-age=604800'
+              localStorage.setItem('user', JSON.stringify(data.user))
+              window.location.href = '/dashboard'
+            } else {
+              showError(data.error || 'Demo login failed')
+            }
+          } catch (err) {
+            showError('Network error. Please try again.')
+          } finally {
+            setLoading(false)
+          }
         }
         `
       }} />
