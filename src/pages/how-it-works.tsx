@@ -5,13 +5,13 @@ export function HowItWorksPage() {
       {/* ── Sticky Nav ── */}
       <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-100 shadow-sm">
         <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-          <a href="/" class="text-xl font-extrabold tracking-tight text-gray-900 font-sketch">MentorMatch</a>
+          <a href="/" class="text-xl font-bold text-gray-900 hover:no-underline">Mentor<span class="text-indigo-600">Match</span></a>
           <div class="flex items-center gap-1">
-            <a href="/" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors">Home</a>
-            <a href="/about" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors">About the Founder</a>
-            <a href="/how-it-works" class="px-4 py-2 rounded-full text-sm font-semibold text-indigo-600 bg-indigo-50 border border-indigo-200">How It Works</a>
-            <a href="/blog" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors">Blog</a>
-            <a href="/role-select" class="ml-3 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full transition-colors shadow-sm">Start Connecting</a>
+            <a href="/" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors hover:no-underline">Home</a>
+            <a href="/about" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors hover:no-underline">About the Founder</a>
+            <a href="/how-it-works" class="px-4 py-2 rounded-full text-sm font-semibold text-indigo-600 bg-indigo-50 border border-indigo-200 hover:no-underline">How It Works</a>
+            <a href="/blog" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors hover:no-underline">Blog</a>
+            <a href="/register" class="ml-3 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full transition-colors shadow-sm hover:no-underline">Start Connecting</a>
           </div>
         </div>
       </nav>
@@ -20,7 +20,7 @@ export function HowItWorksPage() {
         <div class="bg-gradient-to-br from-indigo-600 via-purple-700 to-indigo-800 text-white pt-20 pb-24 text-center px-6">
           <div class="relative">
             <span class="inline-block bg-white/20 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5">The Platform</span>
-          <h1 class="text-5xl md:text-6xl font-extrabold font-sketch mb-4 leading-tight">How MentorMatch Works</h1>
+          <h1 class="text-5xl md:text-6xl font-extrabold mb-4 leading-tight">How MentorMatch Works</h1>
           <p class="text-indigo-200 text-lg max-w-2xl mx-auto leading-relaxed">
             MentorMatch connects students with experienced mentors from industries across the U.S. Career guidance made accessible, practical, and personalized.
           </p>
@@ -307,7 +307,7 @@ export function HowItWorksPage() {
         <section id="faq" class="scroll-mt-28">
           <div class="text-center mb-8">
             <span class="inline-block bg-gray-100 text-gray-600 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-3">Common Questions</span>
-            <h2 class="text-3xl font-extrabold text-gray-900 font-sketch">Frequently Asked Questions</h2>
+            <h2 class="text-3xl font-extrabold text-gray-900">Frequently Asked Questions</h2>
           </div>
           <div class="space-y-4">
             {[
@@ -363,10 +363,10 @@ export function HowItWorksPage() {
 
         {/* ── CTA ── */}
         <section class="bg-gradient-to-br from-indigo-600 via-purple-700 to-indigo-800 rounded-3xl p-10 text-center text-white">
-          <h2 class="text-3xl font-extrabold mb-3 font-sketch">Ready to get started?</h2>
+          <h2 class="text-3xl font-extrabold mb-3">Ready to get started?</h2>
           <p class="text-indigo-200 mb-8 max-w-xl mx-auto">Whether you're a student ready to learn or a professional ready to give back — start your mentorship journey today.</p>
           <a
-            href="/role-select"
+            href="/register"
             class="inline-block bg-white text-indigo-700 font-extrabold px-10 py-4 rounded-2xl text-lg hover:bg-indigo-50 transition-colors shadow-lg"
           >
             Find a Mentor →
@@ -380,7 +380,7 @@ export function HowItWorksPage() {
         <div class="max-w-5xl mx-auto px-6">
           <div class="flex flex-col md:flex-row justify-between items-start gap-8 mb-10">
             <div>
-              <h3 class="text-xl font-extrabold font-sketch mb-2">MentorMatch</h3>
+              <h3 class="text-xl font-bold mb-2">Mentor<span class="text-indigo-400">Match</span></h3>
               <p class="text-gray-400 text-sm max-w-xs leading-relaxed">Free AI-powered career mentorship connecting students with industry leaders.</p>
             </div>
             <div>
@@ -395,7 +395,7 @@ export function HowItWorksPage() {
             <div>
               <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Platform</p>
               <div class="flex flex-col gap-2">
-                <a href="/role-select" class="text-gray-300 hover:text-white text-sm font-medium transition-colors">Start Connecting</a>
+                <a href="/register" class="text-gray-300 hover:text-white text-sm font-medium transition-colors">Start Connecting</a>
                 <a href="/register?role=student" class="text-gray-300 hover:text-white text-sm font-medium transition-colors">Sign Up as Student</a>
                 <a href="/register?role=mentor" class="text-gray-300 hover:text-white text-sm font-medium transition-colors">Sign Up as Mentor</a>
               </div>

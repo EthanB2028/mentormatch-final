@@ -1,892 +1,981 @@
 export function RegisterPage() {
   return (
-    <div class="min-h-screen bg-white">
-      <div class="container mx-auto px-4 py-10 max-w-3xl">
-        {/* Header */}
-        <div class="text-center mb-10">
-          <a href="/" class="inline-block mb-6 hover:no-underline">
-            <h1 class="wordmark text-3xl font-bold text-gray-900">Mentor<span class="text-indigo-600">Match</span></h1>
-          </a>
-          <div class="bg-indigo-50 border border-indigo-100 rounded-3xl inline-block px-8 py-6">
-            <h2 class="wordmark text-4xl font-bold text-gray-900 mb-2">Join MentorMatch</h2>
-            <p class="text-gray-500 text-base">Choose your role to get started</p>
+    <div class="min-h-screen bg-gray-50 flex flex-col">
+      {/* Top bar */}
+      <nav class="w-full px-6 py-4 flex items-center justify-between bg-white border-b border-gray-100">
+        <a href="/" class="text-xl font-bold text-gray-900 tracking-tight">
+          Mentor<span class="text-indigo-600">Match</span>
+        </a>
+        <a href="/login" class="text-sm text-gray-600 hover:text-indigo-600 transition-colors">
+          Already have an account? <span class="font-semibold text-indigo-600">Sign in</span>
+        </a>
+      </nav>
+
+      <div class="flex flex-1 items-start justify-center px-4 py-10">
+        <div class="w-full max-w-2xl">
+
+          {/* Page header */}
+          <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Create your account</h1>
+            <p class="text-gray-500">Join thousands of students and mentors on MentorMatch</p>
           </div>
-        </div>
 
-        {/* Role Tabs */}
-        <div class="flex gap-4 mb-8 justify-center">
-          <button id="tabStudent" type="button" onclick="switchRole('student')"
-            class="scribble-button px-8 py-3 font-sketch text-lg bg-blue-200 hover:bg-blue-300 transition-colors">
-            🎓 Student
-          </button>
-          <button id="tabMentor" type="button" onclick="switchRole('mentor')"
-            class="scribble-button px-8 py-3 font-sketch text-lg bg-gray-100 hover:bg-gray-200 transition-colors">
-            🏆 Mentor
-          </button>
-        </div>
-
-        {/* Student illustration banner */}
-        <div id="studentBanner" class="mb-6 rounded-2xl overflow-hidden border-2 border-dashed border-blue-300 bg-blue-50 flex items-center gap-6 px-6 py-4">
-          <img
-            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=160&h=160&fit=crop&crop=faces"
-            alt="Student"
-            class="w-20 h-20 rounded-full object-cover border-2 border-blue-300 flex-shrink-0"
-          />
-          <div>
-            <p class="font-sketch text-lg text-blue-800">Signing up as a Student</p>
-            <p class="font-handwritten text-sm text-blue-600 mt-1">Get matched with real-world mentors in your dream career field. Ask questions, get guidance, and chart your path forward.</p>
+          {/* Role selector */}
+          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-2 flex gap-2 mb-6">
+            <button
+              id="roleStudent"
+              type="button"
+              onclick="setRole('student')"
+              class="flex-1 flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl text-sm font-semibold transition-all bg-indigo-600 text-white shadow-sm"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+              </svg>
+              I'm a Student
+            </button>
+            <button
+              id="roleMentor"
+              type="button"
+              onclick="setRole('mentor')"
+              class="flex-1 flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl text-sm font-semibold transition-all text-gray-600 hover:bg-gray-50"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              I'm a Mentor
+            </button>
           </div>
-        </div>
-        <div id="mentorBanner" class="hidden mb-6 rounded-2xl overflow-hidden border-2 border-dashed border-purple-300 bg-purple-50 flex items-center gap-6 px-6 py-4">
-          <img
-            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&h=160&fit=crop&crop=faces"
-            alt="Mentor"
-            class="w-20 h-20 rounded-full object-cover border-2 border-purple-300 flex-shrink-0"
-          />
-          <div>
-            <p class="font-sketch text-lg text-purple-800">Signing up as a Mentor</p>
-            <p class="font-handwritten text-sm text-purple-600 mt-1">Share your expertise and help the next generation. Your experience can change a student's life.</p>
+
+          {/* Progress bar */}
+          <div class="mb-6">
+            <div class="flex items-center justify-between mb-2">
+              <span id="stepLabel" class="text-xs font-medium text-gray-500">Step 1 of 5</span>
+              <span id="stepName" class="text-xs font-medium text-indigo-600">Basic Info</span>
+            </div>
+            <div class="w-full bg-gray-100 rounded-full h-1.5">
+              <div id="progressBar" class="bg-indigo-600 h-1.5 rounded-full transition-all duration-300" style="width: 20%"></div>
+            </div>
           </div>
-        </div>
 
-        {/* ===== STUDENT FORM ===== */}
-        <div id="studentForm">
-          <form id="studentRegistrationForm" class="scribble-card-large p-8 bg-gray-50 space-y-10">
-            <input type="hidden" name="role" value="student" />
+          {/* Error message */}
+          <div id="errorBox" class="hidden mb-5 p-3.5 bg-red-50 border border-red-200 rounded-xl">
+            <p id="errorText" class="text-sm text-red-700 font-medium"></p>
+            <ul id="errorList" class="mt-1 text-xs text-red-600 list-disc list-inside space-y-0.5"></ul>
+          </div>
 
-            {/* S1: Basic Info */}
-            <section>
-              <h3 class="font-sketch text-2xl mb-1">Section 1: Basic Info</h3>
-              <div class="w-16 h-1 bg-black mb-6 rounded"></div>
-              <div class="space-y-4">
-                <div class="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block font-sketch mb-2">Full Name *</label>
-                    <input type="text" name="name" required
-                      class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
+          {/* Success message */}
+          <div id="successBox" class="hidden mb-5 p-3.5 bg-green-50 border border-green-200 rounded-xl">
+            <p id="successText" class="text-sm text-green-700 font-medium"></p>
+          </div>
+
+          {/* Form card */}
+          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm">
+
+            {/* ─── STEP 1: Basic Info (both roles) ─── */}
+            <div id="step1" class="p-8">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
+                  <span class="text-sm font-bold text-indigo-600">1</span>
+                </div>
+                <div>
+                  <h2 class="text-lg font-bold text-gray-900">Basic Information</h2>
+                  <p class="text-xs text-gray-500">Tell us about yourself</p>
+                </div>
+              </div>
+
+              <div class="space-y-5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div class="sm:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Full Name <span class="text-red-500">*</span></label>
+                    <input type="text" id="f_name" name="name" required autocomplete="name"
+                      class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
                       placeholder="Your full name" />
                   </div>
+
                   <div>
-                    <label class="block font-sketch mb-2">Age *</label>
-                    <input type="number" name="age" required min="10" max="30"
-                      class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
-                      placeholder="e.g. 16" />
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Email Address <span class="text-red-500">*</span></label>
+                    <input type="email" id="f_email" name="email" required autocomplete="email"
+                      class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                      placeholder="you@example.com" />
                   </div>
-                </div>
-                <div class="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block font-sketch mb-2">School / University *</label>
-                    <input type="text" name="school" required
-                      class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
-                        placeholder="e.g. Northgate High School" />
+
+                  <div class="student-field">
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Age <span class="text-red-500">*</span></label>
+                    <input type="number" id="f_age" name="age" min="10" max="30"
+                      class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                      placeholder="Your age" />
                   </div>
-                  <div>
-                    <label class="block font-sketch mb-2">Grade Level *</label>
-                    <select name="gradeLevel" required
-                      class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid bg-white">
-                      <option value="">Select grade</option>
-                      <option value="4th">4th Grade</option>
-                      <option value="5th">5th Grade</option>
-                      <option value="6th">6th Grade</option>
-                      <option value="7th">7th Grade</option>
-                      <option value="8th">8th Grade</option>
-                      <option value="9th">9th Grade (Freshman)</option>
-                      <option value="10th">10th Grade (Sophomore)</option>
-                      <option value="11th">11th Grade (Junior)</option>
-                      <option value="12th">12th Grade (Senior)</option>
-                      <option value="college-freshman">College Freshman</option>
-                      <option value="college-sophomore">College Sophomore</option>
-                      <option value="college-junior">College Junior</option>
-                      <option value="college-senior">College Senior</option>
-                      <option value="graduate">Graduate Student</option>
+
+                  <div class="mentor-field hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Job Title <span class="text-red-500">*</span></label>
+                    <input type="text" id="f_position" name="position"
+                      class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                      placeholder="e.g. Senior Software Engineer" />
+                  </div>
+
+                  <div class="student-field">
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">School / University <span class="text-red-500">*</span></label>
+                    <input type="text" id="f_school" name="school"
+                      class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                      placeholder="Your school name" />
+                  </div>
+
+                  <div class="mentor-field hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Company / Organization <span class="text-red-500">*</span></label>
+                    <input type="text" id="f_company" name="company"
+                      class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                      placeholder="Your company" />
+                  </div>
+
+                  <div class="student-field">
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Grade Level <span class="text-red-500">*</span></label>
+                    <select id="f_gradeLevel" name="gradeLevel"
+                      class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition bg-white">
+                      <option value="">Select grade level</option>
+                      <option value="4th Grade">4th Grade</option>
+                      <option value="5th Grade">5th Grade</option>
+                      <option value="6th Grade">6th Grade</option>
+                      <option value="7th Grade">7th Grade</option>
+                      <option value="8th Grade">8th Grade</option>
+                      <option value="9th Grade">9th Grade</option>
+                      <option value="10th Grade">10th Grade</option>
+                      <option value="11th Grade">11th Grade</option>
+                      <option value="12th Grade">12th Grade</option>
+                      <option value="College Freshman">College Freshman</option>
+                      <option value="College Sophomore">College Sophomore</option>
+                      <option value="College Junior">College Junior</option>
+                      <option value="College Senior">College Senior</option>
+                      <option value="Graduate Student">Graduate Student</option>
                     </select>
                   </div>
-                </div>
-                <div class="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block font-sketch mb-2">Email Address *</label>
-                    <input type="email" name="email" required
-                      class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
-                      placeholder="your@email.com" />
-                  </div>
-                  <div>
-                    <label class="block font-sketch mb-2">LinkedIn (optional)</label>
-                    <input type="text" name="linkedinUrl"
-                      class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
-                      placeholder="https://linkedin.com/in/..." />
-                  </div>
-                </div>
-                <div>
-                  <label class="block font-sketch mb-2">Password *</label>
-                  <input type="password" name="password" required minLength={8}
-                    class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
-                    placeholder="At least 8 characters" />
-                </div>
-              </div>
-            </section>
 
-            {/* S2: Career Interests */}
-            <section>
-              <h3 class="font-sketch text-2xl mb-1">Section 2: Career Interests</h3>
-              <div class="w-16 h-1 bg-black mb-6 rounded"></div>
-              <div class="space-y-5">
-                <div>
-                  <label class="block font-sketch mb-3">What career field are you interested in? *</label>
-                  <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="careerFieldGroup">
-                    {[
-                      { value: "tech", label: "💻 Tech" },
-                      { value: "medicine", label: "⚕️ Medicine" },
-                      { value: "law", label: "⚖️ Law" },
-                      { value: "business", label: "💼 Business / Entrepreneurship" },
-                      { value: "sports", label: "🏅 Sports Industry" },
-                      { value: "engineering", label: "⚙️ Engineering" },
-                      { value: "science", label: "🔬 Science" },
-                      { value: "other", label: "✏️ Other" },
-                    ].map(opt => (
-                      <label class="career-field-option cursor-pointer" key={opt.value}>
-                        <input type="radio" name="careerField" value={opt.value} class="hidden" />
-                        <div class="scribble-card p-3 text-center text-sm font-handwritten hover:bg-blue-50 transition-colors select-indicator">
-                          {opt.label}
-                        </div>
-                      </label>
-                    ))}
+                  <div class="mentor-field hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Years of Experience <span class="text-red-500">*</span></label>
+                    <input type="number" id="f_experienceYears" name="experienceYears" min="1" max="60"
+                      class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                      placeholder="Years in your field" />
                   </div>
-                  <div class="mt-3 hidden" id="otherCareerWrap">
-                    <input type="text" name="careerFieldOther"
-                      class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
-                      placeholder="Describe your career field..." />
-                  </div>
-                </div>
-                <div>
-                  <label class="block font-sketch mb-2">What specific role do you dream of? *</label>
-                  <input type="text" name="dreamRole" required
-                    class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
-                    placeholder="e.g. Sports agent, orthopedic surgeon, startup founder, NBA GM..." />
-                </div>
-                <div>
-                  <label class="block font-sketch mb-2">Why are you interested in this career? *</label>
-                  <textarea name="careerInterestWhy" required rows={4}
-                    class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid resize-none"
-                    placeholder="Write a short paragraph about your passion and motivation..." />
-                </div>
-              </div>
-            </section>
 
-            {/* S3: Help Needed */}
-            <section>
-              <h3 class="font-sketch text-2xl mb-1">Section 3: What Do You Need Help With?</h3>
-              <div class="w-16 h-1 bg-black mb-6 rounded"></div>
-              <p class="font-handwritten text-gray-600 mb-4">Select all that apply:</p>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {[
-                  { value: "choosing-major", label: "Choosing a major" },
-                  { value: "resume-building", label: "Resume building" },
-                  { value: "internship-advice", label: "Internship advice" },
-                  { value: "college-preparation", label: "College preparation" },
-                  { value: "networking", label: "Networking" },
-                  { value: "starting-business", label: "Starting a business" },
-                  { value: "career-clarity", label: "Career clarity" },
-                  { value: "interview-prep", label: "Interview prep" },
-                  { value: "leadership-skills", label: "Leadership skills" },
-                ].map(opt => (
-                  <label class="flex items-center gap-3 cursor-pointer scribble-card p-3 hover:bg-yellow-50 transition-colors" key={opt.value}>
-                    <input type="checkbox" name="helpNeeded" value={opt.value} class="w-5 h-5 accent-black" />
-                    <span class="font-handwritten">{opt.label}</span>
-                  </label>
-                ))}
-              </div>
-            </section>
-
-            {/* S4: Commitment */}
-            <section>
-              <h3 class="font-sketch text-2xl mb-1">Section 4: Commitment &amp; Expectations</h3>
-              <div class="w-16 h-1 bg-black mb-6 rounded"></div>
-              <div class="space-y-5">
-                <div>
-                  <label class="block font-sketch mb-3">How often would you like to meet? *</label>
-                  <div class="flex flex-col gap-3">
-                    {[
-                      { value: "one-time", label: "One-time conversation" },
-                      { value: "monthly", label: "Monthly" },
-                      { value: "bi-weekly", label: "Bi-weekly" },
-                    ].map(opt => (
-                      <label class="flex items-center gap-3 cursor-pointer scribble-card p-3 hover:bg-green-50 transition-colors" key={opt.value}>
-                        <input type="radio" name="meetingFrequency" value={opt.value} class="w-5 h-5 accent-black" />
-                        <span class="font-handwritten">{opt.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-                <div class="scribble-card p-4 bg-yellow-50">
-                  <label class="flex items-start gap-3 cursor-pointer">
-                      <input type="checkbox" name="willingToPrepare" value="yes" class="mt-1 w-5 h-5 accent-black" />
-                    <span class="font-handwritten"><strong>Are you willing to prepare questions before each session?</strong> (Required — this ensures productive meetings)</span>
-                  </label>
-                </div>
-              </div>
-            </section>
-
-            {/* S5: Personality */}
-            <section>
-              <h3 class="font-sketch text-2xl mb-1">Section 5: Personality &amp; Matching</h3>
-              <div class="w-16 h-1 bg-black mb-6 rounded"></div>
-              <div class="space-y-5">
-                <div>
-                  <label class="block font-sketch mb-3">Do you prefer... *</label>
-                  <div class="flex flex-col gap-3">
-                    {[
-                      { value: "direct", label: "Direct, tough advice" },
-                      { value: "encouraging", label: "Encouraging guidance" },
-                      { value: "structured", label: "Structured step-by-step coaching" },
-                    ].map(opt => (
-                      <label class="flex items-center gap-3 cursor-pointer scribble-card p-3 hover:bg-purple-50 transition-colors" key={opt.value}>
-                        <input type="radio" name="adviceStyle" value={opt.value} class="w-5 h-5 accent-black" />
-                        <span class="font-handwritten">{opt.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <label class="block font-sketch mb-3">Are you introverted, extroverted, or balanced? *</label>
-                  <div class="flex gap-3">
-                    {[
-                      { value: "introverted", label: "Introverted" },
-                      { value: "extroverted", label: "Extroverted" },
-                      { value: "balanced", label: "Balanced" },
-                    ].map(opt => (
-                      <label class="flex-1 cursor-pointer" key={opt.value}>
-                        <input type="radio" name="personalityType" value={opt.value} class="hidden" />
-                        <div class="scribble-card p-3 text-center font-handwritten hover:bg-blue-50 transition-colors select-indicator">
-                          {opt.label}
-                        </div>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </section>
-
-              {/* Code of Conduct */}
-              <section class="scribble-card p-6 bg-blue-50 border-2 border-blue-300">
-                <h3 class="font-sketch text-xl mb-1">MentorMatch Code of Conduct &amp; Safety Guidelines</h3>
-                <p class="font-handwritten text-sm text-gray-500 mb-4">You must read and agree to the full policy before creating an account.</p>
-
-                {/* Scrollable full CoC */}
-                <div class="bg-white border-2 border-dashed border-blue-300 rounded-lg p-5 h-64 overflow-y-auto mb-5 space-y-4 text-sm font-handwritten leading-relaxed">
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">Introduction</p>
-                    <p>MentorMatch is committed to providing a professional and supportive environment for students (mentees) and mentors. By using this platform, all participants agree to follow these rules and acknowledge responsibilities and risks outlined below.</p>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">1. Personal Safety &amp; Online Conduct</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>Mentors and mentees <strong>may share personal contact information</strong> at their discretion.</li>
-                      <li><strong>All such interactions are the sole responsibility of the users.</strong> MentorMatch is <strong>not liable</strong> for any issues arising from off-platform communication, including scams, harassment, or negative experiences.</li>
-                      <li>Users should exercise caution when sharing personal info or meeting in person.</li>
-                      <li>Any professional misconduct or abusive behavior may be reported using the platform's reporting system.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">2. Liability &amp; Disclaimers</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>MentorMatch <strong>does not guarantee</strong> mentorship outcomes, career advancement, or safety from interactions outside the platform.</li>
-                      <li>Any negative experiences, scams, or misuse of information <strong>are not the responsibility of MentorMatch</strong>.</li>
-                      <li>Students under 18 should have <strong>parental/guardian consent</strong> to participate in mentorship sessions.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">3. Professional Behavior</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>Mentors should provide guidance <strong>ethically and honestly</strong>, based on their own experience.</li>
-                      <li>Mentees should <strong>respect mentors' time</strong> and prepare for each session.</li>
-                      <li>Both parties should communicate responsibly and notify the other if unavailable for a scheduled session.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">4. Reporting System (AI-Enforced)</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>Users may report any <strong>inappropriate behavior, scams, harassment, or negative experiences</strong> through the MentorMatch platform.</li>
-                      <li>Reports should include: name of the user being reported, description of the issue, and any supporting evidence (screenshots, messages, etc.).</li>
-                      <li>The AI will <strong>flag reports automatically</strong> and notify admins for review.</li>
-                      <li>MentorMatch will <strong>investigate all reports</strong> and may suspend or remove users.</li>
-                      <li>Users <strong>should not attempt to resolve serious issues on their own</strong>; always report via the platform.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">5. Content &amp; Intellectual Property</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>Users should share original content or properly credit sources.</li>
-                      <li>Mentorship content may be shared at users' discretion, but MentorMatch is <strong>not liable</strong> for misuse or redistribution of materials outside the platform.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">6. Account Integrity</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>All users must provide <strong>accurate and truthful information</strong> during registration.</li>
-                      <li>False, misleading, or fraudulent accounts may be suspended or removed.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">7. Enforcement</p>
-                    <p>Violations of this Code of Conduct may result in:</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>Temporary suspension</li>
-                      <li>Permanent removal of account</li>
-                      <li>Reporting to authorities if laws are broken</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">8. Acceptance</p>
-                    <p>By signing up for MentorMatch, you acknowledge that:</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>Sharing personal contact information is at your <strong>own risk</strong>.</li>
-                      <li>MentorMatch <strong>is not liable</strong> for any scams, fraud, or negative experiences.</li>
-                      <li>You understand the platform's rules and agree to follow this Code of Conduct.</li>
-                      <li>All reports will be reviewed promptly, and users may be suspended or removed if warranted.</li>
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Key summary bullets */}
-                <div class="mb-5 grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {[
-                    "Respectful, professional communication",
-                    "No harassment or abusive behavior",
-                    "Maintain professional boundaries",
-                    "Honor scheduled session commitments",
-                    "Provide accurate registration info",
-                    "Report issues through the platform only",
-                    "Off-platform interactions are your responsibility",
-                    "Students under 18 require parental consent",
-                  ].map(item => (
-                    <div class="flex items-start gap-2 font-handwritten text-sm" key={item}>
-                      <span class="text-green-600 font-bold mt-0.5">✔</span> {item}
-                    </div>
-                  ))}
-                </div>
-
-                <label class="flex items-start gap-3 cursor-pointer bg-yellow-50 border border-yellow-300 rounded-lg p-4">
-                    <input type="checkbox" name="conductAgreed" id="studentConductAgreed" class="mt-1 w-5 h-5 accent-black flex-shrink-0" />
-                    <span class="font-handwritten text-sm"><strong>I have read and agree</strong> to the MentorMatch Code of Conduct &amp; Safety Guidelines. I understand my responsibilities, the platform's limitations of liability, and that violations may result in suspension or removal of my account.</span>
-                  </label>
-                </section>
-
-                <div id="studentMsg" class="hidden p-4 border-2 border-dashed rounded-lg">
-              <p class="font-handwritten text-sm"></p>
-            </div>
-
-            <button type="submit" id="studentSubmitBtn"
-              class="w-full scribble-button p-4 font-sketch text-xl bg-blue-200 hover:bg-blue-300 transition-colors">
-              <span class="btn-text">Create Student Account 🎓</span>
-              <span class="btn-loader hidden">
-                <svg class="animate-spin inline-block w-5 h-5 mr-2" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="40" stroke="black" stroke-width="8" fill="none" stroke-dasharray="60 40" />
-                </svg>
-                Creating account...
-              </span>
-            </button>
-            <p class="text-center font-handwritten text-sm">Already have an account? <a href="/login" class="font-sketch font-bold underline">Sign in</a></p>
-          </form>
-        </div>
-
-        {/* ===== MENTOR FORM ===== */}
-        <div id="mentorForm" class="hidden">
-          <form id="mentorRegistrationForm" class="scribble-card-large p-8 bg-gray-50 space-y-10">
-            <input type="hidden" name="role" value="mentor" />
-
-            {/* M1: Professional Background */}
-            <section>
-              <h3 class="font-sketch text-2xl mb-1">Section 1: Professional Background</h3>
-              <div class="w-16 h-1 bg-black mb-6 rounded"></div>
-              <div class="space-y-4">
-                <div class="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block font-sketch mb-2">Full Name *</label>
-                    <input type="text" name="name" required
-                      class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
-                      placeholder="Your full name" />
-                  </div>
-                  <div>
-                    <label class="block font-sketch mb-2">Current Job Title *</label>
-                    <input type="text" name="position" required
-                      class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
-                      placeholder="e.g. Orthopedic Surgeon, VP of Engineering" />
-                  </div>
-                </div>
-                <div class="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block font-sketch mb-2">Company / Organization *</label>
-                    <input type="text" name="company" required
-                      class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
-                      placeholder="e.g. Google, Mayo Clinic, Self-employed" />
-                  </div>
-                  <div>
-                    <label class="block font-sketch mb-2">Years of Experience *</label>
-                    <input type="number" name="experienceYears" required min="1" max="60"
-                      class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
-                      placeholder="e.g. 12" />
-                  </div>
-                </div>
-                <div class="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block font-sketch mb-2">Industry *</label>
-                    <select name="industry" required
-                      class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid bg-white">
+                  <div class="mentor-field hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Industry <span class="text-red-500">*</span></label>
+                    <select id="f_industry" name="industry"
+                      class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition bg-white">
                       <option value="">Select industry</option>
                       <option value="technology">Technology</option>
                       <option value="medicine">Medicine / Healthcare</option>
                       <option value="law">Law</option>
                       <option value="business">Business / Finance</option>
-                      <option value="sports">Sports Industry</option>
+                      <option value="sports">Sports</option>
                       <option value="engineering">Engineering</option>
                       <option value="science">Science / Research</option>
                       <option value="education">Education</option>
                       <option value="media">Media / Entertainment</option>
-                      <option value="nonprofit">Non-Profit</option>
-                      <option value="government">Government / Public Service</option>
+                      <option value="nonprofit">Nonprofit</option>
+                      <option value="government">Government / Policy</option>
                       <option value="other">Other</option>
                     </select>
                   </div>
-                  <div>
-                    <label class="block font-sketch mb-2">LinkedIn *</label>
-                    <input type="text" name="linkedinUrl" required
-                      class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
-                      placeholder="https://linkedin.com/in/..." />
-                  </div>
-                </div>
-                <div class="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block font-sketch mb-2">Email Address *</label>
-                    <input type="email" name="email" required
-                      class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
-                      placeholder="your@email.com" />
-                  </div>
-                  <div>
-                    <label class="block font-sketch mb-2">Password *</label>
-                    <input type="password" name="password" required minLength={8}
-                      class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
-                      placeholder="At least 8 characters" />
-                    <p class="font-handwritten text-xs text-gray-500 mt-1">Choose a unique password you don't use elsewhere — min 8 characters.</p>
-                  </div>
-                </div>
-                <div>
-                  <label class="block font-sketch mb-2">Short Bio (2–3 paragraphs) *</label>
-                  <textarea name="shortBio" required rows={6}
-                    class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid resize-none"
-                    placeholder="Tell students about your career journey, what you've accomplished, and what makes you the right person to guide them..." />
-                </div>
-              </div>
-            </section>
 
-            {/* M2: Expertise */}
-            <section>
-              <h3 class="font-sketch text-2xl mb-1">Section 2: Expertise</h3>
-              <div class="w-16 h-1 bg-black mb-6 rounded"></div>
-              <div class="space-y-5">
-                <div>
-                  <label class="block font-sketch mb-3">What topics can you mentor on? (Select all that apply)</label>
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {[
-                      { value: "career-entry", label: "Career entry strategy" },
-                      { value: "leadership", label: "Leadership" },
-                      { value: "entrepreneurship", label: "Entrepreneurship" },
-                      { value: "industry-insights", label: "Industry insights" },
-                      { value: "college-pathway", label: "College pathway advice" },
-                      { value: "resume-review", label: "Resume review" },
-                      { value: "interview-prep", label: "Interview prep" },
-                    ].map(opt => (
-                      <label class="flex items-center gap-3 cursor-pointer scribble-card p-3 hover:bg-yellow-50 transition-colors" key={opt.value}>
-                        <input type="checkbox" name="mentorTopics" value={opt.value} class="w-5 h-5 accent-black" />
-                        <span class="font-handwritten">{opt.label}</span>
-                      </label>
-                    ))}
+                  <div class="mentor-field hidden sm:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">LinkedIn URL <span class="text-red-500">*</span></label>
+                    <input type="url" id="f_linkedinUrl" name="linkedinUrl"
+                      class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                      placeholder="https://linkedin.com/in/yourprofile" />
                   </div>
-                </div>
-                <div>
-                  <label class="block font-sketch mb-2">What industries have you worked in? *</label>
-                  <input type="text" name="industriesWorked" required
-                    class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
-                    placeholder="e.g. Healthcare, Biotech, Medical Devices" />
-                </div>
-              </div>
-            </section>
 
-            {/* M3: Availability */}
-            <section>
-              <h3 class="font-sketch text-2xl mb-1">Section 3: Availability</h3>
-              <div class="w-16 h-1 bg-black mb-6 rounded"></div>
-              <div class="space-y-5">
-                <div>
-                  <label class="block font-sketch mb-2">How many mentees can you take on? *</label>
-                  <select name="maxMentees" required
-                    class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid bg-white">
-                    <option value="">Select capacity</option>
-                    <option value="1">1 mentee</option>
-                    <option value="2">2 mentees</option>
-                    <option value="3">3 mentees</option>
-                    <option value="5">Up to 5 mentees</option>
-                    <option value="10">Up to 10 mentees</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="block font-sketch mb-3">Preferred meeting frequency *</label>
-                  <div class="flex flex-col gap-3">
-                    {[
-                      { value: "one-time", label: "One-time conversations only" },
-                      { value: "monthly", label: "Monthly" },
-                      { value: "bi-weekly", label: "Bi-weekly" },
-                      { value: "flexible", label: "Flexible / Student's preference" },
-                    ].map(opt => (
-                      <label class="flex items-center gap-3 cursor-pointer scribble-card p-3 hover:bg-green-50 transition-colors" key={opt.value}>
-                        <input type="radio" name="preferredMeetingFreq" value={opt.value} class="w-5 h-5 accent-black" />
-                        <span class="font-handwritten">{opt.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <label class="block font-sketch mb-3">Meeting format *</label>
-                  <div class="flex flex-col gap-3">
-                    {[
-                      { value: "virtual-only", label: "Virtual only" },
-                      { value: "open-to-inperson", label: "Open to in-person (depending on location)" },
-                    ].map(opt => (
-                      <label class="flex items-center gap-3 cursor-pointer scribble-card p-3 hover:bg-blue-50 transition-colors" key={opt.value}>
-                        <input type="radio" name="virtualOrInperson" value={opt.value} class="w-5 h-5 accent-black" />
-                        <span class="font-handwritten">{opt.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* M4: Motivation */}
-            <section>
-              <h3 class="font-sketch text-2xl mb-1">Section 4: Motivation</h3>
-              <div class="w-16 h-1 bg-black mb-6 rounded"></div>
-              <div class="space-y-5">
-                <div>
-                  <label class="block font-sketch mb-2">Why do you want to mentor students? *</label>
-                  <textarea name="whyMentor" required rows={4}
-                    class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid resize-none"
-                    placeholder="What drives you to give back and help the next generation..." />
-                </div>
-                <div>
-                  <label class="block font-sketch mb-2">Have you had mentors who impacted you? *</label>
-                  <textarea name="hadMentors" required rows={3}
-                    class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid resize-none"
-                    placeholder="Share a brief story about a mentor who shaped your path (or how the lack of one affected you)..." />
-                </div>
-              </div>
-            </section>
-
-              {/* Code of Conduct */}
-              <section class="scribble-card p-6 bg-blue-50 border-2 border-blue-300">
-                <h3 class="font-sketch text-xl mb-1">MentorMatch Code of Conduct &amp; Safety Guidelines</h3>
-                <p class="font-handwritten text-sm text-gray-500 mb-4">You must read and agree to the full policy before creating an account.</p>
-
-                {/* Scrollable full CoC */}
-                <div class="bg-white border-2 border-dashed border-blue-300 rounded-lg p-5 h-64 overflow-y-auto mb-5 space-y-4 text-sm font-handwritten leading-relaxed">
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">Introduction</p>
-                    <p>MentorMatch is committed to providing a professional and supportive environment for students (mentees) and mentors. By using this platform, all participants agree to follow these rules and acknowledge responsibilities and risks outlined below.</p>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">1. Personal Safety &amp; Online Conduct</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>Mentors and mentees <strong>may share personal contact information</strong> at their discretion.</li>
-                      <li><strong>All such interactions are the sole responsibility of the users.</strong> MentorMatch is <strong>not liable</strong> for any issues arising from off-platform communication, including scams, harassment, or negative experiences.</li>
-                      <li>Users should exercise caution when sharing personal info or meeting in person.</li>
-                      <li>Any professional misconduct or abusive behavior may be reported using the platform's reporting system.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">2. Liability &amp; Disclaimers</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>MentorMatch <strong>does not guarantee</strong> mentorship outcomes, career advancement, or safety from interactions outside the platform.</li>
-                      <li>Any negative experiences, scams, or misuse of information <strong>are not the responsibility of MentorMatch</strong>.</li>
-                      <li>Students under 18 should have <strong>parental/guardian consent</strong> to participate in mentorship sessions.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">3. Professional Behavior</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>Mentors should provide guidance <strong>ethically and honestly</strong>, based on their own experience.</li>
-                      <li>Mentees should <strong>respect mentors' time</strong> and prepare for each session.</li>
-                      <li>Both parties should communicate responsibly and notify the other if unavailable for a scheduled session.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">4. Reporting System (AI-Enforced)</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>Users may report any <strong>inappropriate behavior, scams, harassment, or negative experiences</strong> through the MentorMatch platform.</li>
-                      <li>Reports should include: name of the user being reported, description of the issue, and any supporting evidence (screenshots, messages, etc.).</li>
-                      <li>The AI will <strong>flag reports automatically</strong> and notify admins for review.</li>
-                      <li>MentorMatch will <strong>investigate all reports</strong> and may suspend or remove users.</li>
-                      <li>Users <strong>should not attempt to resolve serious issues on their own</strong>; always report via the platform.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">5. Content &amp; Intellectual Property</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>Users should share original content or properly credit sources.</li>
-                      <li>Mentorship content may be shared at users' discretion, but MentorMatch is <strong>not liable</strong> for misuse or redistribution of materials outside the platform.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">6. Account Integrity</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>All users must provide <strong>accurate and truthful information</strong> during registration.</li>
-                      <li>False, misleading, or fraudulent accounts may be suspended or removed.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">7. Enforcement</p>
-                    <p>Violations of this Code of Conduct may result in:</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>Temporary suspension</li>
-                      <li>Permanent removal of account</li>
-                      <li>Reporting to authorities if laws are broken</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p class="font-sketch font-bold text-base mb-1">8. Acceptance</p>
-                    <p>By signing up for MentorMatch, you acknowledge that:</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>Sharing personal contact information is at your <strong>own risk</strong>.</li>
-                      <li>MentorMatch <strong>is not liable</strong> for any scams, fraud, or negative experiences.</li>
-                      <li>You understand the platform's rules and agree to follow this Code of Conduct.</li>
-                      <li>All reports will be reviewed promptly, and users may be suspended or removed if warranted.</li>
-                    </ul>
+                  <div class="student-field sm:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">LinkedIn URL <span class="text-gray-400 font-normal">(optional)</span></label>
+                    <input type="url" id="f_linkedinUrlStudent" name="linkedinUrlStudent"
+                      class="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                      placeholder="https://linkedin.com/in/yourprofile" />
                   </div>
                 </div>
 
-                {/* Key summary bullets */}
-                <div class="mb-5 grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {[
-                    "Respectful, professional communication",
-                    "No harassment or abusive behavior",
-                    "Maintain professional boundaries",
-                    "Honor scheduled session commitments",
-                    "Provide accurate registration info",
-                    "Report issues through the platform only",
-                    "Off-platform interactions are your responsibility",
-                    "Students under 18 require parental consent",
-                  ].map(item => (
-                    <div class="flex items-start gap-2 font-handwritten text-sm" key={item}>
-                      <span class="text-green-600 font-bold mt-0.5">✔</span> {item}
+                {/* Password */}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2 border-t border-gray-50">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Password <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                      <input type="password" id="f_password" name="password" required autocomplete="new-password"
+                        class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition pr-10"
+                        placeholder="Min 8 characters" />
+                      <button type="button" onclick="togglePw('f_password')"
+                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600" tabindex="-1">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                      </button>
                     </div>
-                  ))}
+                    <div id="pwStrength" class="mt-1.5 flex gap-1">
+                      <div class="h-1 flex-1 rounded bg-gray-100" id="ps1"></div>
+                      <div class="h-1 flex-1 rounded bg-gray-100" id="ps2"></div>
+                      <div class="h-1 flex-1 rounded bg-gray-100" id="ps3"></div>
+                      <div class="h-1 flex-1 rounded bg-gray-100" id="ps4"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Confirm Password <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                      <input type="password" id="f_confirmPassword" name="confirmPassword" required autocomplete="new-password"
+                        class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition pr-10"
+                        placeholder="Repeat your password" />
+                      <button type="button" onclick="togglePw('f_confirmPassword')"
+                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600" tabindex="-1">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                      </button>
+                    </div>
+                    <p id="pwMatch" class="mt-1 text-xs hidden"></p>
+                  </div>
                 </div>
-
-                <label class="flex items-start gap-3 cursor-pointer bg-yellow-50 border border-yellow-300 rounded-lg p-4">
-                    <input type="checkbox" name="conductAgreed" id="mentorConductAgreed" class="mt-1 w-5 h-5 accent-black flex-shrink-0" />
-                    <span class="font-handwritten text-sm"><strong>I have read and agree</strong> to the MentorMatch Code of Conduct &amp; Safety Guidelines. I understand my responsibilities, the platform's limitations of liability, and that violations may result in suspension or removal of my account.</span>
-                  </label>
-                </section>
-
-                <div id="mentorMsg" class="hidden p-4 border-2 border-dashed rounded-lg">
-              <p class="font-handwritten text-sm"></p>
+              </div>
             </div>
 
-            <button type="submit" id="mentorSubmitBtn"
-              class="w-full scribble-button p-4 font-sketch text-xl bg-purple-200 hover:bg-purple-300 transition-colors">
-              <span class="btn-text">Create Mentor Account 🏆</span>
-              <span class="btn-loader hidden">
-                <svg class="animate-spin inline-block w-5 h-5 mr-2" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="40" stroke="black" stroke-width="8" fill="none" stroke-dasharray="60 40" />
+            {/* ─── STEP 2: Career / Background ─── */}
+            <div id="step2" class="hidden p-8">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
+                  <span class="text-sm font-bold text-indigo-600">2</span>
+                </div>
+                <div>
+                  <h2 class="text-lg font-bold text-gray-900 student-field">Career Interests</h2>
+                  <h2 class="text-lg font-bold text-gray-900 mentor-field hidden">Professional Background</h2>
+                  <p class="text-xs text-gray-500">Share your aspirations and experience</p>
+                </div>
+              </div>
+
+              {/* Student step 2 */}
+              <div class="student-field space-y-5">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-3">Career Field <span class="text-red-500">*</span></label>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                    {['Technology', 'Medicine', 'Law', 'Business', 'Sports', 'Engineering', 'Science', 'Other'].map(f => (
+                      <label class="career-chip relative flex items-center gap-2 p-3 border border-gray-200 rounded-xl cursor-pointer hover:border-indigo-300 hover:bg-indigo-50 transition-all text-sm font-medium text-gray-700">
+                        <input type="radio" name="careerField" value={f.toLowerCase()} class="sr-only peer" />
+                        <div class="w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-indigo-600 peer-checked:bg-indigo-600 flex-shrink-0 transition-all"></div>
+                        {f}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1.5">Dream Role <span class="text-red-500">*</span></label>
+                  <input type="text" id="f_dreamRole" name="dreamRole"
+                    class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                    placeholder="e.g. Software Engineer at Google, Doctor, Lawyer..." />
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1.5">Why are you interested in this career? <span class="text-red-500">*</span></label>
+                  <textarea id="f_careerInterestWhy" name="careerInterestWhy" rows={3}
+                    class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none"
+                    placeholder="Share what drives your passion for this field..."></textarea>
+                </div>
+              </div>
+
+              {/* Mentor step 2 */}
+              <div class="mentor-field hidden space-y-5">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1.5">Short Bio <span class="text-red-500">*</span> <span class="text-gray-400 font-normal">(2–3 paragraphs)</span></label>
+                  <textarea id="f_shortBio" name="shortBio" rows={6}
+                    class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none"
+                    placeholder="Tell students about your journey, your work, and what you're passionate about. This is what they'll see on your profile..."></textarea>
+                  <p class="mt-1 text-xs text-gray-400" id="bioCharCount">0 / 1000 characters</p>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-3">Mentor Topics <span class="text-gray-400 font-normal">(select all that apply)</span></label>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {[
+                      { value: 'career-entry', label: 'Breaking into the field' },
+                      { value: 'leadership', label: 'Leadership & management' },
+                      { value: 'entrepreneurship', label: 'Entrepreneurship' },
+                      { value: 'industry-insights', label: 'Industry insights' },
+                      { value: 'college-pathway', label: 'College pathway' },
+                      { value: 'resume-review', label: 'Resume & applications' },
+                      { value: 'interview-prep', label: 'Interview prep' },
+                    ].map(t => (
+                      <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-xl cursor-pointer hover:border-indigo-300 hover:bg-indigo-50 transition-all">
+                        <input type="checkbox" name="mentorTopics" value={t.value} class="mentor-topic-cb w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                        <span class="text-sm font-medium text-gray-700">{t.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1.5">Industries Worked In <span class="text-red-500">*</span></label>
+                  <input type="text" id="f_industriesWorked" name="industriesWorked"
+                    class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                    placeholder="e.g. Big Tech, Startups, Healthcare..." />
+                </div>
+              </div>
+            </div>
+
+            {/* ─── STEP 3: Help Needed / Availability ─── */}
+            <div id="step3" class="hidden p-8">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
+                  <span class="text-sm font-bold text-indigo-600">3</span>
+                </div>
+                <div>
+                  <h2 class="text-lg font-bold text-gray-900 student-field">What do you need help with?</h2>
+                  <h2 class="text-lg font-bold text-gray-900 mentor-field hidden">Availability & Capacity</h2>
+                  <p class="text-xs text-gray-500 student-field">Help us find the right mentor for you</p>
+                  <p class="text-xs text-gray-500 mentor-field hidden">Set your mentoring availability</p>
+                </div>
+              </div>
+
+              {/* Student step 3 */}
+              <div class="student-field space-y-5">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-3">Areas you want help with <span class="text-red-500">*</span> <span class="text-gray-400 font-normal">(select all that apply)</span></label>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {[
+                      { value: 'choosing-major', label: 'Choosing a major' },
+                      { value: 'resume-building', label: 'Resume building' },
+                      { value: 'internship-advice', label: 'Internship advice' },
+                      { value: 'college-prep', label: 'College prep' },
+                      { value: 'networking', label: 'Networking' },
+                      { value: 'starting-business', label: 'Starting a business' },
+                      { value: 'career-clarity', label: 'Career clarity' },
+                      { value: 'interview-prep', label: 'Interview prep' },
+                      { value: 'leadership-skills', label: 'Leadership skills' },
+                    ].map(h => (
+                      <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-xl cursor-pointer hover:border-indigo-300 hover:bg-indigo-50 transition-all">
+                        <input type="checkbox" name="helpNeeded" value={h.value} class="help-cb w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                        <span class="text-sm font-medium text-gray-700">{h.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Mentor step 3 */}
+              <div class="mentor-field hidden space-y-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-3">Maximum Mentees <span class="text-red-500">*</span></label>
+                  <div class="flex gap-3">
+                    {[1, 2, 3, 5, 10].map(n => (
+                      <label class="flex-1 flex flex-col items-center gap-1 p-3 border border-gray-200 rounded-xl cursor-pointer hover:border-indigo-300 hover:bg-indigo-50 transition-all">
+                        <input type="radio" name="maxMentees" value={String(n)} class="sr-only peer" />
+                        <div class="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:border-indigo-600 peer-checked:bg-indigo-600 transition-all"></div>
+                        <span class="text-sm font-bold text-gray-800">{n}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-3">Preferred Meeting Frequency <span class="text-red-500">*</span></label>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                    {[
+                      { value: 'one-time', label: 'One-time' },
+                      { value: 'monthly', label: 'Monthly' },
+                      { value: 'bi-weekly', label: 'Bi-weekly' },
+                      { value: 'flexible', label: 'Flexible' },
+                    ].map(f => (
+                      <label class="flex items-center gap-2.5 p-3 border border-gray-200 rounded-xl cursor-pointer hover:border-indigo-300 hover:bg-indigo-50 transition-all">
+                        <input type="radio" name="preferredMeetingFreq" value={f.value} class="sr-only peer" />
+                        <div class="w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-indigo-600 peer-checked:bg-indigo-600 flex-shrink-0 transition-all"></div>
+                        <span class="text-sm font-medium text-gray-700">{f.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-3">Meeting Format <span class="text-red-500">*</span></label>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {[
+                      { value: 'virtual-only', label: 'Virtual only', icon: '💻' },
+                      { value: 'open-to-inperson', label: 'Open to in-person', icon: '🤝' },
+                    ].map(f => (
+                      <label class="flex items-center gap-3 p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-indigo-300 hover:bg-indigo-50 transition-all">
+                        <input type="radio" name="virtualOrInperson" value={f.value} class="sr-only peer" />
+                        <div class="w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-indigo-600 peer-checked:bg-indigo-600 flex-shrink-0 transition-all"></div>
+                        <span class="text-lg">{f.icon}</span>
+                        <span class="text-sm font-medium text-gray-700">{f.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ─── STEP 4: Commitment / Motivation ─── */}
+            <div id="step4" class="hidden p-8">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
+                  <span class="text-sm font-bold text-indigo-600">4</span>
+                </div>
+                <div>
+                  <h2 class="text-lg font-bold text-gray-900 student-field">Commitment & Style</h2>
+                  <h2 class="text-lg font-bold text-gray-900 mentor-field hidden">Your Motivation</h2>
+                  <p class="text-xs text-gray-500">Help us match you best</p>
+                </div>
+              </div>
+
+              {/* Student step 4 */}
+              <div class="student-field space-y-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-3">Meeting Frequency <span class="text-red-500">*</span></label>
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    {[
+                      { value: 'one-time', label: 'One-time chat', desc: 'A single focused session' },
+                      { value: 'monthly', label: 'Monthly', desc: 'Once a month check-ins' },
+                      { value: 'bi-weekly', label: 'Bi-weekly', desc: 'Every two weeks' },
+                    ].map(f => (
+                      <label class="flex flex-col gap-1.5 p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-indigo-300 hover:bg-indigo-50 transition-all">
+                        <div class="flex items-center gap-2">
+                          <input type="radio" name="meetingFrequency" value={f.value} class="sr-only peer" />
+                          <div class="w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-indigo-600 peer-checked:bg-indigo-600 flex-shrink-0 transition-all"></div>
+                          <span class="text-sm font-semibold text-gray-800">{f.label}</span>
+                        </div>
+                        <p class="text-xs text-gray-500 pl-6">{f.desc}</p>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-3">Preferred Advice Style <span class="text-red-500">*</span></label>
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    {[
+                      { value: 'direct', label: 'Direct', desc: 'Straightforward, honest feedback' },
+                      { value: 'encouraging', label: 'Encouraging', desc: 'Supportive and motivating' },
+                      { value: 'structured', label: 'Structured', desc: 'Organized, step-by-step guidance' },
+                    ].map(s => (
+                      <label class="flex flex-col gap-1.5 p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-indigo-300 hover:bg-indigo-50 transition-all">
+                        <div class="flex items-center gap-2">
+                          <input type="radio" name="adviceStyle" value={s.value} class="sr-only peer" />
+                          <div class="w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-indigo-600 peer-checked:bg-indigo-600 flex-shrink-0 transition-all"></div>
+                          <span class="text-sm font-semibold text-gray-800">{s.label}</span>
+                        </div>
+                        <p class="text-xs text-gray-500 pl-6">{s.desc}</p>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-3">Personality Type <span class="text-red-500">*</span></label>
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    {[
+                      { value: 'introverted', label: 'Introverted', desc: 'I prefer one-on-one, quiet settings' },
+                      { value: 'extroverted', label: 'Extroverted', desc: 'I love meeting new people' },
+                      { value: 'balanced', label: 'Balanced', desc: 'Somewhere in between' },
+                    ].map(p => (
+                      <label class="flex flex-col gap-1.5 p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-indigo-300 hover:bg-indigo-50 transition-all">
+                        <div class="flex items-center gap-2">
+                          <input type="radio" name="personalityType" value={p.value} class="sr-only peer" />
+                          <div class="w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-indigo-600 peer-checked:bg-indigo-600 flex-shrink-0 transition-all"></div>
+                          <span class="text-sm font-semibold text-gray-800">{p.label}</span>
+                        </div>
+                        <p class="text-xs text-gray-500 pl-6">{p.desc}</p>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Mentor step 4 */}
+              <div class="mentor-field hidden space-y-5">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1.5">Why do you want to mentor? <span class="text-red-500">*</span></label>
+                  <textarea id="f_whyMentor" name="whyMentor" rows={4}
+                    class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none"
+                    placeholder="Share your motivation for mentoring students..."></textarea>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1.5">Have you had mentors? What was that like? <span class="text-red-500">*</span></label>
+                  <textarea id="f_hadMentors" name="hadMentors" rows={4}
+                    class="field-input w-full px-3.5 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none"
+                    placeholder="Share your experience being mentored or what you wish you'd had..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            {/* ─── STEP 5: Code of Conduct ─── */}
+            <div id="step5" class="hidden p-8">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
+                  <span class="text-sm font-bold text-indigo-600">5</span>
+                </div>
+                <div>
+                  <h2 class="text-lg font-bold text-gray-900">Community Standards</h2>
+                  <p class="text-xs text-gray-500">Our community guidelines keep MentorMatch safe</p>
+                </div>
+              </div>
+
+              <div class="bg-gray-50 rounded-xl p-5 mb-6 text-sm text-gray-700 space-y-3 max-h-64 overflow-y-auto">
+                <h3 class="font-semibold text-gray-900">MentorMatch Code of Conduct</h3>
+                <p><strong>1. Respect.</strong> Treat all members with dignity, kindness, and professionalism regardless of background, identity, or experience level.</p>
+                <p><strong>2. Authenticity.</strong> Use your real name and provide accurate information. Fake profiles or misrepresentation will result in immediate removal.</p>
+                <p><strong>3. Safety first.</strong> Do not share personal contact information (phone numbers, home addresses) during initial meetings. Use our platform messaging.</p>
+                <p><strong>4. Commitment.</strong> Honor your scheduled meetings. Give at least 24 hours' notice if you need to cancel.</p>
+                <p><strong>5. Boundaries.</strong> Mentors and students must maintain professional boundaries. Romantic or sexual conduct is strictly prohibited.</p>
+                <p><strong>6. Confidentiality.</strong> Respect the privacy of information shared in mentorship conversations.</p>
+                <p><strong>7. No solicitation.</strong> This platform is for mentorship, not sales, recruitment, or self-promotion.</p>
+                <p><strong>8. Zero tolerance.</strong> Harassment, bullying, discrimination, or any form of abuse will result in immediate and permanent removal.</p>
+                <p class="text-gray-500 italic">Violations may be reported and reviewed by our moderation team. We reserve the right to remove any member who violates these standards.</p>
+              </div>
+
+              <div class="space-y-4">
+                <label class="flex items-start gap-3 p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-indigo-300 transition-all">
+                  <input type="checkbox" id="f_agreeCoC" name="agreeCoC" class="mt-0.5 w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                  <span class="text-sm text-gray-700">
+                    I have read and agree to the <strong>MentorMatch Code of Conduct</strong>. I understand that violations may result in removal from the platform.
+                  </span>
+                </label>
+
+                <label class="student-field flex items-start gap-3 p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-indigo-300 transition-all">
+                  <input type="checkbox" id="f_willingToPrepare" name="willingToPrepare" class="mt-0.5 w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                  <span class="text-sm text-gray-700">
+                    I commit to <strong>coming prepared</strong> to each session with thoughtful questions and goals, to make the most of my mentor's time.
+                  </span>
+                </label>
+              </div>
+
+              {/* Submit */}
+              <button
+                type="button"
+                id="submitBtn"
+                onclick="handleSubmit()"
+                class="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl text-sm transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                <span id="submitBtnText">Create Account</span>
+                <span id="submitBtnLoader" class="hidden items-center justify-center gap-2">
+                  <svg class="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                  </svg>
+                  Creating account...
+                </span>
+              </button>
+
+              <p class="mt-4 text-center text-xs text-gray-400">
+                By creating an account, you agree to our{' '}
+                <a href="#" class="text-indigo-600 hover:underline">Terms of Service</a>{' '}
+                and{' '}
+                <a href="#" class="text-indigo-600 hover:underline">Privacy Policy</a>
+              </p>
+            </div>
+
+            {/* Navigation footer */}
+            <div id="navFooter" class="px-8 pb-6 flex items-center justify-between border-t border-gray-50 pt-5">
+              <button
+                type="button"
+                id="prevBtn"
+                onclick="prevStep()"
+                class="hidden flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-100 transition"
+              >
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                 </svg>
-                Creating account...
-              </span>
-            </button>
-            <p class="text-center font-handwritten text-sm">Already have an account? <a href="/login" class="font-sketch font-bold underline">Sign in</a></p>
-          </form>
+                Back
+              </button>
+              <div class="flex-1"></div>
+              <button
+                type="button"
+                id="nextBtn"
+                onclick="nextStep()"
+                class="flex items-center gap-1.5 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              >
+                Continue
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <p class="text-center text-sm text-gray-500 mt-6">
+            Already have an account?{' '}
+            <a href="/login" class="font-semibold text-indigo-600 hover:text-indigo-700">Sign in</a>
+          </p>
         </div>
       </div>
 
-      <script dangerouslySetInnerHTML={{ __html: `
-          // Tab switching
-          function switchRole(role) {
-            var sf = document.getElementById('studentForm')
-            var mf = document.getElementById('mentorForm')
-            var ts = document.getElementById('tabStudent')
-            var tm = document.getElementById('tabMentor')
-            var sb = document.getElementById('studentBanner')
-            var mb = document.getElementById('mentorBanner')
-            if (role === 'student') {
-              sf.classList.remove('hidden')
-              mf.classList.add('hidden')
-              sb.classList.remove('hidden')
-              mb.classList.add('hidden')
-              ts.classList.add('bg-blue-200')
-              ts.classList.remove('bg-gray-100')
-              tm.classList.add('bg-gray-100')
-              tm.classList.remove('bg-purple-200')
-            } else {
-              mf.classList.remove('hidden')
-              sf.classList.add('hidden')
-              mb.classList.remove('hidden')
-              sb.classList.add('hidden')
-              tm.classList.add('bg-purple-200')
-              tm.classList.remove('bg-gray-100')
-              ts.classList.add('bg-gray-100')
-              ts.classList.remove('bg-blue-200')
-            }
-          }
+      <script dangerouslySetInnerHTML={{__html: `
+        let currentRole = 'student'
+        let currentStep = 1
+        const totalSteps = 5
 
-        // Career field radio highlight
-        document.querySelectorAll('input[name="careerField"]').forEach(function(r) {
-          r.addEventListener('change', function() {
-            document.querySelectorAll('#careerFieldGroup .select-indicator').forEach(function(d) {
-              d.classList.remove('bg-blue-100', 'border-blue-400')
-            })
-            this.closest('label').querySelector('.select-indicator').classList.add('bg-blue-100', 'border-blue-400')
-            var wrap = document.getElementById('otherCareerWrap')
-            if (this.value === 'other') {
-              wrap.classList.remove('hidden')
-            } else {
-              wrap.classList.add('hidden')
-            }
-          })
-        })
+        const stepNames = ['Basic Info', 'Career', 'Help Needed', 'Commitment', 'Code of Conduct']
+        const mentorStepNames = ['Basic Info', 'Background', 'Availability', 'Motivation', 'Code of Conduct']
 
-        // Personality radio highlight
-        document.querySelectorAll('input[name="personalityType"]').forEach(function(r) {
-          r.addEventListener('change', function() {
-            document.querySelectorAll('input[name="personalityType"]').forEach(function(x) {
-              x.closest('label').querySelector('.select-indicator').classList.remove('bg-blue-100')
-            })
-            this.closest('label').querySelector('.select-indicator').classList.add('bg-blue-100')
-          })
-        })
+        function setRole(role) {
+          currentRole = role
+          const studentBtn = document.getElementById('roleStudent')
+          const mentorBtn = document.getElementById('roleMentor')
 
-        // Generic form submit handler
-        function handleFormSubmit(formId, msgId, btnId) {
-          var form = document.getElementById(formId)
-          if (!form) return
-          form.addEventListener('submit', async function(e) {
-            e.preventDefault()
-            var btn = document.getElementById(btnId)
-            var msgDiv = document.getElementById(msgId)
-            var msgP = msgDiv.querySelector('p')
-
-            // Gather data
-            var fd = new FormData(form)
-            var helpNeeded = fd.getAll('helpNeeded').join(',')
-            var mentorTopics = fd.getAll('mentorTopics').join(',')
-
-            var data = {
-              role: fd.get('role'),
-              name: fd.get('name'),
-              email: fd.get('email'),
-              password: fd.get('password'),
-              // student
-              age: fd.get('age') ? parseInt(fd.get('age')) : undefined,
-              school: fd.get('school') || undefined,
-              gradeLevel: fd.get('gradeLevel') || undefined,
-              linkedinUrl: fd.get('linkedinUrl') || undefined,
-              careerField: fd.get('careerField') === 'other'
-                ? (fd.get('careerFieldOther') || 'other')
-                : (fd.get('careerField') || undefined),
-              dreamRole: fd.get('dreamRole') || undefined,
-              careerInterestWhy: fd.get('careerInterestWhy') || undefined,
-              helpNeeded: helpNeeded || undefined,
-              meetingFrequency: fd.get('meetingFrequency') || undefined,
-              willingToPrepare: fd.get('willingToPrepare') === 'yes',
-              adviceStyle: fd.get('adviceStyle') || undefined,
-              personalityType: fd.get('personalityType') || undefined,
-              // mentor
-              position: fd.get('position') || undefined,
-              company: fd.get('company') || undefined,
-              experienceYears: fd.get('experienceYears') ? parseInt(fd.get('experienceYears')) : undefined,
-              industry: fd.get('industry') || undefined,
-              shortBio: fd.get('shortBio') || undefined,
-              mentorTopics: mentorTopics || undefined,
-              industriesWorked: fd.get('industriesWorked') || undefined,
-              maxMentees: fd.get('maxMentees') ? parseInt(fd.get('maxMentees')) : undefined,
-              preferredMeetingFreq: fd.get('preferredMeetingFreq') || undefined,
-              virtualOrInperson: fd.get('virtualOrInperson') || undefined,
-              whyMentor: fd.get('whyMentor') || undefined,
-              hadMentors: fd.get('hadMentors') || undefined,
-            }
-
-            // Remove undefined keys
-            Object.keys(data).forEach(function(k) { if (data[k] === undefined) delete data[k] })
-
-              // Manual validation for checkboxes that can't use HTML required reliably
-              var conductBox = form.querySelector('[name="conductAgreed"]')
-              if (conductBox && !conductBox.checked) {
-                showMsg(msgDiv, msgP, '⚠️ Please scroll down and agree to the Code of Conduct before submitting.', false)
-                conductBox.closest('label') && conductBox.closest('label').scrollIntoView({ behavior: 'smooth', block: 'center' })
-                return
-              }
-              var prepBox = form.querySelector('[name="willingToPrepare"]')
-              if (prepBox && !prepBox.checked) {
-                showMsg(msgDiv, msgP, '⚠️ Please confirm you are willing to prepare questions before each session.', false)
-                prepBox.closest('label') && prepBox.closest('label').scrollIntoView({ behavior: 'smooth', block: 'center' })
-                return
-              }
-
-              // Set loading
-              btn.disabled = true
-              btn.querySelector('.btn-text').classList.add('hidden')
-              btn.querySelector('.btn-loader').classList.remove('hidden')
-              msgDiv.classList.add('hidden')
-
-            try {
-              var res = await fetch('/api/auth/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-              })
-              var result = await res.json()
-
-              if (res.ok && result.success) {
-                localStorage.setItem('auth-token', result.token)
-                document.cookie = 'auth-token=' + result.token + '; path=/; max-age=604800'
-                localStorage.setItem('user', JSON.stringify(result.user))
-                showMsg(msgDiv, msgP, '✅ Account created! Redirecting to your dashboard...', true)
-                setTimeout(function() { window.location.href = '/dashboard' }, 1800)
-              } else {
-                var errMsg = result.error || 'Registration failed'
-                if (result.issues && result.issues.length) {
-                  errMsg = result.issues.map(function(i) { return i.message }).join(', ')
-                } else if (result.message) {
-                  errMsg = result.message
-                }
-                showMsg(msgDiv, msgP, '❌ ' + errMsg, false)
-                btn.disabled = false
-                btn.querySelector('.btn-text').classList.remove('hidden')
-                btn.querySelector('.btn-loader').classList.add('hidden')
-              }
-            } catch(err) {
-              showMsg(msgDiv, msgP, '❌ Network error. Please try again.', false)
-              btn.disabled = false
-              btn.querySelector('.btn-text').classList.remove('hidden')
-              btn.querySelector('.btn-loader').classList.add('hidden')
-            }
-          })
-        }
-
-        function showMsg(div, p, msg, success) {
-          p.textContent = msg
-          div.classList.remove('hidden', 'bg-red-50', 'bg-green-50', 'border-red-400', 'border-green-400')
-          if (success) {
-            div.classList.add('bg-green-50', 'border-green-400')
+          if (role === 'student') {
+            studentBtn.className = 'flex-1 flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl text-sm font-semibold transition-all bg-indigo-600 text-white shadow-sm'
+            mentorBtn.className = 'flex-1 flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl text-sm font-semibold transition-all text-gray-600 hover:bg-gray-50'
           } else {
-            div.classList.add('bg-red-50', 'border-red-400')
+            mentorBtn.className = 'flex-1 flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl text-sm font-semibold transition-all bg-indigo-600 text-white shadow-sm'
+            studentBtn.className = 'flex-1 flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl text-sm font-semibold transition-all text-gray-600 hover:bg-gray-50'
+          }
+
+          document.querySelectorAll('.student-field').forEach(el => {
+            el.classList.toggle('hidden', role !== 'student')
+          })
+          document.querySelectorAll('.mentor-field').forEach(el => {
+            el.classList.toggle('hidden', role !== 'mentor')
+          })
+
+          updateProgress()
+          hideError()
+        }
+
+        function updateProgress() {
+          const names = currentRole === 'mentor' ? mentorStepNames : stepNames
+          document.getElementById('stepLabel').textContent = 'Step ' + currentStep + ' of ' + totalSteps
+          document.getElementById('stepName').textContent = names[currentStep - 1]
+          document.getElementById('progressBar').style.width = ((currentStep / totalSteps) * 100) + '%'
+          document.getElementById('prevBtn').classList.toggle('hidden', currentStep === 1)
+          document.getElementById('nextBtn').classList.toggle('hidden', currentStep === totalSteps)
+          document.getElementById('navFooter').classList.toggle('hidden', false)
+        }
+
+        function showStep(n) {
+          for (let i = 1; i <= totalSteps; i++) {
+            const el = document.getElementById('step' + i)
+            if (el) el.classList.toggle('hidden', i !== n)
+          }
+          currentStep = n
+          updateProgress()
+        }
+
+        function nextStep() {
+          if (!validateStep(currentStep)) return
+          if (currentStep < totalSteps) showStep(currentStep + 1)
+        }
+
+        function prevStep() {
+          if (currentStep > 1) showStep(currentStep - 1)
+        }
+
+        function validateStep(step) {
+          hideError()
+
+          if (step === 1) {
+            const name = document.getElementById('f_name').value.trim()
+            const email = document.getElementById('f_email').value.trim()
+            const password = document.getElementById('f_password').value
+            const confirmPw = document.getElementById('f_confirmPassword').value
+
+            if (!name) return showError('Please enter your full name')
+            if (!email || !isValidEmail(email)) return showError('Please enter a valid email address')
+            if (!password) return showError('Please enter a password')
+            if (password.length < 8) return showError('Password must be at least 8 characters')
+            if (!/[a-z]/.test(password)) return showError('Password must include a lowercase letter')
+            if (!/[A-Z]/.test(password)) return showError('Password must include an uppercase letter')
+            if (!/[0-9]/.test(password)) return showError('Password must include a number')
+            if (!/[^A-Za-z0-9]/.test(password)) return showError('Password must include a special character')
+            if (password !== confirmPw) return showError('Passwords do not match')
+
+            if (currentRole === 'student') {
+              const age = document.getElementById('f_age').value
+              const school = document.getElementById('f_school').value.trim()
+              const grade = document.getElementById('f_gradeLevel').value
+              if (!age || parseInt(age) < 10 || parseInt(age) > 30) return showError('Please enter a valid age (10–30)')
+              if (!school) return showError('Please enter your school name')
+              if (!grade) return showError('Please select your grade level')
+            } else {
+              const position = document.getElementById('f_position').value.trim()
+              const company = document.getElementById('f_company').value.trim()
+              const years = document.getElementById('f_experienceYears').value
+              const industry = document.getElementById('f_industry').value
+              const linkedin = document.getElementById('f_linkedinUrl').value.trim()
+              if (!position) return showError('Please enter your job title')
+              if (!company) return showError('Please enter your company name')
+              if (!years || parseInt(years) < 1) return showError('Please enter your years of experience')
+              if (!industry) return showError('Please select your industry')
+              if (!linkedin) return showError('LinkedIn URL is required for mentors')
+            }
+            return true
+          }
+
+          if (step === 2) {
+            if (currentRole === 'student') {
+              const field = document.querySelector('input[name="careerField"]:checked')
+              const dream = document.getElementById('f_dreamRole').value.trim()
+              const why = document.getElementById('f_careerInterestWhy').value.trim()
+              if (!field) return showError('Please select a career field')
+              if (!dream) return showError('Please describe your dream role')
+              if (!why) return showError('Please share why you are interested in this career')
+            } else {
+              const bio = document.getElementById('f_shortBio').value.trim()
+              const industries = document.getElementById('f_industriesWorked').value.trim()
+              if (!bio || bio.length < 50) return showError('Please write a bio of at least 50 characters')
+              if (!industries) return showError('Please list the industries you have worked in')
+            }
+            return true
+          }
+
+          if (step === 3) {
+            if (currentRole === 'student') {
+              const checked = document.querySelectorAll('input[name="helpNeeded"]:checked')
+              if (checked.length === 0) return showError('Please select at least one area you need help with')
+            } else {
+              const maxMentees = document.querySelector('input[name="maxMentees"]:checked')
+              const freq = document.querySelector('input[name="preferredMeetingFreq"]:checked')
+              const format = document.querySelector('input[name="virtualOrInperson"]:checked')
+              if (!maxMentees) return showError('Please select your maximum number of mentees')
+              if (!freq) return showError('Please select your preferred meeting frequency')
+              if (!format) return showError('Please select your preferred meeting format')
+            }
+            return true
+          }
+
+          if (step === 4) {
+            if (currentRole === 'student') {
+              const freq = document.querySelector('input[name="meetingFrequency"]:checked')
+              const style = document.querySelector('input[name="adviceStyle"]:checked')
+              const personality = document.querySelector('input[name="personalityType"]:checked')
+              if (!freq) return showError('Please select your preferred meeting frequency')
+              if (!style) return showError('Please select your preferred advice style')
+              if (!personality) return showError('Please select your personality type')
+            } else {
+              const why = document.getElementById('f_whyMentor').value.trim()
+              const had = document.getElementById('f_hadMentors').value.trim()
+              if (!why || why.length < 30) return showError('Please share why you want to mentor (at least 30 characters)')
+              if (!had || had.length < 30) return showError('Please share your experience with mentors (at least 30 characters)')
+            }
+            return true
+          }
+
+          return true
+        }
+
+        async function handleSubmit() {
+          hideError()
+          const agreeCoC = document.getElementById('f_agreeCoC').checked
+          if (!agreeCoC) return showError('You must agree to the Code of Conduct to continue')
+
+          if (currentRole === 'student') {
+            const willingToPrepare = document.getElementById('f_willingToPrepare').checked
+            if (!willingToPrepare) return showError('Students must commit to preparing questions before sessions')
+          }
+
+          // Build payload
+          const payload = { role: currentRole }
+
+          // Step 1 fields
+          payload.name = document.getElementById('f_name').value.trim()
+          payload.email = document.getElementById('f_email').value.trim()
+          payload.password = document.getElementById('f_password').value
+
+          if (currentRole === 'student') {
+            payload.age = parseInt(document.getElementById('f_age').value)
+            payload.school = document.getElementById('f_school').value.trim()
+            payload.gradeLevel = document.getElementById('f_gradeLevel').value
+            const liStudent = document.getElementById('f_linkedinUrlStudent').value.trim()
+            if (liStudent) payload.linkedinUrl = liStudent
+
+            // Step 2
+            const cf = document.querySelector('input[name="careerField"]:checked')
+            payload.careerField = cf ? cf.value : ''
+            payload.dreamRole = document.getElementById('f_dreamRole').value.trim()
+            payload.careerInterestWhy = document.getElementById('f_careerInterestWhy').value.trim()
+
+            // Step 3
+            const helpItems = Array.from(document.querySelectorAll('input[name="helpNeeded"]:checked')).map(el => el.value)
+            payload.helpNeeded = helpItems.join(',')
+
+            // Step 4
+            const freq = document.querySelector('input[name="meetingFrequency"]:checked')
+            payload.meetingFrequency = freq ? freq.value : ''
+            const style = document.querySelector('input[name="adviceStyle"]:checked')
+            payload.adviceStyle = style ? style.value : ''
+            const personality = document.querySelector('input[name="personalityType"]:checked')
+            payload.personalityType = personality ? personality.value : ''
+            payload.willingToPrepare = true
+
+          } else {
+            payload.position = document.getElementById('f_position').value.trim()
+            payload.company = document.getElementById('f_company').value.trim()
+            payload.experienceYears = parseInt(document.getElementById('f_experienceYears').value)
+            payload.industry = document.getElementById('f_industry').value
+            payload.linkedinUrl = document.getElementById('f_linkedinUrl').value.trim()
+
+            // Step 2
+            payload.shortBio = document.getElementById('f_shortBio').value.trim()
+            const topics = Array.from(document.querySelectorAll('input[name="mentorTopics"]:checked')).map(el => el.value)
+            payload.mentorTopics = topics.join(',')
+            payload.industriesWorked = document.getElementById('f_industriesWorked').value.trim()
+
+            // Step 3
+            const maxMentees = document.querySelector('input[name="maxMentees"]:checked')
+            payload.maxMentees = maxMentees ? parseInt(maxMentees.value) : 1
+            const freq = document.querySelector('input[name="preferredMeetingFreq"]:checked')
+            payload.preferredMeetingFreq = freq ? freq.value : ''
+            const format = document.querySelector('input[name="virtualOrInperson"]:checked')
+            payload.virtualOrInperson = format ? format.value : ''
+
+            // Step 4
+            payload.whyMentor = document.getElementById('f_whyMentor').value.trim()
+            payload.hadMentors = document.getElementById('f_hadMentors').value.trim()
+          }
+
+          setSubmitLoading(true)
+
+          try {
+            const res = await fetch('/api/auth/register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            })
+            const data = await res.json()
+
+            if (res.ok && data.success) {
+              localStorage.setItem('auth-token', data.token)
+              document.cookie = 'auth-token=' + data.token + '; path=/; max-age=604800'
+              localStorage.setItem('user', JSON.stringify(data.user))
+              window.location.href = '/dashboard'
+            } else {
+              if (data.issues && data.issues.length > 0) {
+                showValidationErrors(data.issues)
+              } else {
+                showError(data.error || 'Registration failed. Please try again.')
+              }
+            }
+          } catch (err) {
+            showError('Network error. Please check your connection and try again.')
+          } finally {
+            setSubmitLoading(false)
           }
         }
 
-        handleFormSubmit('studentRegistrationForm', 'studentMsg', 'studentSubmitBtn')
-        handleFormSubmit('mentorRegistrationForm', 'mentorMsg', 'mentorSubmitBtn')
+        function showError(msg) {
+          const box = document.getElementById('errorBox')
+          document.getElementById('errorText').textContent = msg
+          document.getElementById('errorList').innerHTML = ''
+          box.classList.remove('hidden')
+          box.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+          return false
+        }
 
-        // Pre-select role from URL param
-        var urlParams = new URLSearchParams(window.location.search)
-        var preRole = urlParams.get('role')
-        if (preRole === 'mentor') switchRole('mentor')
-      ` }} />
+        function showValidationErrors(issues) {
+          const box = document.getElementById('errorBox')
+          document.getElementById('errorText').textContent = 'Please fix the following issues:'
+          const list = document.getElementById('errorList')
+          list.innerHTML = ''
+          issues.forEach(issue => {
+            const li = document.createElement('li')
+            li.textContent = issue.message
+            list.appendChild(li)
+          })
+          box.classList.remove('hidden')
+          box.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+        }
+
+        function hideError() {
+          document.getElementById('errorBox').classList.add('hidden')
+        }
+
+        function setSubmitLoading(on) {
+          const btn = document.getElementById('submitBtn')
+          const txt = document.getElementById('submitBtnText')
+          const ldr = document.getElementById('submitBtnLoader')
+          btn.disabled = on
+          if (on) {
+            txt.classList.add('hidden')
+            ldr.classList.remove('hidden')
+            ldr.classList.add('flex')
+          } else {
+            txt.classList.remove('hidden')
+            ldr.classList.add('hidden')
+            ldr.classList.remove('flex')
+          }
+        }
+
+        function isValidEmail(email) {
+          return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)
+        }
+
+        function togglePw(id) {
+          const input = document.getElementById(id)
+          input.type = input.type === 'password' ? 'text' : 'password'
+        }
+
+        // Password strength meter
+        document.getElementById('f_password').addEventListener('input', function() {
+          const pw = this.value
+          let score = 0
+          if (pw.length >= 8) score++
+          if (/[A-Z]/.test(pw)) score++
+          if (/[0-9]/.test(pw)) score++
+          if (/[^A-Za-z0-9]/.test(pw)) score++
+          const colors = ['bg-red-400', 'bg-orange-400', 'bg-yellow-400', 'bg-green-500']
+          for (let i = 1; i <= 4; i++) {
+            const bar = document.getElementById('ps' + i)
+            bar.className = 'h-1 flex-1 rounded ' + (i <= score ? colors[score - 1] : 'bg-gray-100')
+          }
+        })
+
+        // Password match indicator
+        document.getElementById('f_confirmPassword').addEventListener('input', function() {
+          const pw = document.getElementById('f_password').value
+          const indicator = document.getElementById('pwMatch')
+          if (this.value.length === 0) { indicator.classList.add('hidden'); return }
+          indicator.classList.remove('hidden')
+          if (this.value === pw) {
+            indicator.textContent = 'Passwords match'
+            indicator.className = 'mt-1 text-xs text-green-600'
+          } else {
+            indicator.textContent = 'Passwords do not match'
+            indicator.className = 'mt-1 text-xs text-red-600'
+          }
+        })
+
+        // Bio char counter
+        const bioEl = document.getElementById('f_shortBio')
+        if (bioEl) {
+          bioEl.addEventListener('input', function() {
+            document.getElementById('bioCharCount').textContent = this.value.length + ' / 1000 characters'
+          })
+        }
+
+        // Visual radio/checkbox styling via peer-checked — enhance interactivity
+        document.addEventListener('change', function(e) {
+          if (e.target.type === 'radio') {
+            const name = e.target.name
+            document.querySelectorAll('input[name="' + name + '"]').forEach(radio => {
+              const label = radio.closest('label')
+              if (!label) return
+              if (radio.checked) {
+                label.classList.add('border-indigo-500', 'bg-indigo-50')
+                label.classList.remove('border-gray-200')
+              } else {
+                label.classList.remove('border-indigo-500', 'bg-indigo-50')
+                label.classList.add('border-gray-200')
+              }
+            })
+          }
+          if (e.target.type === 'checkbox' && e.target.closest('label.flex')) {
+            const label = e.target.closest('label')
+            if (e.target.checked) {
+              label.classList.add('border-indigo-500', 'bg-indigo-50')
+              label.classList.remove('border-gray-200')
+            } else {
+              label.classList.remove('border-indigo-500', 'bg-indigo-50')
+              label.classList.add('border-gray-200')
+            }
+          }
+        })
+
+        // Init
+        updateProgress()
+      `}} />
     </div>
   )
 }

@@ -11,7 +11,7 @@ export function AboutPage() {
             <a href="/about" class="px-4 py-2 rounded-full text-sm font-semibold text-indigo-600 bg-indigo-50 border border-indigo-200 hover:no-underline">About the Founder</a>
             <a href="/how-it-works" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors hover:no-underline">How It Works</a>
             <a href="/blog" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors hover:no-underline">Blog</a>
-            <a href="/role-select" class="ml-3 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full transition-colors shadow-sm hover:no-underline">Start Connecting</a>
+            <a href="/register" class="ml-3 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full transition-colors shadow-sm hover:no-underline">Start Connecting</a>
           </div>
         </div>
       </nav>
@@ -153,7 +153,7 @@ export function AboutPage() {
               Whether you're a student looking for guidance or a professional ready to give back,
               join a platform where one conversation can change everything.
             </p>
-            <a href="/role-select"
+            <a href="/register"
                class="inline-block bg-white text-indigo-700 font-bold px-8 py-4 rounded-2xl text-base hover:bg-indigo-50 transition-colors hover:no-underline shadow-lg">
               Start Connecting →
             </a>
@@ -182,7 +182,7 @@ export function AboutPage() {
             <div>
               <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Platform</p>
               <div class="flex flex-col gap-2">
-                <a href="/role-select" class="text-gray-300 hover:text-white text-sm font-medium transition-colors hover:no-underline">Start Connecting</a>
+                <a href="/register" class="text-gray-300 hover:text-white text-sm font-medium transition-colors hover:no-underline">Start Connecting</a>
                 <a href="/register?role=student" class="text-gray-300 hover:text-white text-sm font-medium transition-colors hover:no-underline">Sign Up as Student</a>
                 <a href="/register?role=mentor" class="text-gray-300 hover:text-white text-sm font-medium transition-colors hover:no-underline">Sign Up as Mentor</a>
               </div>

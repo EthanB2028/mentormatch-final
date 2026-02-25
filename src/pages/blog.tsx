@@ -4,13 +4,13 @@ export function BlogPage() {
         {/* ── Sticky Nav ── */}
         <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-100 shadow-sm">
           <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-            <a href="/" class="text-xl font-extrabold tracking-tight text-gray-900 font-sketch">MentorMatch</a>
+            <a href="/" class="text-xl font-bold text-gray-900 hover:no-underline">Mentor<span class="text-indigo-600">Match</span></a>
             <div class="flex items-center gap-1">
-              <a href="/" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors">Home</a>
-              <a href="/about" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors">About the Founder</a>
-              <a href="/how-it-works" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors">How It Works</a>
-              <a href="/blog" class="px-4 py-2 rounded-full text-sm font-semibold text-indigo-600 bg-indigo-50 border border-indigo-200">Blog</a>
-              <a href="/role-select" class="ml-3 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full transition-colors shadow-sm">Start Connecting</a>
+              <a href="/" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors hover:no-underline">Home</a>
+              <a href="/about" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors hover:no-underline">About the Founder</a>
+              <a href="/how-it-works" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors hover:no-underline">How It Works</a>
+              <a href="/blog" class="px-4 py-2 rounded-full text-sm font-semibold text-indigo-600 bg-indigo-50 border border-indigo-200 hover:no-underline">Blog</a>
+              <a href="/register" class="ml-3 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full transition-colors shadow-sm hover:no-underline">Start Connecting</a>
             </div>
           </div>
         </nav>
@@ -460,7 +460,7 @@ export function BlogPage() {
         <div class="max-w-5xl mx-auto px-6">
           <div class="flex flex-col md:flex-row justify-between items-start gap-8 mb-10">
             <div>
-              <h3 class="text-xl font-extrabold font-sketch mb-2">MentorMatch</h3>
+              <h3 class="text-xl font-bold mb-2">Mentor<span class="text-indigo-400">Match</span></h3>
               <p class="text-gray-400 text-sm max-w-xs leading-relaxed">Free AI-powered career mentorship connecting students with industry leaders.</p>
             </div>
             <div>
@@ -475,7 +475,7 @@ export function BlogPage() {
             <div>
               <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Platform</p>
               <div class="flex flex-col gap-2">
-                <a href="/role-select" class="text-gray-300 hover:text-white text-sm font-medium transition-colors">Start Connecting</a>
+                <a href="/register" class="text-gray-300 hover:text-white text-sm font-medium transition-colors">Start Connecting</a>
                 <a href="/register?role=student" class="text-gray-300 hover:text-white text-sm font-medium transition-colors">Sign Up as Student</a>
                 <a href="/register?role=mentor" class="text-gray-300 hover:text-white text-sm font-medium transition-colors">Sign Up as Mentor</a>
               </div>

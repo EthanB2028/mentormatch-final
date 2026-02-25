@@ -5,7 +5,7 @@ export function LandingPage() {
       {/* ── Sticky Nav ── */}
       <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-100 shadow-sm">
         <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="/" class="wordmark text-2xl font-bold text-gray-900 hover:no-underline">
+          <a href="/" class="text-2xl font-bold text-gray-900 hover:no-underline">
             Mentor<span class="text-indigo-600">Match</span>
           </a>
           <div class="flex items-center gap-1">
@@ -13,7 +13,7 @@ export function LandingPage() {
             <a href="/about" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors hover:no-underline">About the Founder</a>
             <a href="/how-it-works" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors hover:no-underline">How It Works</a>
             <a href="/blog" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors hover:no-underline">Blog</a>
-            <a href="/role-select" class="ml-3 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full transition-colors shadow-sm hover:no-underline">Start Connecting</a>
+            <a href="/register" class="ml-3 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full transition-colors shadow-sm hover:no-underline">Start Connecting</a>
           </div>
         </div>
       </nav>
@@ -37,7 +37,7 @@ export function LandingPage() {
                 Free one-on-one career guidance from CEOs and industry leaders — matched to your exact goals with AI.
               </p>
               <div class="flex flex-col sm:flex-row gap-3 justify-center md:justify-start anim-fade-up delay-400">
-                  <a href="/role-select" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-2xl text-base transition-all shadow-md hover:shadow-lg hover:no-underline hover:-translate-y-0.5">
+                  <a href="/register" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-2xl text-base transition-all shadow-md hover:shadow-lg hover:no-underline hover:-translate-y-0.5">
                   Start Connecting →
                 </a>
                 <a href="/blog" class="inline-block border-2 border-gray-200 hover:border-indigo-300 text-gray-600 font-semibold px-8 py-4 rounded-2xl text-base transition-all hover:bg-indigo-50 hover:no-underline">
@@ -287,7 +287,7 @@ export function LandingPage() {
             <div>
               <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Platform</p>
               <div class="flex flex-col gap-2">
-                <a href="/role-select" class="text-gray-300 hover:text-white text-sm font-medium transition-colors hover:no-underline">Start Connecting</a>
+                <a href="/register" class="text-gray-300 hover:text-white text-sm font-medium transition-colors hover:no-underline">Start Connecting</a>
                 <a href="/register?role=student" class="text-gray-300 hover:text-white text-sm font-medium transition-colors hover:no-underline">Sign Up as Student</a>
                 <a href="/register?role=mentor" class="text-gray-300 hover:text-white text-sm font-medium transition-colors hover:no-underline">Sign Up as Mentor</a>
               </div>
