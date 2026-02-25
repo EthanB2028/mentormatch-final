@@ -202,58 +202,6 @@ a:hover { text-decoration: underline; }
 ::-webkit-scrollbar-thumb { background: #c7c7c7; border-radius: 10px; border: 2px solid #f1f1f1; }
 ::-webkit-scrollbar-thumb:hover { background: #999; }
 
-/* ── Warm gradient drift (hero background) ── */
-@keyframes gradient-drift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-.anim-gradient-drift {
-  background-size: 200% 200%;
-  animation: gradient-drift 12s ease infinite;
-}
-
-/* ── Shimmer on hover for feature cards ── */
-@keyframes shimmer-in {
-  from { opacity: 0; transform: translateX(-100%); }
-  to   { opacity: 1; transform: translateX(100%); }
-}
-.card-shimmer {
-  position: relative;
-  overflow: hidden;
-}
-.card-shimmer::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
-  transform: translateX(-100%);
-  transition: none;
-  pointer-events: none;
-}
-.card-shimmer:hover::after {
-  animation: shimmer-in 0.55s ease forwards;
-}
-
-/* ── Soft glow pulse on primary CTA buttons ── */
-@keyframes cta-glow {
-  0%, 100% { box-shadow: 0 4px 18px rgba(99,102,241,0.25), 0 2px 8px rgba(99,102,241,0.1); }
-  50%       { box-shadow: 0 6px 28px rgba(99,102,241,0.45), 0 2px 12px rgba(99,102,241,0.2); }
-}
-.anim-cta-glow {
-  animation: cta-glow 3s ease-in-out infinite;
-}
-
-/* ── Warm amber CTA glow (mentor CTA) ── */
-@keyframes cta-glow-amber {
-  0%, 100% { box-shadow: 0 4px 18px rgba(245,158,11,0.25); }
-  50%       { box-shadow: 0 6px 28px rgba(245,158,11,0.5); }
-}
-.anim-cta-glow-amber {
-  animation: cta-glow-amber 3s ease-in-out infinite;
-}
 
 /* ── Subtle counter tick for stats ── */
 @keyframes stat-pop {

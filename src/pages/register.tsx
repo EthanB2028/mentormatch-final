@@ -25,6 +25,30 @@ export function RegisterPage() {
           </button>
         </div>
 
+        {/* Student illustration banner */}
+        <div id="studentBanner" class="mb-6 rounded-2xl overflow-hidden border-2 border-dashed border-blue-300 bg-blue-50 flex items-center gap-6 px-6 py-4">
+          <img
+            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=160&h=160&fit=crop&crop=faces"
+            alt="Student"
+            class="w-20 h-20 rounded-full object-cover border-2 border-blue-300 flex-shrink-0"
+          />
+          <div>
+            <p class="font-sketch text-lg text-blue-800">Signing up as a Student</p>
+            <p class="font-handwritten text-sm text-blue-600 mt-1">Get matched with real-world mentors in your dream career field. Ask questions, get guidance, and chart your path forward.</p>
+          </div>
+        </div>
+        <div id="mentorBanner" class="hidden mb-6 rounded-2xl overflow-hidden border-2 border-dashed border-purple-300 bg-purple-50 flex items-center gap-6 px-6 py-4">
+          <img
+            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&h=160&fit=crop&crop=faces"
+            alt="Mentor"
+            class="w-20 h-20 rounded-full object-cover border-2 border-purple-300 flex-shrink-0"
+          />
+          <div>
+            <p class="font-sketch text-lg text-purple-800">Signing up as a Mentor</p>
+            <p class="font-handwritten text-sm text-purple-600 mt-1">Share your expertise and help the next generation. Your experience can change a student's life.</p>
+          </div>
+        </div>
+
         {/* ===== STUDENT FORM ===== */}
         <div id="studentForm">
           <form id="studentRegistrationForm" class="scribble-card-large p-8 bg-gray-50 space-y-10">
@@ -442,6 +466,7 @@ export function RegisterPage() {
                     <input type="password" name="password" required minLength={8}
                       class="w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid"
                       placeholder="At least 8 characters" />
+                    <p class="font-handwritten text-xs text-gray-500 mt-1">Choose a unique password you don't use elsewhere — min 8 characters.</p>
                   </div>
                 </div>
                 <div>
@@ -681,28 +706,34 @@ export function RegisterPage() {
       </div>
 
       <script dangerouslySetInnerHTML={{ __html: `
-        // Tab switching
-        function switchRole(role) {
-          var sf = document.getElementById('studentForm')
-          var mf = document.getElementById('mentorForm')
-          var ts = document.getElementById('tabStudent')
-          var tm = document.getElementById('tabMentor')
-          if (role === 'student') {
-            sf.classList.remove('hidden')
-            mf.classList.add('hidden')
-            ts.classList.add('bg-blue-200')
-            ts.classList.remove('bg-gray-100')
-            tm.classList.add('bg-gray-100')
-            tm.classList.remove('bg-purple-200')
-          } else {
-            mf.classList.remove('hidden')
-            sf.classList.add('hidden')
-            tm.classList.add('bg-purple-200')
-            tm.classList.remove('bg-gray-100')
-            ts.classList.add('bg-gray-100')
-            ts.classList.remove('bg-blue-200')
+          // Tab switching
+          function switchRole(role) {
+            var sf = document.getElementById('studentForm')
+            var mf = document.getElementById('mentorForm')
+            var ts = document.getElementById('tabStudent')
+            var tm = document.getElementById('tabMentor')
+            var sb = document.getElementById('studentBanner')
+            var mb = document.getElementById('mentorBanner')
+            if (role === 'student') {
+              sf.classList.remove('hidden')
+              mf.classList.add('hidden')
+              sb.classList.remove('hidden')
+              mb.classList.add('hidden')
+              ts.classList.add('bg-blue-200')
+              ts.classList.remove('bg-gray-100')
+              tm.classList.add('bg-gray-100')
+              tm.classList.remove('bg-purple-200')
+            } else {
+              mf.classList.remove('hidden')
+              sf.classList.add('hidden')
+              mb.classList.remove('hidden')
+              sb.classList.add('hidden')
+              tm.classList.add('bg-purple-200')
+              tm.classList.remove('bg-gray-100')
+              ts.classList.add('bg-gray-100')
+              ts.classList.remove('bg-blue-200')
+            }
           }
-        }
 
         // Career field radio highlight
         document.querySelectorAll('input[name="careerField"]').forEach(function(r) {

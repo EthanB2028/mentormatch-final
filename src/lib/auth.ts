@@ -7,9 +7,14 @@ import { z } from 'zod'
 // Validation schemas
 export const RegisterSchema = z.object({
   email: z.string().email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+  password: z.string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/[a-z]/, 'Password must include a lowercase letter')
+    .regex(/[A-Z]/, 'Password must include an uppercase letter')
+    .regex(/[0-9]/, 'Password must include a number')
+    .regex(/[^A-Za-z0-9]/, 'Password must include a special character'),
   name: z.string().min(2, 'Name must be at least 2 characters'),
-  role: z.enum(['student', 'mentor'], { 
+  role: z.enum(['student', 'mentor'], {
     errorMap: () => ({ message: 'Role must be either student or mentor' })
   }),
   // Student fields
@@ -38,6 +43,38 @@ export const RegisterSchema = z.object({
   virtualOrInperson: z.string().optional(),
   whyMentor: z.string().optional(),
   hadMentors: z.string().optional(),
+}).superRefine((data, ctx) => {
+  const weakPasswords = new Set(['password123', '12345678', 'qwerty123', 'letmein123'])
+  if (weakPasswords.has(data.password.toLowerCase())) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['password'], message: 'Choose a stronger password than common defaults' })
+  }
+
+  if (data.password.toLowerCase().includes(data.email.split('@')[0].toLowerCase())) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['password'], message: 'Password cannot include your email username' })
+  }
+
+  const requiredForStudent: Array<keyof typeof data> = [
+    'age', 'school', 'gradeLevel', 'careerField', 'dreamRole', 'careerInterestWhy',
+    'helpNeeded', 'meetingFrequency', 'adviceStyle', 'personalityType'
+  ]
+  const requiredForMentor: Array<keyof typeof data> = [
+    'company', 'position', 'industry', 'experienceYears', 'shortBio', 'mentorTopics',
+    'industriesWorked', 'maxMentees', 'preferredMeetingFreq', 'virtualOrInperson',
+    'whyMentor', 'hadMentors', 'linkedinUrl'
+  ]
+
+  const required = data.role === 'student' ? requiredForStudent : requiredForMentor
+  for (const field of required) {
+    const value = data[field]
+    const missing = value === undefined || value === null || (typeof value === 'string' && value.trim().length === 0)
+    if (missing) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: [field], message: `${String(field)} is required for ${data.role} sign up` })
+    }
+  }
+
+  if (data.role === 'student' && data.willingToPrepare !== true) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['willingToPrepare'], message: 'Students must agree to prepare questions before sessions' })
+  }
 })
 
 export const LoginSchema = z.object({
@@ -452,7 +489,10 @@ export class SessionService {
 
   async createSession(userId: string, ipAddress?: string, userAgent?: string): Promise<string> {
     const sessionId = generateId()
-    const secret = this.jwtSecret || 'convoconnect-fallback-secret'
+    const secret = this.jwtSecret
+    if (!secret) {
+      throw new Error('JWT_SECRET is required for session creation')
+    }
     const token = generateToken({ sessionId, userId }, secret)
     const tokenHash = await hashPassword(token)
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days
@@ -466,7 +506,10 @@ export class SessionService {
   }
 
   async validateSession(token: string): Promise<User | null> {
-    const secret = this.jwtSecret || 'convoconnect-fallback-secret'
+    const secret = this.jwtSecret
+    if (!secret) {
+      throw new Error('JWT_SECRET is required for session validation')
+    }
     const payload = verifyToken(token, secret)
     if (!payload || !payload.sessionId) {
       return null

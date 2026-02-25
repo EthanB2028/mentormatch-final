@@ -2,9 +2,11 @@
 // so the rest of the codebase (auth.ts, index.tsx) needs zero changes.
 import postgres from 'postgres'
 
-const connectionString =
-  process.env.DATABASE_URL ||
-  'postgresql://postgres.pwmeesjbiezfewxgpbbp:lpOUPi8R4U5ZUDEYsMUnQ1196yuDaMO76MBJC0hdBLSEkW7xYg3ABs0I0VD1cYlq@aws-1-us-east-2.pooler.supabase.com:5432/postgres'
+const connectionString = process.env.DATABASE_URL
+
+if (!connectionString) {
+  throw new Error('DATABASE_URL is required to connect to Supabase Postgres')
+}
 
 // Singleton connection pool
 let sql: ReturnType<typeof postgres> | null = null

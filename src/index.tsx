@@ -52,16 +52,7 @@ app.use('/ws/*', cors({
   allowHeaders: ['Upgrade', 'Connection', 'Sec-WebSocket-Key', 'Sec-WebSocket-Version'],
 }))
 
-// Eagerly initialise the Supabase DB once at module load time.
-// This ensures c.env.DB is never undefined when route handlers run.
-const _localDB = getSupabaseDB()
 
-app.use(async (c, next) => {
-  if (!c.env.DB) {
-    c.env.DB = _localDB
-  }
-  await next()
-})
 
 // Static files are served automatically by the hosting platform (Vercel/Cloudflare Pages)
 
@@ -77,13 +68,8 @@ const authMiddleware = async (c: any, next: any) => {
       return c.json({ error: 'Authentication required' }, 401)
     }
 
-    // Check if DB is available
-    if (!c.env.DB) {
-      console.error('Database not available in authMiddleware')
-      return c.json({ error: 'Database connection error' }, 500)
-    }
-
-    const sessionService = new SessionService(c.env.DB, c.env.JWT_SECRET)
+    const db = getSupabaseDB()
+    const sessionService = new SessionService(db, process.env.JWT_SECRET)
     const user = await sessionService.validateSession(token)
     
     if (!user) {
@@ -107,13 +93,8 @@ const pageAuthMiddleware = async (c: any, next: any) => {
       return c.redirect('/login')
     }
 
-    // Check if DB is available
-    if (!c.env.DB) {
-      console.error('Database not available in pageAuthMiddleware')
-      return c.redirect('/login')
-    }
-
-    const sessionService = new SessionService(c.env.DB, c.env.JWT_SECRET)
+    const db = getSupabaseDB()
+    const sessionService = new SessionService(db, process.env.JWT_SECRET)
     const user = await sessionService.validateSession(token)
     
     if (!user) {
@@ -196,9 +177,9 @@ app.post('/api/auth/register', async (c) => {
     const body = await c.req.json()
     const userData = RegisterSchema.parse(body)
     
-    const userService = new UserService(c.env.DB)
-    
-    // Check if user already exists
+    const userService = new UserService(getSupabaseDB())
+      
+      // Check if user already exists
     const existingUser = await userService.findUserByEmail(userData.email)
     if (existingUser) {
       return c.json({ error: 'Email already registered' }, 400)
@@ -222,15 +203,15 @@ app.post('/api/auth/register', async (c) => {
         })
         verificationResult = evalResult
         if (evalResult.passed) {
-          await c.env.DB.prepare(
-            `UPDATE users SET verification_status = 'approved', updated_at = CURRENT_TIMESTAMP WHERE id = ?`
-          ).bind(user.id).run()
+        await getSupabaseDB().prepare(
+              `UPDATE users SET verification_status = 'approved', updated_at = CURRENT_TIMESTAMP WHERE id = ?`
+            ).bind(user.id).run()
           user.verificationStatus = 'approved' as any
         }
       }
       
       // Create session
-      const sessionService = new SessionService(c.env.DB, c.env.JWT_SECRET)
+      const sessionService = new SessionService(getSupabaseDB(), process.env.JWT_SECRET)
       const token = await sessionService.createSession(
         user.id,
         c.req.header('x-forwarded-for'),
@@ -266,7 +247,7 @@ app.post('/api/auth/login', async (c) => {
     const body = await c.req.json()
     const loginData = LoginSchema.parse(body)
     
-    const userService = new UserService(c.env.DB)
+    const userService = new UserService(getSupabaseDB())
     const userWithPassword = await userService.findUserByEmail(loginData.email)
     
     if (!userWithPassword) {
@@ -284,9 +265,9 @@ app.post('/api/auth/login', async (c) => {
     await userService.updateUserStatus(userWithPassword.id, true)
     
     // Create session
-    const sessionService = new SessionService(c.env.DB, c.env.JWT_SECRET)
-    const token = await sessionService.createSession(
-      userWithPassword.id,
+      const sessionService = new SessionService(getSupabaseDB(), process.env.JWT_SECRET)
+      const token = await sessionService.createSession(
+        userWithPassword.id,
       c.req.header('x-forwarded-for'),
       c.req.header('User-Agent')
     )
@@ -319,7 +300,7 @@ app.post('/api/auth/login', async (c) => {
 // Logout
 app.post('/api/auth/logout', authMiddleware, async (c) => {
   const user = c.get('user')
-  const userService = new UserService(c.env.DB)
+  const userService = new UserService(getSupabaseDB())
   
   // Update user status
   await userService.updateUserStatus(user.id, false)
@@ -343,8 +324,8 @@ app.get('/api/auth/debug', (c) => {
     cookieHeader,
     authHeader,
     cookieToken,
-    hasDB: !!c.env.DB,
-    hasJWTSecret: !!c.env.JWT_SECRET
+    hasDB: true,
+      hasJWTSecret: !!process.env.JWT_SECRET
   })
 })
 
@@ -357,8 +338,8 @@ app.put('/api/profile', authMiddleware, async (c) => {
     const body = await c.req.json()
     const updates = UpdateProfileSchema.parse(body)
     
-    const userService = new UserService(c.env.DB)
-    const updatedUser = await userService.updateUser(user.id, updates)
+      const userService = new UserService(getSupabaseDB())
+      const updatedUser = await userService.updateUser(user.id, updates)
     
     if (!updatedUser) {
       return c.json({ error: 'User not found' }, 404)
@@ -441,8 +422,8 @@ app.get('/api/matching/find', authMiddleware, async (c) => {
     const user = c.get('user')
 
     // Fetch ALL active mentors (including pending) for matching
-    const result = await c.env.DB.prepare(`
-      SELECT id, name, industry, position, experience_years, mentor_topics,
+      const result = await getSupabaseDB().prepare(`
+        SELECT id, name, industry, position, experience_years, mentor_topics,
              industries_worked, preferred_meeting_freq, why_mentor,
              advice_style, personality_type, short_bio, company, linkedin_url,
              average_rating, verification_status
@@ -518,11 +499,11 @@ app.get('/api/matching/find', authMiddleware, async (c) => {
 // GET /api/admin/mentors — list all mentors with verification status + check results
 app.get('/api/admin/mentors', authMiddleware, async (c) => {
   try {
-    const result = await c.env.DB.prepare(`
-      SELECT id, name, email, position, company, experience_years,
-             linkedin_url, mentor_topics, industry, verification_status,
-             created_at
-      FROM users WHERE role = 'mentor' AND is_active = 1
+      const result = await getSupabaseDB().prepare(`
+        SELECT id, name, email, position, company, experience_years,
+               linkedin_url, mentor_topics, industry, verification_status,
+               created_at
+        FROM users WHERE role = 'mentor' AND is_active = 1
       ORDER BY created_at DESC
     `).all()
 
@@ -560,7 +541,7 @@ app.post('/api/admin/verify/:id', authMiddleware, async (c) => {
   try {
     const mentorId = c.req.param('id')
 
-    const row = await c.env.DB.prepare(`
+      const row = await getSupabaseDB().prepare(`
       SELECT id, name, email, position, company, experience_years,
              linkedin_url, mentor_topics, industry, verification_status
       FROM users WHERE id = ? AND role = 'mentor'
@@ -572,10 +553,10 @@ app.post('/api/admin/verify/:id', authMiddleware, async (c) => {
 
     if (evalResult.passed) {
       // Auto-approve: set to 'approved', pending the interview
-      await c.env.DB.prepare(`
-        UPDATE users SET verification_status = 'approved', updated_at = CURRENT_TIMESTAMP
-        WHERE id = ?
-      `).bind(mentorId).run()
+        await getSupabaseDB().prepare(`
+          UPDATE users SET verification_status = 'approved', updated_at = CURRENT_TIMESTAMP
+          WHERE id = ?
+        `).bind(mentorId).run()
 
       const email = buildApprovalEmail((row as any).name)
       return c.json({
@@ -605,10 +586,10 @@ app.post('/api/admin/verify/:id', authMiddleware, async (c) => {
 // POST /api/admin/verify-all — run auto-approval on ALL pending mentors
 app.post('/api/admin/verify-all', authMiddleware, async (c) => {
   try {
-    const result = await c.env.DB.prepare(`
-      SELECT id, name, email, position, company, experience_years,
-             linkedin_url, mentor_topics, industry, verification_status
-      FROM users WHERE role = 'mentor' AND is_active = 1 AND verification_status = 'pending'
+      const result = await getSupabaseDB().prepare(`
+        SELECT id, name, email, position, company, experience_years,
+               linkedin_url, mentor_topics, industry, verification_status
+        FROM users WHERE role = 'mentor' AND is_active = 1 AND verification_status = 'pending'
     `).all()
 
     const rows = result.results || []
@@ -617,10 +598,10 @@ app.post('/api/admin/verify-all', authMiddleware, async (c) => {
     for (const row of rows) {
       const evalResult = evaluateMentor(row as any)
       if (evalResult.passed) {
-        await c.env.DB.prepare(`
-          UPDATE users SET verification_status = 'approved', updated_at = CURRENT_TIMESTAMP
-          WHERE id = ?
-        `).bind((row as any).id).run()
+          await getSupabaseDB().prepare(`
+            UPDATE users SET verification_status = 'approved', updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+          `).bind((row as any).id).run()
         const email = buildApprovalEmail((row as any).name)
         results.push({ id: (row as any).id, name: (row as any).name, action: 'approved', evalResult, emailToSend: email })
       } else {
@@ -645,10 +626,10 @@ app.post('/api/admin/set-status/:id', authMiddleware, async (c) => {
       return c.json({ error: `Status must be one of: ${allowed.join(', ')}` }, 400)
     }
 
-    await c.env.DB.prepare(`
-      UPDATE users SET verification_status = ?, updated_at = CURRENT_TIMESTAMP
-      WHERE id = ? AND role = 'mentor'
-    `).bind(status, mentorId).run()
+      await getSupabaseDB().prepare(`
+        UPDATE users SET verification_status = ?, updated_at = CURRENT_TIMESTAMP
+        WHERE id = ? AND role = 'mentor'
+      `).bind(status, mentorId).run()
 
     return c.json({ success: true, mentorId, newStatus: status })
   } catch (error: any) {
@@ -682,10 +663,10 @@ app.post('/api/conversations/start', authMiddleware, async (c) => {
     const studentId = user.role === 'student' ? user.id : partnerId
     const ceoId = user.role === 'mentor' ? user.id : partnerId
     
-    await c.env.DB.prepare(`
-      INSERT INTO conversations (id, student_id, ceo_id, room_id, status)
-      VALUES (?, ?, ?, ?, 'active')
-    `).bind(conversationId, studentId, ceoId, roomId).run()
+      await getSupabaseDB().prepare(`
+        INSERT INTO conversations (id, student_id, ceo_id, room_id, status)
+        VALUES (?, ?, ?, ?, 'active')
+      `).bind(conversationId, studentId, ceoId, roomId).run()
     
     return c.json({
       success: true,
@@ -712,15 +693,15 @@ app.post('/api/conversations/:id/end', authMiddleware, async (c) => {
     const updateField = user.role === 'student' ? 'rating_student' : 'rating_ceo'
     const feedbackField = user.role === 'student' ? 'feedback_student' : 'feedback_ceo'
     
-    await c.env.DB.prepare(`
-      UPDATE conversations 
-      SET ended_at = CURRENT_TIMESTAMP, 
-          duration_seconds = ?, 
-          ${updateField} = ?, 
-          ${feedbackField} = ?,
-          status = 'ended'
-      WHERE id = ? AND (student_id = ? OR ceo_id = ?)
-    `).bind(duration, rating, feedback, conversationId, user.id, user.id).run()
+      await getSupabaseDB().prepare(`
+        UPDATE conversations 
+        SET ended_at = CURRENT_TIMESTAMP, 
+            duration_seconds = ?, 
+            ${updateField} = ?, 
+            ${feedbackField} = ?,
+            status = 'ended'
+        WHERE id = ? AND (student_id = ? OR ceo_id = ?)
+      `).bind(duration, rating, feedback, conversationId, user.id, user.id).run()
     
     return c.json({ success: true })
   } catch (error: any) {
@@ -739,7 +720,7 @@ app.get('/api/conversations', authMiddleware, async (c) => {
     const limit = parseInt(c.req.query('limit') || '20')
     const offset = parseInt(c.req.query('offset') || '0')
     
-    const conversations = await c.env.DB.prepare(`
+      const conversations = await getSupabaseDB().prepare(`
       SELECT c.*, 
              s.name as student_name, s.university, s.major,
              ceo.name as ceo_name, ceo.company, ceo.position
@@ -794,11 +775,11 @@ app.get('/api/messages/:partnerId', authMiddleware, async (c) => {
     const user = c.get('user')
     const partnerId = c.req.param('partnerId')
 
-    const result = await c.env.DB.prepare(`
-      SELECT m.*, 
-             s.name as sender_name, s.role as sender_role,
-             r.name as recipient_name
-      FROM messages m
+      const result = await getSupabaseDB().prepare(`
+        SELECT m.*, 
+               s.name as sender_name, s.role as sender_role,
+               r.name as recipient_name
+        FROM messages m
       JOIN users s ON m.sender_id = s.id
       JOIN users r ON m.recipient_id = r.id
       WHERE (m.sender_id = ? AND m.recipient_id = ?)
@@ -807,10 +788,10 @@ app.get('/api/messages/:partnerId', authMiddleware, async (c) => {
     `).bind(user.id, partnerId, partnerId, user.id).all()
 
     // Mark messages from partner as read
-    await c.env.DB.prepare(`
-      UPDATE messages SET is_read = 1
-      WHERE sender_id = ? AND recipient_id = ? AND is_read = 0
-    `).bind(partnerId, user.id).run()
+      await getSupabaseDB().prepare(`
+        UPDATE messages SET is_read = 1
+        WHERE sender_id = ? AND recipient_id = ? AND is_read = 0
+      `).bind(partnerId, user.id).run()
 
     return c.json({ messages: result.results || [] })
   } catch (error: any) {
@@ -829,16 +810,16 @@ app.post('/api/messages', authMiddleware, async (c) => {
     }
 
     // Verify recipient exists
-    const recipient = await c.env.DB.prepare(
+      const recipient = await getSupabaseDB().prepare(
       `SELECT id, name, role FROM users WHERE id = ? AND is_active = 1`
     ).bind(recipientId).first()
     if (!recipient) return c.json({ error: 'Recipient not found' }, 404)
 
     const msgId = crypto.randomUUID()
-    await c.env.DB.prepare(`
-      INSERT INTO messages (id, sender_id, recipient_id, content, created_at)
-      VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
-    `).bind(msgId, user.id, recipientId, content.trim()).run()
+    await getSupabaseDB().prepare(`
+        INSERT INTO messages (id, sender_id, recipient_id, content, created_at)
+        VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
+      `).bind(msgId, user.id, recipientId, content.trim()).run()
 
     return c.json({
       success: true,
@@ -863,9 +844,9 @@ app.get('/api/messages/inbox/list', authMiddleware, async (c) => {
   try {
     const user = c.get('user')
 
-    const result = await c.env.DB.prepare(`
-      SELECT
-        CASE WHEN m.sender_id = ? THEN m.recipient_id ELSE m.sender_id END as partner_id,
+      const result = await getSupabaseDB().prepare(`
+        SELECT
+          CASE WHEN m.sender_id = ? THEN m.recipient_id ELSE m.sender_id END as partner_id,
         u.name as partner_name, u.role as partner_role,
         u.position, u.company, u.verification_status, u.industry,
         m.content as last_message,
@@ -894,17 +875,17 @@ app.post('/api/messages/report', authMiddleware, async (c) => {
       return c.json({ error: 'reportedUserId and reason are required' }, 400)
     }
 
-    const reportId = crypto.randomUUID()
-    await c.env.DB.prepare(`
+      const reportId = crypto.randomUUID()
+    await getSupabaseDB().prepare(`
       INSERT INTO message_reports (id, reporter_id, reported_user_id, message_id, reason, description, created_at)
       VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
     `).bind(reportId, user.id, reportedUserId, messageId || null, reason, description || null).run()
 
     // Flag the specific message if provided
     if (messageId) {
-      await c.env.DB.prepare(`
-        UPDATE messages SET reported = 1, report_reason = ? WHERE id = ? AND recipient_id = ?
-      `).bind(reason, messageId, user.id).run()
+        await getSupabaseDB().prepare(`
+          UPDATE messages SET reported = 1, report_reason = ? WHERE id = ? AND recipient_id = ?
+        `).bind(reason, messageId, user.id).run()
     }
 
     return c.json({
@@ -920,11 +901,11 @@ app.post('/api/messages/report', authMiddleware, async (c) => {
 // GET /api/admin/reports — admin: view all pending reports
 app.get('/api/admin/reports', authMiddleware, async (c) => {
   try {
-    const result = await c.env.DB.prepare(`
-      SELECT r.*,
-             rep.name as reporter_name,
-             ru.name as reported_user_name, ru.role as reported_user_role
-      FROM message_reports r
+      const result = await getSupabaseDB().prepare(`
+        SELECT r.*,
+               rep.name as reporter_name,
+               ru.name as reported_user_name, ru.role as reported_user_role
+        FROM message_reports r
       JOIN users rep ON r.reporter_id = rep.id
       JOIN users ru ON r.reported_user_id = ru.id
       ORDER BY r.created_at DESC

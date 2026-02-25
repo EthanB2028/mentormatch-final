@@ -17,11 +17,9 @@ export function HowItWorksPage() {
       </nav>
 
       {/* ── Hero ── */}
-      <div class="bg-gradient-to-br from-indigo-600 via-purple-700 to-indigo-800 text-white pt-20 pb-24 text-center px-6 relative overflow-hidden">
-        <div class="absolute -top-20 -right-20 w-72 h-72 bg-white/5 rounded-full blur-3xl pointer-events-none" />
-        <div class="absolute -bottom-12 -left-12 w-60 h-60 bg-purple-400/10 rounded-full blur-3xl pointer-events-none" />
-        <div class="relative">
-          <span class="inline-block bg-white/20 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5">The Platform</span>
+        <div class="bg-gradient-to-br from-indigo-600 via-purple-700 to-indigo-800 text-white pt-20 pb-24 text-center px-6">
+          <div class="relative">
+            <span class="inline-block bg-white/20 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5">The Platform</span>
           <h1 class="text-5xl md:text-6xl font-extrabold font-sketch mb-4 leading-tight">How MentorMatch Works</h1>
           <p class="text-indigo-200 text-lg max-w-2xl mx-auto leading-relaxed">
             MentorMatch connects students with experienced mentors from industries across the U.S. Career guidance made accessible, practical, and personalized.
@@ -109,27 +107,27 @@ export function HowItWorksPage() {
           <div class="bg-gradient-to-br from-purple-600 to-indigo-700 rounded-3xl p-6 text-white mb-6">
             <p class="text-sm font-bold uppercase tracking-widest opacity-80 mb-4">Compatibility Score Categories</p>
             <div class="space-y-3">
-              {[
-                ["Career Field Alignment", 30, "bg-white/80"],
-                ["Role & Industry Relevance", 20, "bg-white/70"],
-                ["Mentorship Needs vs Expertise", 15, "bg-white/60"],
-                ["Mentor Experience Level", 10, "bg-white/55"],
-                ["Personality & Communication Fit", 10, "bg-white/50"],
-                ["Availability", 10, "bg-white/45"],
-                ["Commitment Level", 5, "bg-white/40"],
-              ].map(([label, pts, bar]) => (
-                <div class="flex items-center gap-3">
-                  <div class="flex-1">
-                    <div class="flex justify-between text-xs font-semibold mb-1">
-                      <span class="opacity-90">{label}</span>
-                      <span class="opacity-70">{pts} pts</span>
-                    </div>
-                    <div class="w-full bg-white/20 rounded-full h-2">
-                      <div class={`${bar} h-2 rounded-full`} style={`width:${pts === 30 ? '100%' : pts === 20 ? '67%' : pts === 15 ? '50%' : pts === 10 ? '33%' : '17%'}`} />
+                {[
+                  ["Career Field Alignment", 30, "bg-white"],
+                  ["Role & Industry Relevance", 20, "bg-indigo-200"],
+                  ["Mentorship Needs vs Expertise", 15, "bg-purple-200"],
+                  ["Mentor Experience Level", 10, "bg-indigo-300"],
+                  ["Personality & Communication Fit", 10, "bg-purple-300"],
+                  ["Availability", 10, "bg-indigo-400"],
+                  ["Commitment Level", 5, "bg-purple-400"],
+                ].map(([label, pts, bar]) => (
+                  <div class="flex items-center gap-3">
+                    <div class="flex-1">
+                      <div class="flex justify-between text-xs font-semibold mb-1">
+                        <span class="opacity-90">{label}</span>
+                        <span class="opacity-70">{pts} pts</span>
+                      </div>
+                      <div class="w-full bg-white/20 rounded-full h-2">
+                        <div class={`${bar} h-2 rounded-full`} style={`width:${pts === 30 ? '100%' : pts === 20 ? '67%' : pts === 15 ? '50%' : pts === 10 ? '33%' : '17%'}`} />
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
             <p class="text-xs opacity-60 mt-4 text-right">Total: 100 points = 100% compatibility</p>
           </div>

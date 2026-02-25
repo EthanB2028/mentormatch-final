@@ -19,9 +19,7 @@ export function LandingPage() {
       </nav>
 
         {/* ── Hero ── */}
-        <section class="relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50 pt-20 pb-28 anim-gradient-drift">
-          <div class="absolute -top-24 -left-24 w-96 h-96 bg-indigo-100 rounded-full opacity-40 blur-3xl pointer-events-none anim-float-slow" />
-          <div class="absolute -bottom-16 -right-16 w-80 h-80 bg-purple-100 rounded-full opacity-40 blur-3xl pointer-events-none anim-float" style="animation-delay:1.5s" />
+        <section class="relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50 pt-20 pb-28">
 
           <div class="relative max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center gap-14">
             <div class="flex-1 text-center md:text-left">
@@ -39,7 +37,7 @@ export function LandingPage() {
                 Free one-on-one career guidance from CEOs and industry leaders — matched to your exact goals with AI.
               </p>
               <div class="flex flex-col sm:flex-row gap-3 justify-center md:justify-start anim-fade-up delay-400">
-                <a href="/role-select" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-2xl text-base transition-all shadow-lg shadow-indigo-200 hover:shadow-indigo-300 hover:no-underline hover:-translate-y-0.5 anim-cta-glow">
+                  <a href="/role-select" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-2xl text-base transition-all shadow-md hover:shadow-lg hover:no-underline hover:-translate-y-0.5">
                   Start Connecting →
                 </a>
                 <a href="/blog" class="inline-block border-2 border-gray-200 hover:border-indigo-300 text-gray-600 font-semibold px-8 py-4 rounded-2xl text-base transition-all hover:bg-indigo-50 hover:no-underline">
@@ -99,7 +97,7 @@ export function LandingPage() {
             <h2 class="wordmark text-4xl font-bold text-gray-900">Three steps to your mentor</h2>
           </div>
           <div class="grid md:grid-cols-3 gap-8">
-              <div class="relative bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 rounded-3xl p-7 hover:shadow-lg transition-shadow reveal card-shimmer">
+              <div class="relative bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 rounded-3xl p-7 hover:shadow-lg transition-shadow reveal">
                 <div class="absolute -top-3 -left-3 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-extrabold shadow">1</div>
               <img
                 src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=400&q=80"
@@ -109,7 +107,7 @@ export function LandingPage() {
               <h3 class="text-lg font-bold text-gray-900 mb-2">Create Your Profile</h3>
               <p class="text-gray-600 text-sm leading-relaxed">Tell me your career goals, interests, and what kind of guidance you're looking for.</p>
             </div>
-              <div class="relative bg-gradient-to-br from-purple-50 to-white border border-purple-100 rounded-3xl p-7 hover:shadow-lg transition-shadow reveal delay-200 card-shimmer">
+              <div class="relative bg-gradient-to-br from-purple-50 to-white border border-purple-100 rounded-3xl p-7 hover:shadow-lg transition-shadow reveal delay-200">
                 <div class="absolute -top-3 -left-3 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-extrabold shadow">2</div>
               <img
                 src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?w=400&q=80"
@@ -119,7 +117,7 @@ export function LandingPage() {
               <h3 class="text-lg font-bold text-gray-900 mb-2">Get AI-Matched</h3>
               <p class="text-gray-600 text-sm leading-relaxed">My engine scores mentors across 7 categories — field, role, expertise, availability, and more.</p>
             </div>
-              <div class="relative bg-gradient-to-br from-emerald-50 to-white border border-emerald-100 rounded-3xl p-7 hover:shadow-lg transition-shadow reveal delay-400 card-shimmer">
+              <div class="relative bg-gradient-to-br from-emerald-50 to-white border border-emerald-100 rounded-3xl p-7 hover:shadow-lg transition-shadow reveal delay-400">
                 <div class="absolute -top-3 -left-3 w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-extrabold shadow">3</div>
               <img
                 src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&q=80"
@@ -142,42 +140,42 @@ export function LandingPage() {
             <p class="text-gray-500 text-base max-w-xl mx-auto">Giving back has real, tangible rewards. Here's what MentorMatch offers every mentor on the platform.</p>
           </div>
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-              <div class="bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal card-shimmer">
+              <div class="bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal">
                 <div class="w-12 h-12 bg-amber-100 rounded-2xl flex items-center justify-center text-2xl">🏅</div>
                 <div>
                   <h3 class="font-bold text-gray-900 text-base mb-1">Verified Mentor Badge</h3>
                   <p class="text-gray-500 text-sm leading-relaxed">Earn a verified badge on your profile that signals your credibility and commitment to the next generation.</p>
                 </div>
               </div>
-              <div class="bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-100 card-shimmer">
+              <div class="bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-100">
                 <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-2xl">🌟</div>
                 <div>
                   <h3 class="font-bold text-gray-900 text-base mb-1">Impact Score &amp; Leaderboard</h3>
                   <p class="text-gray-500 text-sm leading-relaxed">Your Impact Score grows with every session. Top mentors are featured on the platform leaderboard.</p>
                 </div>
               </div>
-              <div class="bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-200 card-shimmer">
+              <div class="bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-200">
                 <div class="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-2xl">📣</div>
                 <div>
                   <h3 class="font-bold text-gray-900 text-base mb-1">Public Profile &amp; Exposure</h3>
                   <p class="text-gray-500 text-sm leading-relaxed">Your profile is visible to hundreds of motivated students actively looking for guidance in your exact field.</p>
                 </div>
               </div>
-              <div class="bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-300 card-shimmer">
+              <div class="bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-300">
                 <div class="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center text-2xl">💬</div>
                 <div>
                   <h3 class="font-bold text-gray-900 text-base mb-1">Genuine Connections</h3>
                   <p class="text-gray-500 text-sm leading-relaxed">Build meaningful relationships with the next generation of professionals in your industry.</p>
                 </div>
               </div>
-              <div class="bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-400 card-shimmer">
+              <div class="bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-400">
                 <div class="w-12 h-12 bg-rose-100 rounded-2xl flex items-center justify-center text-2xl">🗓️</div>
                 <div>
                   <h3 class="font-bold text-gray-900 text-base mb-1">Flexible on Your Schedule</h3>
                   <p class="text-gray-500 text-sm leading-relaxed">Mentor on your terms — set your own availability, frequency, and format. One session or ongoing.</p>
                 </div>
               </div>
-              <div class="bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-500 card-shimmer">
+              <div class="bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-500">
                 <div class="w-12 h-12 bg-sky-100 rounded-2xl flex items-center justify-center text-2xl">✍️</div>
                 <div>
                   <h3 class="font-bold text-gray-900 text-base mb-1">Letter of Recognition</h3>
@@ -186,7 +184,7 @@ export function LandingPage() {
               </div>
           </div>
           <div class="text-center reveal">
-              <a href="/register?role=mentor" class="inline-block bg-amber-500 hover:bg-amber-600 text-white font-bold px-8 py-4 rounded-2xl text-base transition-all shadow-lg shadow-amber-200 hover:no-underline hover:-translate-y-0.5 anim-cta-glow-amber">
+              <a href="/register?role=mentor" class="inline-block bg-amber-500 hover:bg-amber-600 text-white font-bold px-8 py-4 rounded-2xl text-base transition-all shadow-md hover:shadow-lg hover:no-underline hover:-translate-y-0.5">
               Become a Mentor →
             </a>
           </div>

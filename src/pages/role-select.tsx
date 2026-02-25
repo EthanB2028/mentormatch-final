@@ -18,7 +18,7 @@ export function RoleSelectPage() {
           {/* Role Selection Cards */}
           <div class="grid md:grid-cols-2 gap-8 mb-12">
             {/* Student Card */}
-            <div class="bg-white rounded-3xl p-8 text-center border border-indigo-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 reveal card-shimmer">
+            <div class="bg-white rounded-3xl p-8 text-center border border-indigo-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 reveal">
             <img
               src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80"
               alt="College students getting career advice"
@@ -47,7 +47,7 @@ export function RoleSelectPage() {
           </div>
 
             {/* Mentor Card */}
-            <div class="bg-white rounded-3xl p-8 text-center border border-emerald-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 reveal delay-200 card-shimmer">
+            <div class="bg-white rounded-3xl p-8 text-center border border-emerald-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 reveal delay-200">
             <img
               src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80"
               alt="Executive leader ready for career mentoring"

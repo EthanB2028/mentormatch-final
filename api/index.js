@@ -54,7 +54,10 @@ var renderer = jsxRenderer(({ children }) => {
 
 // src/lib/supabase-db.ts
 import postgres from "postgres";
-var connectionString = process.env.DATABASE_URL || "postgresql://postgres.pwmeesjbiezfewxgpbbp:lpOUPi8R4U5ZUDEYsMUnQ1196yuDaMO76MBJC0hdBLSEkW7xYg3ABs0I0VD1cYlq@aws-1-us-east-2.pooler.supabase.com:5432/postgres";
+var connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error("DATABASE_URL is required to connect to Supabase Postgres");
+}
 var sql = null;
 function getSql() {
   if (!sql) {
@@ -134,49 +137,45 @@ function LandingPage() {
         /* @__PURE__ */ jsx2("a", { href: "/role-select", class: "ml-3 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full transition-colors shadow-sm hover:no-underline", children: "Start Connecting" })
       ] })
     ] }) }),
-    /* @__PURE__ */ jsxs2("section", { class: "relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50 pt-20 pb-28 anim-gradient-drift", children: [
-      /* @__PURE__ */ jsx2("div", { class: "absolute -top-24 -left-24 w-96 h-96 bg-indigo-100 rounded-full opacity-40 blur-3xl pointer-events-none anim-float-slow" }),
-      /* @__PURE__ */ jsx2("div", { class: "absolute -bottom-16 -right-16 w-80 h-80 bg-purple-100 rounded-full opacity-40 blur-3xl pointer-events-none anim-float", style: "animation-delay:1.5s" }),
-      /* @__PURE__ */ jsxs2("div", { class: "relative max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center gap-14", children: [
-        /* @__PURE__ */ jsxs2("div", { class: "flex-1 text-center md:text-left", children: [
-          /* @__PURE__ */ jsxs2("div", { class: "mb-6 anim-fade-up", children: [
-            /* @__PURE__ */ jsxs2("span", { class: "wordmark block text-6xl md:text-8xl font-bold text-gray-900 leading-none tracking-tight", children: [
-              "Mentor",
-              /* @__PURE__ */ jsx2("span", { class: "text-indigo-600", children: "Match" })
-            ] }),
-            /* @__PURE__ */ jsx2("span", { class: "inline-block mt-3 text-indigo-500 text-sm font-semibold tracking-widest uppercase", children: "Free Career Mentorship" })
+    /* @__PURE__ */ jsx2("section", { class: "relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50 pt-20 pb-28", children: /* @__PURE__ */ jsxs2("div", { class: "relative max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center gap-14", children: [
+      /* @__PURE__ */ jsxs2("div", { class: "flex-1 text-center md:text-left", children: [
+        /* @__PURE__ */ jsxs2("div", { class: "mb-6 anim-fade-up", children: [
+          /* @__PURE__ */ jsxs2("span", { class: "wordmark block text-6xl md:text-8xl font-bold text-gray-900 leading-none tracking-tight", children: [
+            "Mentor",
+            /* @__PURE__ */ jsx2("span", { class: "text-indigo-600", children: "Match" })
           ] }),
-          /* @__PURE__ */ jsxs2("h1", { class: "text-2xl md:text-3xl font-semibold text-gray-700 leading-snug mb-5 max-w-lg anim-fade-up delay-200", children: [
-            "Connect with ",
-            /* @__PURE__ */ jsx2("span", { class: "text-indigo-600 font-bold", children: "real mentors." }),
-            /* @__PURE__ */ jsx2("br", {}),
-            "Build your future."
-          ] }),
-          /* @__PURE__ */ jsx2("p", { class: "text-base text-gray-500 max-w-md mb-8 leading-relaxed anim-fade-up delay-300", children: "Free one-on-one career guidance from CEOs and industry leaders \u2014 matched to your exact goals with AI." }),
-          /* @__PURE__ */ jsxs2("div", { class: "flex flex-col sm:flex-row gap-3 justify-center md:justify-start anim-fade-up delay-400", children: [
-            /* @__PURE__ */ jsx2("a", { href: "/role-select", class: "inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-2xl text-base transition-all shadow-lg shadow-indigo-200 hover:shadow-indigo-300 hover:no-underline hover:-translate-y-0.5 anim-cta-glow", children: "Start Connecting \u2192" }),
-            /* @__PURE__ */ jsx2("a", { href: "/blog", class: "inline-block border-2 border-gray-200 hover:border-indigo-300 text-gray-600 font-semibold px-8 py-4 rounded-2xl text-base transition-all hover:bg-indigo-50 hover:no-underline", children: "Read the Blog" })
-          ] })
+          /* @__PURE__ */ jsx2("span", { class: "inline-block mt-3 text-indigo-500 text-sm font-semibold tracking-widest uppercase", children: "Free Career Mentorship" })
         ] }),
-        /* @__PURE__ */ jsx2("div", { class: "flex-1 max-w-lg w-full anim-scale-in delay-300", children: /* @__PURE__ */ jsxs2("div", { class: "relative rounded-3xl overflow-hidden shadow-2xl", children: [
-          /* @__PURE__ */ jsx2(
-            "img",
-            {
-              src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80",
-              alt: "Students getting career advice from a professional mentor",
-              class: "w-full h-80 object-cover"
-            }
-          ),
-          /* @__PURE__ */ jsxs2("div", { class: "absolute bottom-4 left-4 bg-white/95 rounded-2xl px-4 py-3 shadow-lg flex items-center gap-3 anim-fade-up delay-600", children: [
-            /* @__PURE__ */ jsx2("div", { class: "w-9 h-9 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0", children: /* @__PURE__ */ jsx2("svg", { class: "w-4 h-4 text-indigo-600", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: /* @__PURE__ */ jsx2("path", { "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "2", d: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" }) }) }),
-            /* @__PURE__ */ jsxs2("div", { children: [
-              /* @__PURE__ */ jsx2("p", { class: "text-xs font-bold text-gray-900", children: "AI-Powered Matching" }),
-              /* @__PURE__ */ jsx2("p", { class: "text-xs text-gray-500", children: "Find your perfect mentor" })
-            ] })
+        /* @__PURE__ */ jsxs2("h1", { class: "text-2xl md:text-3xl font-semibold text-gray-700 leading-snug mb-5 max-w-lg anim-fade-up delay-200", children: [
+          "Connect with ",
+          /* @__PURE__ */ jsx2("span", { class: "text-indigo-600 font-bold", children: "real mentors." }),
+          /* @__PURE__ */ jsx2("br", {}),
+          "Build your future."
+        ] }),
+        /* @__PURE__ */ jsx2("p", { class: "text-base text-gray-500 max-w-md mb-8 leading-relaxed anim-fade-up delay-300", children: "Free one-on-one career guidance from CEOs and industry leaders \u2014 matched to your exact goals with AI." }),
+        /* @__PURE__ */ jsxs2("div", { class: "flex flex-col sm:flex-row gap-3 justify-center md:justify-start anim-fade-up delay-400", children: [
+          /* @__PURE__ */ jsx2("a", { href: "/role-select", class: "inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-2xl text-base transition-all shadow-md hover:shadow-lg hover:no-underline hover:-translate-y-0.5", children: "Start Connecting \u2192" }),
+          /* @__PURE__ */ jsx2("a", { href: "/blog", class: "inline-block border-2 border-gray-200 hover:border-indigo-300 text-gray-600 font-semibold px-8 py-4 rounded-2xl text-base transition-all hover:bg-indigo-50 hover:no-underline", children: "Read the Blog" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsx2("div", { class: "flex-1 max-w-lg w-full anim-scale-in delay-300", children: /* @__PURE__ */ jsxs2("div", { class: "relative rounded-3xl overflow-hidden shadow-2xl", children: [
+        /* @__PURE__ */ jsx2(
+          "img",
+          {
+            src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80",
+            alt: "Students getting career advice from a professional mentor",
+            class: "w-full h-80 object-cover"
+          }
+        ),
+        /* @__PURE__ */ jsxs2("div", { class: "absolute bottom-4 left-4 bg-white/95 rounded-2xl px-4 py-3 shadow-lg flex items-center gap-3 anim-fade-up delay-600", children: [
+          /* @__PURE__ */ jsx2("div", { class: "w-9 h-9 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0", children: /* @__PURE__ */ jsx2("svg", { class: "w-4 h-4 text-indigo-600", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: /* @__PURE__ */ jsx2("path", { "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "2", d: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" }) }) }),
+          /* @__PURE__ */ jsxs2("div", { children: [
+            /* @__PURE__ */ jsx2("p", { class: "text-xs font-bold text-gray-900", children: "AI-Powered Matching" }),
+            /* @__PURE__ */ jsx2("p", { class: "text-xs text-gray-500", children: "Find your perfect mentor" })
           ] })
-        ] }) })
-      ] })
-    ] }),
+        ] })
+      ] }) })
+    ] }) }),
     /* @__PURE__ */ jsx2("section", { class: "bg-indigo-600 text-white py-9", children: /* @__PURE__ */ jsxs2("div", { class: "max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center", children: [
       /* @__PURE__ */ jsxs2("div", { class: "reveal anim-stat-pop", children: [
         /* @__PURE__ */ jsx2("div", { class: "wordmark text-4xl font-bold", children: "100%" }),
@@ -201,7 +200,7 @@ function LandingPage() {
         /* @__PURE__ */ jsx2("h2", { class: "wordmark text-4xl font-bold text-gray-900", children: "Three steps to your mentor" })
       ] }),
       /* @__PURE__ */ jsxs2("div", { class: "grid md:grid-cols-3 gap-8", children: [
-        /* @__PURE__ */ jsxs2("div", { class: "relative bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 rounded-3xl p-7 hover:shadow-lg transition-shadow reveal card-shimmer", children: [
+        /* @__PURE__ */ jsxs2("div", { class: "relative bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 rounded-3xl p-7 hover:shadow-lg transition-shadow reveal", children: [
           /* @__PURE__ */ jsx2("div", { class: "absolute -top-3 -left-3 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-extrabold shadow", children: "1" }),
           /* @__PURE__ */ jsx2(
             "img",
@@ -214,7 +213,7 @@ function LandingPage() {
           /* @__PURE__ */ jsx2("h3", { class: "text-lg font-bold text-gray-900 mb-2", children: "Create Your Profile" }),
           /* @__PURE__ */ jsx2("p", { class: "text-gray-600 text-sm leading-relaxed", children: "Tell me your career goals, interests, and what kind of guidance you're looking for." })
         ] }),
-        /* @__PURE__ */ jsxs2("div", { class: "relative bg-gradient-to-br from-purple-50 to-white border border-purple-100 rounded-3xl p-7 hover:shadow-lg transition-shadow reveal delay-200 card-shimmer", children: [
+        /* @__PURE__ */ jsxs2("div", { class: "relative bg-gradient-to-br from-purple-50 to-white border border-purple-100 rounded-3xl p-7 hover:shadow-lg transition-shadow reveal delay-200", children: [
           /* @__PURE__ */ jsx2("div", { class: "absolute -top-3 -left-3 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-extrabold shadow", children: "2" }),
           /* @__PURE__ */ jsx2(
             "img",
@@ -227,7 +226,7 @@ function LandingPage() {
           /* @__PURE__ */ jsx2("h3", { class: "text-lg font-bold text-gray-900 mb-2", children: "Get AI-Matched" }),
           /* @__PURE__ */ jsx2("p", { class: "text-gray-600 text-sm leading-relaxed", children: "My engine scores mentors across 7 categories \u2014 field, role, expertise, availability, and more." })
         ] }),
-        /* @__PURE__ */ jsxs2("div", { class: "relative bg-gradient-to-br from-emerald-50 to-white border border-emerald-100 rounded-3xl p-7 hover:shadow-lg transition-shadow reveal delay-400 card-shimmer", children: [
+        /* @__PURE__ */ jsxs2("div", { class: "relative bg-gradient-to-br from-emerald-50 to-white border border-emerald-100 rounded-3xl p-7 hover:shadow-lg transition-shadow reveal delay-400", children: [
           /* @__PURE__ */ jsx2("div", { class: "absolute -top-3 -left-3 w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-extrabold shadow", children: "3" }),
           /* @__PURE__ */ jsx2(
             "img",
@@ -249,42 +248,42 @@ function LandingPage() {
         /* @__PURE__ */ jsx2("p", { class: "text-gray-500 text-base max-w-xl mx-auto", children: "Giving back has real, tangible rewards. Here's what MentorMatch offers every mentor on the platform." })
       ] }),
       /* @__PURE__ */ jsxs2("div", { class: "grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10", children: [
-        /* @__PURE__ */ jsxs2("div", { class: "bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal card-shimmer", children: [
+        /* @__PURE__ */ jsxs2("div", { class: "bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal", children: [
           /* @__PURE__ */ jsx2("div", { class: "w-12 h-12 bg-amber-100 rounded-2xl flex items-center justify-center text-2xl", children: "\u{1F3C5}" }),
           /* @__PURE__ */ jsxs2("div", { children: [
             /* @__PURE__ */ jsx2("h3", { class: "font-bold text-gray-900 text-base mb-1", children: "Verified Mentor Badge" }),
             /* @__PURE__ */ jsx2("p", { class: "text-gray-500 text-sm leading-relaxed", children: "Earn a verified badge on your profile that signals your credibility and commitment to the next generation." })
           ] })
         ] }),
-        /* @__PURE__ */ jsxs2("div", { class: "bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-100 card-shimmer", children: [
+        /* @__PURE__ */ jsxs2("div", { class: "bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-100", children: [
           /* @__PURE__ */ jsx2("div", { class: "w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-2xl", children: "\u{1F31F}" }),
           /* @__PURE__ */ jsxs2("div", { children: [
             /* @__PURE__ */ jsx2("h3", { class: "font-bold text-gray-900 text-base mb-1", children: "Impact Score & Leaderboard" }),
             /* @__PURE__ */ jsx2("p", { class: "text-gray-500 text-sm leading-relaxed", children: "Your Impact Score grows with every session. Top mentors are featured on the platform leaderboard." })
           ] })
         ] }),
-        /* @__PURE__ */ jsxs2("div", { class: "bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-200 card-shimmer", children: [
+        /* @__PURE__ */ jsxs2("div", { class: "bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-200", children: [
           /* @__PURE__ */ jsx2("div", { class: "w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-2xl", children: "\u{1F4E3}" }),
           /* @__PURE__ */ jsxs2("div", { children: [
             /* @__PURE__ */ jsx2("h3", { class: "font-bold text-gray-900 text-base mb-1", children: "Public Profile & Exposure" }),
             /* @__PURE__ */ jsx2("p", { class: "text-gray-500 text-sm leading-relaxed", children: "Your profile is visible to hundreds of motivated students actively looking for guidance in your exact field." })
           ] })
         ] }),
-        /* @__PURE__ */ jsxs2("div", { class: "bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-300 card-shimmer", children: [
+        /* @__PURE__ */ jsxs2("div", { class: "bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-300", children: [
           /* @__PURE__ */ jsx2("div", { class: "w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center text-2xl", children: "\u{1F4AC}" }),
           /* @__PURE__ */ jsxs2("div", { children: [
             /* @__PURE__ */ jsx2("h3", { class: "font-bold text-gray-900 text-base mb-1", children: "Genuine Connections" }),
             /* @__PURE__ */ jsx2("p", { class: "text-gray-500 text-sm leading-relaxed", children: "Build meaningful relationships with the next generation of professionals in your industry." })
           ] })
         ] }),
-        /* @__PURE__ */ jsxs2("div", { class: "bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-400 card-shimmer", children: [
+        /* @__PURE__ */ jsxs2("div", { class: "bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-400", children: [
           /* @__PURE__ */ jsx2("div", { class: "w-12 h-12 bg-rose-100 rounded-2xl flex items-center justify-center text-2xl", children: "\u{1F5D3}\uFE0F" }),
           /* @__PURE__ */ jsxs2("div", { children: [
             /* @__PURE__ */ jsx2("h3", { class: "font-bold text-gray-900 text-base mb-1", children: "Flexible on Your Schedule" }),
             /* @__PURE__ */ jsx2("p", { class: "text-gray-500 text-sm leading-relaxed", children: "Mentor on your terms \u2014 set your own availability, frequency, and format. One session or ongoing." })
           ] })
         ] }),
-        /* @__PURE__ */ jsxs2("div", { class: "bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-500 card-shimmer", children: [
+        /* @__PURE__ */ jsxs2("div", { class: "bg-white rounded-3xl p-7 shadow-sm border border-amber-100 flex flex-col gap-4 reveal delay-500", children: [
           /* @__PURE__ */ jsx2("div", { class: "w-12 h-12 bg-sky-100 rounded-2xl flex items-center justify-center text-2xl", children: "\u270D\uFE0F" }),
           /* @__PURE__ */ jsxs2("div", { children: [
             /* @__PURE__ */ jsx2("h3", { class: "font-bold text-gray-900 text-base mb-1", children: "Letter of Recognition" }),
@@ -292,7 +291,7 @@ function LandingPage() {
           ] })
         ] })
       ] }),
-      /* @__PURE__ */ jsx2("div", { class: "text-center reveal", children: /* @__PURE__ */ jsx2("a", { href: "/register?role=mentor", class: "inline-block bg-amber-500 hover:bg-amber-600 text-white font-bold px-8 py-4 rounded-2xl text-base transition-all shadow-lg shadow-amber-200 hover:no-underline hover:-translate-y-0.5 anim-cta-glow-amber", children: "Become a Mentor \u2192" }) })
+      /* @__PURE__ */ jsx2("div", { class: "text-center reveal", children: /* @__PURE__ */ jsx2("a", { href: "/register?role=mentor", class: "inline-block bg-amber-500 hover:bg-amber-600 text-white font-bold px-8 py-4 rounded-2xl text-base transition-all shadow-md hover:shadow-lg hover:no-underline hover:-translate-y-0.5", children: "Become a Mentor \u2192" }) })
     ] }) }),
     /* @__PURE__ */ jsx2("section", { class: "py-20 bg-gradient-to-br from-gray-50 to-indigo-50", children: /* @__PURE__ */ jsxs2("div", { class: "max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center gap-12", children: [
       /* @__PURE__ */ jsx2("div", { class: "flex-1 rounded-3xl overflow-hidden shadow-xl reveal-left", children: /* @__PURE__ */ jsx2(
@@ -615,6 +614,34 @@ function RegisterPage() {
             children: "\u{1F3C6} Mentor"
           }
         )
+      ] }),
+      /* @__PURE__ */ jsxs4("div", { id: "studentBanner", class: "mb-6 rounded-2xl overflow-hidden border-2 border-dashed border-blue-300 bg-blue-50 flex items-center gap-6 px-6 py-4", children: [
+        /* @__PURE__ */ jsx4(
+          "img",
+          {
+            src: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=160&h=160&fit=crop&crop=faces",
+            alt: "Student",
+            class: "w-20 h-20 rounded-full object-cover border-2 border-blue-300 flex-shrink-0"
+          }
+        ),
+        /* @__PURE__ */ jsxs4("div", { children: [
+          /* @__PURE__ */ jsx4("p", { class: "font-sketch text-lg text-blue-800", children: "Signing up as a Student" }),
+          /* @__PURE__ */ jsx4("p", { class: "font-handwritten text-sm text-blue-600 mt-1", children: "Get matched with real-world mentors in your dream career field. Ask questions, get guidance, and chart your path forward." })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxs4("div", { id: "mentorBanner", class: "hidden mb-6 rounded-2xl overflow-hidden border-2 border-dashed border-purple-300 bg-purple-50 flex items-center gap-6 px-6 py-4", children: [
+        /* @__PURE__ */ jsx4(
+          "img",
+          {
+            src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&h=160&fit=crop&crop=faces",
+            alt: "Mentor",
+            class: "w-20 h-20 rounded-full object-cover border-2 border-purple-300 flex-shrink-0"
+          }
+        ),
+        /* @__PURE__ */ jsxs4("div", { children: [
+          /* @__PURE__ */ jsx4("p", { class: "font-sketch text-lg text-purple-800", children: "Signing up as a Mentor" }),
+          /* @__PURE__ */ jsx4("p", { class: "font-handwritten text-sm text-purple-600 mt-1", children: "Share your expertise and help the next generation. Your experience can change a student's life." })
+        ] })
       ] }),
       /* @__PURE__ */ jsx4("div", { id: "studentForm", children: /* @__PURE__ */ jsxs4("form", { id: "studentRegistrationForm", class: "scribble-card-large p-8 bg-gray-50 space-y-10", children: [
         /* @__PURE__ */ jsx4("input", { type: "hidden", name: "role", value: "student" }),
@@ -1178,7 +1205,8 @@ function RegisterPage() {
                     class: "w-full p-3 border-2 border-black border-dashed rounded-lg font-handwritten focus:outline-none focus:border-solid",
                     placeholder: "At least 8 characters"
                   }
-                )
+                ),
+                /* @__PURE__ */ jsx4("p", { class: "font-handwritten text-xs text-gray-500 mt-1", children: "Choose a unique password you don't use elsewhere \u2014 min 8 characters." })
               ] })
             ] }),
             /* @__PURE__ */ jsxs4("div", { children: [
@@ -1492,28 +1520,34 @@ function RegisterPage() {
       ] }) })
     ] }),
     /* @__PURE__ */ jsx4("script", { dangerouslySetInnerHTML: { __html: `
-        // Tab switching
-        function switchRole(role) {
-          var sf = document.getElementById('studentForm')
-          var mf = document.getElementById('mentorForm')
-          var ts = document.getElementById('tabStudent')
-          var tm = document.getElementById('tabMentor')
-          if (role === 'student') {
-            sf.classList.remove('hidden')
-            mf.classList.add('hidden')
-            ts.classList.add('bg-blue-200')
-            ts.classList.remove('bg-gray-100')
-            tm.classList.add('bg-gray-100')
-            tm.classList.remove('bg-purple-200')
-          } else {
-            mf.classList.remove('hidden')
-            sf.classList.add('hidden')
-            tm.classList.add('bg-purple-200')
-            tm.classList.remove('bg-gray-100')
-            ts.classList.add('bg-gray-100')
-            ts.classList.remove('bg-blue-200')
+          // Tab switching
+          function switchRole(role) {
+            var sf = document.getElementById('studentForm')
+            var mf = document.getElementById('mentorForm')
+            var ts = document.getElementById('tabStudent')
+            var tm = document.getElementById('tabMentor')
+            var sb = document.getElementById('studentBanner')
+            var mb = document.getElementById('mentorBanner')
+            if (role === 'student') {
+              sf.classList.remove('hidden')
+              mf.classList.add('hidden')
+              sb.classList.remove('hidden')
+              mb.classList.add('hidden')
+              ts.classList.add('bg-blue-200')
+              ts.classList.remove('bg-gray-100')
+              tm.classList.add('bg-gray-100')
+              tm.classList.remove('bg-purple-200')
+            } else {
+              mf.classList.remove('hidden')
+              sf.classList.add('hidden')
+              mb.classList.remove('hidden')
+              sb.classList.add('hidden')
+              tm.classList.add('bg-purple-200')
+              tm.classList.remove('bg-gray-100')
+              ts.classList.add('bg-gray-100')
+              ts.classList.remove('bg-blue-200')
+            }
           }
-        }
 
         // Career field radio highlight
         document.querySelectorAll('input[name="careerField"]').forEach(function(r) {
@@ -4027,7 +4061,7 @@ function RoleSelectPage() {
       /* @__PURE__ */ jsx10("p", { class: "text-lg text-gray-500 max-w-2xl mx-auto", children: "Are you a student seeking career advice and mentorship, or a leader ready to coach? Select your role to start your career development journey." })
     ] }),
     /* @__PURE__ */ jsxs10("div", { class: "grid md:grid-cols-2 gap-8 mb-12", children: [
-      /* @__PURE__ */ jsxs10("div", { class: "bg-white rounded-3xl p-8 text-center border border-indigo-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 reveal card-shimmer", children: [
+      /* @__PURE__ */ jsxs10("div", { class: "bg-white rounded-3xl p-8 text-center border border-indigo-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 reveal", children: [
         /* @__PURE__ */ jsx10(
           "img",
           {
@@ -4056,7 +4090,7 @@ function RoleSelectPage() {
           }
         )
       ] }),
-      /* @__PURE__ */ jsxs10("div", { class: "bg-white rounded-3xl p-8 text-center border border-emerald-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 reveal delay-200 card-shimmer", children: [
+      /* @__PURE__ */ jsxs10("div", { class: "bg-white rounded-3xl p-8 text-center border border-emerald-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 reveal delay-200", children: [
         /* @__PURE__ */ jsx10(
           "img",
           {
@@ -4554,15 +4588,11 @@ function HowItWorksPage() {
         /* @__PURE__ */ jsx12("a", { href: "/role-select", class: "ml-3 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-full transition-colors shadow-sm", children: "Start Connecting" })
       ] })
     ] }) }),
-    /* @__PURE__ */ jsxs12("div", { class: "bg-gradient-to-br from-indigo-600 via-purple-700 to-indigo-800 text-white pt-20 pb-24 text-center px-6 relative overflow-hidden", children: [
-      /* @__PURE__ */ jsx12("div", { class: "absolute -top-20 -right-20 w-72 h-72 bg-white/5 rounded-full blur-3xl pointer-events-none" }),
-      /* @__PURE__ */ jsx12("div", { class: "absolute -bottom-12 -left-12 w-60 h-60 bg-purple-400/10 rounded-full blur-3xl pointer-events-none" }),
-      /* @__PURE__ */ jsxs12("div", { class: "relative", children: [
-        /* @__PURE__ */ jsx12("span", { class: "inline-block bg-white/20 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5", children: "The Platform" }),
-        /* @__PURE__ */ jsx12("h1", { class: "text-5xl md:text-6xl font-extrabold font-sketch mb-4 leading-tight", children: "How MentorMatch Works" }),
-        /* @__PURE__ */ jsx12("p", { class: "text-indigo-200 text-lg max-w-2xl mx-auto leading-relaxed", children: "MentorMatch connects students with experienced mentors from industries across the U.S. Career guidance made accessible, practical, and personalized." })
-      ] })
-    ] }),
+    /* @__PURE__ */ jsx12("div", { class: "bg-gradient-to-br from-indigo-600 via-purple-700 to-indigo-800 text-white pt-20 pb-24 text-center px-6", children: /* @__PURE__ */ jsxs12("div", { class: "relative", children: [
+      /* @__PURE__ */ jsx12("span", { class: "inline-block bg-white/20 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5", children: "The Platform" }),
+      /* @__PURE__ */ jsx12("h1", { class: "text-5xl md:text-6xl font-extrabold font-sketch mb-4 leading-tight", children: "How MentorMatch Works" }),
+      /* @__PURE__ */ jsx12("p", { class: "text-indigo-200 text-lg max-w-2xl mx-auto leading-relaxed", children: "MentorMatch connects students with experienced mentors from industries across the U.S. Career guidance made accessible, practical, and personalized." })
+    ] }) }),
     /* @__PURE__ */ jsx12("div", { class: "bg-white border-b border-gray-100 shadow-sm sticky top-[57px] z-40 overflow-x-auto", children: /* @__PURE__ */ jsxs12("div", { class: "max-w-5xl mx-auto px-6 py-3 flex items-center gap-2 text-xs font-semibold whitespace-nowrap", children: [
       [
         ["1", "Sign Up", "#step-1", "bg-indigo-600"],
@@ -4653,13 +4683,13 @@ function HowItWorksPage() {
         /* @__PURE__ */ jsxs12("div", { class: "bg-gradient-to-br from-purple-600 to-indigo-700 rounded-3xl p-6 text-white mb-6", children: [
           /* @__PURE__ */ jsx12("p", { class: "text-sm font-bold uppercase tracking-widest opacity-80 mb-4", children: "Compatibility Score Categories" }),
           /* @__PURE__ */ jsx12("div", { class: "space-y-3", children: [
-            ["Career Field Alignment", 30, "bg-white/80"],
-            ["Role & Industry Relevance", 20, "bg-white/70"],
-            ["Mentorship Needs vs Expertise", 15, "bg-white/60"],
-            ["Mentor Experience Level", 10, "bg-white/55"],
-            ["Personality & Communication Fit", 10, "bg-white/50"],
-            ["Availability", 10, "bg-white/45"],
-            ["Commitment Level", 5, "bg-white/40"]
+            ["Career Field Alignment", 30, "bg-white"],
+            ["Role & Industry Relevance", 20, "bg-indigo-200"],
+            ["Mentorship Needs vs Expertise", 15, "bg-purple-200"],
+            ["Mentor Experience Level", 10, "bg-indigo-300"],
+            ["Personality & Communication Fit", 10, "bg-purple-300"],
+            ["Availability", 10, "bg-indigo-400"],
+            ["Commitment Level", 5, "bg-purple-400"]
           ].map(([label, pts, bar]) => /* @__PURE__ */ jsx12("div", { class: "flex items-center gap-3", children: /* @__PURE__ */ jsxs12("div", { class: "flex-1", children: [
             /* @__PURE__ */ jsxs12("div", { class: "flex justify-between text-xs font-semibold mb-1", children: [
               /* @__PURE__ */ jsx12("span", { class: "opacity-90", children: label }),
@@ -4948,7 +4978,7 @@ import { z } from "zod";
 var bcrypt = bcryptjs.default ?? bcryptjs;
 var RegisterSchema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+  password: z.string().min(8, "Password must be at least 8 characters").regex(/[a-z]/, "Password must include a lowercase letter").regex(/[A-Z]/, "Password must include an uppercase letter").regex(/[0-9]/, "Password must include a number").regex(/[^A-Za-z0-9]/, "Password must include a special character"),
   name: z.string().min(2, "Name must be at least 2 characters"),
   role: z.enum(["student", "mentor"], {
     errorMap: () => ({ message: "Role must be either student or mentor" })
@@ -4979,6 +5009,52 @@ var RegisterSchema = z.object({
   virtualOrInperson: z.string().optional(),
   whyMentor: z.string().optional(),
   hadMentors: z.string().optional()
+}).superRefine((data, ctx) => {
+  const weakPasswords = /* @__PURE__ */ new Set(["password123", "12345678", "qwerty123", "letmein123"]);
+  if (weakPasswords.has(data.password.toLowerCase())) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["password"], message: "Choose a stronger password than common defaults" });
+  }
+  if (data.password.toLowerCase().includes(data.email.split("@")[0].toLowerCase())) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["password"], message: "Password cannot include your email username" });
+  }
+  const requiredForStudent = [
+    "age",
+    "school",
+    "gradeLevel",
+    "careerField",
+    "dreamRole",
+    "careerInterestWhy",
+    "helpNeeded",
+    "meetingFrequency",
+    "adviceStyle",
+    "personalityType"
+  ];
+  const requiredForMentor = [
+    "company",
+    "position",
+    "industry",
+    "experienceYears",
+    "shortBio",
+    "mentorTopics",
+    "industriesWorked",
+    "maxMentees",
+    "preferredMeetingFreq",
+    "virtualOrInperson",
+    "whyMentor",
+    "hadMentors",
+    "linkedinUrl"
+  ];
+  const required = data.role === "student" ? requiredForStudent : requiredForMentor;
+  for (const field of required) {
+    const value = data[field];
+    const missing = value === void 0 || value === null || typeof value === "string" && value.trim().length === 0;
+    if (missing) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: [field], message: `${String(field)} is required for ${data.role} sign up` });
+    }
+  }
+  if (data.role === "student" && data.willingToPrepare !== true) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["willingToPrepare"], message: "Students must agree to prepare questions before sessions" });
+  }
 });
 var LoginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -5294,7 +5370,10 @@ var SessionService = class {
   }
   async createSession(userId, ipAddress, userAgent) {
     const sessionId = generateId();
-    const secret = this.jwtSecret || "convoconnect-fallback-secret";
+    const secret = this.jwtSecret;
+    if (!secret) {
+      throw new Error("JWT_SECRET is required for session creation");
+    }
     const token = generateToken({ sessionId, userId }, secret);
     const tokenHash = await hashPassword(token);
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1e3);
@@ -5305,14 +5384,17 @@ var SessionService = class {
     return token;
   }
   async validateSession(token) {
-    const secret = this.jwtSecret || "convoconnect-fallback-secret";
+    const secret = this.jwtSecret;
+    if (!secret) {
+      throw new Error("JWT_SECRET is required for session validation");
+    }
     const payload = verifyToken(token, secret);
     if (!payload || !payload.sessionId) {
       return null;
     }
     const session = await this.db.prepare(`
-        SELECT * FROM user_sessions WHERE id = ? AND expires_at::timestamptz > CURRENT_TIMESTAMP
-      `).bind(payload.sessionId).first();
+      SELECT * FROM user_sessions WHERE id = ? AND expires_at > CURRENT_TIMESTAMP
+    `).bind(payload.sessionId).first();
     if (!session) {
       return null;
     }
@@ -5658,13 +5740,6 @@ app.use("/ws/*", cors({
   allowMethods: ["GET"],
   allowHeaders: ["Upgrade", "Connection", "Sec-WebSocket-Key", "Sec-WebSocket-Version"]
 }));
-var _localDB = getSupabaseDB();
-app.use(async (c, next) => {
-  if (!c.env.DB) {
-    c.env.DB = _localDB;
-  }
-  await next();
-});
 app.use(renderer);
 var authMiddleware = async (c, next) => {
   try {
@@ -5672,11 +5747,8 @@ var authMiddleware = async (c, next) => {
     if (!token) {
       return c.json({ error: "Authentication required" }, 401);
     }
-    if (!c.env.DB) {
-      console.error("Database not available in authMiddleware");
-      return c.json({ error: "Database connection error" }, 500);
-    }
-    const sessionService = new SessionService(c.env.DB, c.env.JWT_SECRET);
+    const db = getSupabaseDB();
+    const sessionService = new SessionService(db, process.env.JWT_SECRET);
     const user = await sessionService.validateSession(token);
     if (!user) {
       return c.json({ error: "Invalid or expired session" }, 401);
@@ -5694,11 +5766,8 @@ var pageAuthMiddleware = async (c, next) => {
     if (!token) {
       return c.redirect("/login");
     }
-    if (!c.env.DB) {
-      console.error("Database not available in pageAuthMiddleware");
-      return c.redirect("/login");
-    }
-    const sessionService = new SessionService(c.env.DB, c.env.JWT_SECRET);
+    const db = getSupabaseDB();
+    const sessionService = new SessionService(db, process.env.JWT_SECRET);
     const user = await sessionService.validateSession(token);
     if (!user) {
       return c.redirect("/login");
@@ -5752,7 +5821,7 @@ app.post("/api/auth/register", async (c) => {
   try {
     const body = await c.req.json();
     const userData = RegisterSchema.parse(body);
-    const userService = new UserService(c.env.DB);
+    const userService = new UserService(getSupabaseDB());
     const existingUser = await userService.findUserByEmail(userData.email);
     if (existingUser) {
       return c.json({ error: "Email already registered" }, 400);
@@ -5772,13 +5841,13 @@ app.post("/api/auth/register", async (c) => {
       });
       verificationResult = evalResult;
       if (evalResult.passed) {
-        await c.env.DB.prepare(
+        await getSupabaseDB().prepare(
           `UPDATE users SET verification_status = 'approved', updated_at = CURRENT_TIMESTAMP WHERE id = ?`
         ).bind(user.id).run();
         user.verificationStatus = "approved";
       }
     }
-    const sessionService = new SessionService(c.env.DB, c.env.JWT_SECRET);
+    const sessionService = new SessionService(getSupabaseDB(), process.env.JWT_SECRET);
     const token = await sessionService.createSession(
       user.id,
       c.req.header("x-forwarded-for"),
@@ -5808,7 +5877,7 @@ app.post("/api/auth/login", async (c) => {
   try {
     const body = await c.req.json();
     const loginData = LoginSchema.parse(body);
-    const userService = new UserService(c.env.DB);
+    const userService = new UserService(getSupabaseDB());
     const userWithPassword = await userService.findUserByEmail(loginData.email);
     if (!userWithPassword) {
       return c.json({ error: "Invalid email or password" }, 401);
@@ -5818,7 +5887,7 @@ app.post("/api/auth/login", async (c) => {
       return c.json({ error: "Invalid email or password" }, 401);
     }
     await userService.updateUserStatus(userWithPassword.id, true);
-    const sessionService = new SessionService(c.env.DB, c.env.JWT_SECRET);
+    const sessionService = new SessionService(getSupabaseDB(), process.env.JWT_SECRET);
     const token = await sessionService.createSession(
       userWithPassword.id,
       c.req.header("x-forwarded-for"),
@@ -5846,7 +5915,7 @@ app.post("/api/auth/login", async (c) => {
 });
 app.post("/api/auth/logout", authMiddleware, async (c) => {
   const user = c.get("user");
-  const userService = new UserService(c.env.DB);
+  const userService = new UserService(getSupabaseDB());
   await userService.updateUserStatus(user.id, false);
   return c.json({ success: true });
 });
@@ -5862,8 +5931,8 @@ app.get("/api/auth/debug", (c) => {
     cookieHeader,
     authHeader,
     cookieToken,
-    hasDB: !!c.env.DB,
-    hasJWTSecret: !!c.env.JWT_SECRET
+    hasDB: true,
+    hasJWTSecret: !!process.env.JWT_SECRET
   });
 });
 app.put("/api/profile", authMiddleware, async (c) => {
@@ -5871,7 +5940,7 @@ app.put("/api/profile", authMiddleware, async (c) => {
     const user = c.get("user");
     const body = await c.req.json();
     const updates = UpdateProfileSchema.parse(body);
-    const userService = new UserService(c.env.DB);
+    const userService = new UserService(getSupabaseDB());
     const updatedUser = await userService.updateUser(user.id, updates);
     if (!updatedUser) {
       return c.json({ error: "User not found" }, 404);
@@ -5937,8 +6006,8 @@ app.get("/api/matching/status", async (c) => {
 app.get("/api/matching/find", authMiddleware, async (c) => {
   try {
     const user = c.get("user");
-    const result = await c.env.DB.prepare(`
-      SELECT id, name, industry, position, experience_years, mentor_topics,
+    const result = await getSupabaseDB().prepare(`
+        SELECT id, name, industry, position, experience_years, mentor_topics,
              industries_worked, preferred_meeting_freq, why_mentor,
              advice_style, personality_type, short_bio, company, linkedin_url,
              average_rating, verification_status
@@ -5997,11 +6066,11 @@ app.get("/api/matching/find", authMiddleware, async (c) => {
 });
 app.get("/api/admin/mentors", authMiddleware, async (c) => {
   try {
-    const result = await c.env.DB.prepare(`
-      SELECT id, name, email, position, company, experience_years,
-             linkedin_url, mentor_topics, industry, verification_status,
-             created_at
-      FROM users WHERE role = 'mentor' AND is_active = 1
+    const result = await getSupabaseDB().prepare(`
+        SELECT id, name, email, position, company, experience_years,
+               linkedin_url, mentor_topics, industry, verification_status,
+               created_at
+        FROM users WHERE role = 'mentor' AND is_active = 1
       ORDER BY created_at DESC
     `).all();
     const mentors = (result.results || []).map((row) => {
@@ -6033,7 +6102,7 @@ app.get("/api/admin/mentors", authMiddleware, async (c) => {
 app.post("/api/admin/verify/:id", authMiddleware, async (c) => {
   try {
     const mentorId = c.req.param("id");
-    const row = await c.env.DB.prepare(`
+    const row = await getSupabaseDB().prepare(`
       SELECT id, name, email, position, company, experience_years,
              linkedin_url, mentor_topics, industry, verification_status
       FROM users WHERE id = ? AND role = 'mentor'
@@ -6041,10 +6110,10 @@ app.post("/api/admin/verify/:id", authMiddleware, async (c) => {
     if (!row) return c.json({ error: "Mentor not found" }, 404);
     const evalResult = evaluateMentor(row);
     if (evalResult.passed) {
-      await c.env.DB.prepare(`
-        UPDATE users SET verification_status = 'approved', updated_at = CURRENT_TIMESTAMP
-        WHERE id = ?
-      `).bind(mentorId).run();
+      await getSupabaseDB().prepare(`
+          UPDATE users SET verification_status = 'approved', updated_at = CURRENT_TIMESTAMP
+          WHERE id = ?
+        `).bind(mentorId).run();
       const email = buildApprovalEmail(row.name);
       return c.json({
         success: true,
@@ -6071,20 +6140,20 @@ app.post("/api/admin/verify/:id", authMiddleware, async (c) => {
 });
 app.post("/api/admin/verify-all", authMiddleware, async (c) => {
   try {
-    const result = await c.env.DB.prepare(`
-      SELECT id, name, email, position, company, experience_years,
-             linkedin_url, mentor_topics, industry, verification_status
-      FROM users WHERE role = 'mentor' AND is_active = 1 AND verification_status = 'pending'
+    const result = await getSupabaseDB().prepare(`
+        SELECT id, name, email, position, company, experience_years,
+               linkedin_url, mentor_topics, industry, verification_status
+        FROM users WHERE role = 'mentor' AND is_active = 1 AND verification_status = 'pending'
     `).all();
     const rows = result.results || [];
     const results = [];
     for (const row of rows) {
       const evalResult = evaluateMentor(row);
       if (evalResult.passed) {
-        await c.env.DB.prepare(`
-          UPDATE users SET verification_status = 'approved', updated_at = CURRENT_TIMESTAMP
-          WHERE id = ?
-        `).bind(row.id).run();
+        await getSupabaseDB().prepare(`
+            UPDATE users SET verification_status = 'approved', updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+          `).bind(row.id).run();
         const email = buildApprovalEmail(row.name);
         results.push({ id: row.id, name: row.name, action: "approved", evalResult, emailToSend: email });
       } else {
@@ -6105,10 +6174,10 @@ app.post("/api/admin/set-status/:id", authMiddleware, async (c) => {
     if (!allowed.includes(status)) {
       return c.json({ error: `Status must be one of: ${allowed.join(", ")}` }, 400);
     }
-    await c.env.DB.prepare(`
-      UPDATE users SET verification_status = ?, updated_at = CURRENT_TIMESTAMP
-      WHERE id = ? AND role = 'mentor'
-    `).bind(status, mentorId).run();
+    await getSupabaseDB().prepare(`
+        UPDATE users SET verification_status = ?, updated_at = CURRENT_TIMESTAMP
+        WHERE id = ? AND role = 'mentor'
+      `).bind(status, mentorId).run();
     return c.json({ success: true, mentorId, newStatus: status });
   } catch (error) {
     return c.json({ error: "Status update failed", message: error.message }, 500);
@@ -6126,11 +6195,11 @@ app.post("/api/conversations/start", authMiddleware, async (c) => {
     const { partnerId, roomId } = await c.req.json();
     const conversationId = crypto.randomUUID();
     const studentId = user.role === "student" ? user.id : partnerId;
-    const ceoId = user.role === "ceo" ? user.id : partnerId;
-    await c.env.DB.prepare(`
-      INSERT INTO conversations (id, student_id, ceo_id, room_id, status)
-      VALUES (?, ?, ?, ?, 'active')
-    `).bind(conversationId, studentId, ceoId, roomId).run();
+    const ceoId = user.role === "mentor" ? user.id : partnerId;
+    await getSupabaseDB().prepare(`
+        INSERT INTO conversations (id, student_id, ceo_id, room_id, status)
+        VALUES (?, ?, ?, ?, 'active')
+      `).bind(conversationId, studentId, ceoId, roomId).run();
     return c.json({
       success: true,
       conversationId,
@@ -6151,15 +6220,15 @@ app.post("/api/conversations/:id/end", authMiddleware, async (c) => {
     const { duration, rating, feedback } = await c.req.json();
     const updateField = user.role === "student" ? "rating_student" : "rating_ceo";
     const feedbackField = user.role === "student" ? "feedback_student" : "feedback_ceo";
-    await c.env.DB.prepare(`
-      UPDATE conversations 
-      SET ended_at = CURRENT_TIMESTAMP, 
-          duration_seconds = ?, 
-          ${updateField} = ?, 
-          ${feedbackField} = ?,
-          status = 'ended'
-      WHERE id = ? AND (student_id = ? OR ceo_id = ?)
-    `).bind(duration, rating, feedback, conversationId, user.id, user.id).run();
+    await getSupabaseDB().prepare(`
+        UPDATE conversations 
+        SET ended_at = CURRENT_TIMESTAMP, 
+            duration_seconds = ?, 
+            ${updateField} = ?, 
+            ${feedbackField} = ?,
+            status = 'ended'
+        WHERE id = ? AND (student_id = ? OR ceo_id = ?)
+      `).bind(duration, rating, feedback, conversationId, user.id, user.id).run();
     return c.json({ success: true });
   } catch (error) {
     console.error("End conversation error:", error);
@@ -6174,7 +6243,7 @@ app.get("/api/conversations", authMiddleware, async (c) => {
     const user = c.get("user");
     const limit = parseInt(c.req.query("limit") || "20");
     const offset = parseInt(c.req.query("offset") || "0");
-    const conversations = await c.env.DB.prepare(`
+    const conversations = await getSupabaseDB().prepare(`
       SELECT c.*, 
              s.name as student_name, s.university, s.major,
              ceo.name as ceo_name, ceo.company, ceo.position
@@ -6216,21 +6285,21 @@ app.get("/api/messages/:partnerId", authMiddleware, async (c) => {
   try {
     const user = c.get("user");
     const partnerId = c.req.param("partnerId");
-    const result = await c.env.DB.prepare(`
-      SELECT m.*, 
-             s.name as sender_name, s.role as sender_role,
-             r.name as recipient_name
-      FROM messages m
+    const result = await getSupabaseDB().prepare(`
+        SELECT m.*, 
+               s.name as sender_name, s.role as sender_role,
+               r.name as recipient_name
+        FROM messages m
       JOIN users s ON m.sender_id = s.id
       JOIN users r ON m.recipient_id = r.id
       WHERE (m.sender_id = ? AND m.recipient_id = ?)
          OR (m.sender_id = ? AND m.recipient_id = ?)
       ORDER BY m.created_at ASC
     `).bind(user.id, partnerId, partnerId, user.id).all();
-    await c.env.DB.prepare(`
-      UPDATE messages SET is_read = 1
-      WHERE sender_id = ? AND recipient_id = ? AND is_read = 0
-    `).bind(partnerId, user.id).run();
+    await getSupabaseDB().prepare(`
+        UPDATE messages SET is_read = 1
+        WHERE sender_id = ? AND recipient_id = ? AND is_read = 0
+      `).bind(partnerId, user.id).run();
     return c.json({ messages: result.results || [] });
   } catch (error) {
     return c.json({ error: "Failed to fetch messages", message: error.message }, 500);
@@ -6243,15 +6312,15 @@ app.post("/api/messages", authMiddleware, async (c) => {
     if (!recipientId || !content?.trim()) {
       return c.json({ error: "recipientId and content are required" }, 400);
     }
-    const recipient = await c.env.DB.prepare(
+    const recipient = await getSupabaseDB().prepare(
       `SELECT id, name, role FROM users WHERE id = ? AND is_active = 1`
     ).bind(recipientId).first();
     if (!recipient) return c.json({ error: "Recipient not found" }, 404);
     const msgId = crypto.randomUUID();
-    await c.env.DB.prepare(`
-      INSERT INTO messages (id, sender_id, recipient_id, content, created_at)
-      VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
-    `).bind(msgId, user.id, recipientId, content.trim()).run();
+    await getSupabaseDB().prepare(`
+        INSERT INTO messages (id, sender_id, recipient_id, content, created_at)
+        VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
+      `).bind(msgId, user.id, recipientId, content.trim()).run();
     return c.json({
       success: true,
       message: {
@@ -6272,9 +6341,9 @@ app.post("/api/messages", authMiddleware, async (c) => {
 app.get("/api/messages/inbox/list", authMiddleware, async (c) => {
   try {
     const user = c.get("user");
-    const result = await c.env.DB.prepare(`
-      SELECT
-        CASE WHEN m.sender_id = ? THEN m.recipient_id ELSE m.sender_id END as partner_id,
+    const result = await getSupabaseDB().prepare(`
+        SELECT
+          CASE WHEN m.sender_id = ? THEN m.recipient_id ELSE m.sender_id END as partner_id,
         u.name as partner_name, u.role as partner_role,
         u.position, u.company, u.verification_status, u.industry,
         m.content as last_message,
@@ -6299,14 +6368,14 @@ app.post("/api/messages/report", authMiddleware, async (c) => {
       return c.json({ error: "reportedUserId and reason are required" }, 400);
     }
     const reportId = crypto.randomUUID();
-    await c.env.DB.prepare(`
+    await getSupabaseDB().prepare(`
       INSERT INTO message_reports (id, reporter_id, reported_user_id, message_id, reason, description, created_at)
       VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
     `).bind(reportId, user.id, reportedUserId, messageId || null, reason, description || null).run();
     if (messageId) {
-      await c.env.DB.prepare(`
-        UPDATE messages SET reported = 1, report_reason = ? WHERE id = ? AND recipient_id = ?
-      `).bind(reason, messageId, user.id).run();
+      await getSupabaseDB().prepare(`
+          UPDATE messages SET reported = 1, report_reason = ? WHERE id = ? AND recipient_id = ?
+        `).bind(reason, messageId, user.id).run();
     }
     return c.json({
       success: true,
@@ -6319,11 +6388,11 @@ app.post("/api/messages/report", authMiddleware, async (c) => {
 });
 app.get("/api/admin/reports", authMiddleware, async (c) => {
   try {
-    const result = await c.env.DB.prepare(`
-      SELECT r.*,
-             rep.name as reporter_name,
-             ru.name as reported_user_name, ru.role as reported_user_role
-      FROM message_reports r
+    const result = await getSupabaseDB().prepare(`
+        SELECT r.*,
+               rep.name as reporter_name,
+               ru.name as reported_user_name, ru.role as reported_user_role
+        FROM message_reports r
       JOIN users rep ON r.reporter_id = rep.id
       JOIN users ru ON r.reported_user_id = ru.id
       ORDER BY r.created_at DESC
